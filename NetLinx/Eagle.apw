@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workspace [
+
+<!-- Common Elements -->
+<!ELEMENT Identifier (#PCDATA)>
+<!ELEMENT Comments (#PCDATA)>
+<!ELEMENT CreationDate (#PCDATA)>
+
+<!-- Workspace Elements-->
+<!ELEMENT Workspace ( Identifier,
+               CreateVersion,
+               PJS_File?,
+               PJS_ConvertDate?,
+               PJS_CreateDate?,
+               Comments?,
+               Project*)>
+
+<!ATTLIST Workspace 
+      CurrentVersion CDATA   #REQUIRED> 
+
+<!ELEMENT CreateVersion     (#PCDATA)>
+
+
+<!-- Conversion data only: only included for files converted from the old .pjs database -->
+<!ELEMENT PJS_File (#PCDATA)>
+<!ELEMENT PJS_ConvertDate (#PCDATA)>
+<!ELEMENT PJS_CreateDate (#PCDATA)>
+
+<!ELEMENT Project ( Identifier,
+               Designer?,
+               DealerID?,
+               SalesOrder?,
+               PurchaseOrder?,
+               Comments?,
+               System*)>
+
+<!ELEMENT Designer (#PCDATA)>
+<!ELEMENT DealerID (#PCDATA)>
+<!ELEMENT SalesOrder (#PCDATA)>
+<!ELEMENT PurchaseOrder (#PCDATA)>
+
+
+<!ELEMENT System  (  Identifier,
+                 SysID,
+                 TransSerial?,
+                 TransModem?,
+                 TransTCPIP?,
+                 VirtualNetLinxMasterFlag?,
+                 VNMRestoreIPSettings?,
+                 VNMSystemID?,
+                 VNMIPAddress?,
+                 VNMMaskAddress?,
+                 IsAuthenticationEnabled?,
+                 UserName?,
+                 Password?,
+                 Comments?,
+                 File*)>
+
+<!ATTLIST System
+      IsActive   (true | false)   "false"
+      Platform   (Axcess | Netlinx)   "Axcess"
+      Transport   (Serial | Modem | TCPIP) "Serial">
+
+<!ELEMENT SysID (#PCDATA)>
+<!ELEMENT TransSerial (#PCDATA)>
+<!ELEMENT TransModem (#PCDATA)>
+<!ELEMENT TransTCPIP (#PCDATA)>
+<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
+<!ELEMENT VNMRestoreIPSettings (#PCDATA)>
+<!ELEMENT VNMSystemID (#PCDATA)>
+<!ELEMENT VNMIPAddress (#PCDATA)>
+<!ELEMENT VNMMaskAddress (#PCDATA)>
+<!ELEMENT IsAuthenticationEnabled (#PCDATA)>
+<!ELEMENT UserName (#PCDATA)>
+<!ELEMENT Password (#PCDATA)>
+
+
+<!ELEMENT File ( Identifier,
+               FilePathName,
+               Comments?,
+               DeviceMap*,
+               IRDB*)>
+
+<!ATTLIST File 
+       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB ) "Other"
+       CompileType (Axcess | Netlinx | None) "None"> 
+
+<!ELEMENT FilePathName	(#PCDATA)>
+                            
+<!ELEMENT DeviceMap (DevName)>
+       <!ATTLIST DeviceMap DevAddr CDATA #REQUIRED>
+
+       <!ELEMENT DevName (#PCDATA)>
+
+<!ELEMENT IRDB    (Property,
+                 DOSName,
+                 UserDBPathName,
+                 Notes)>
+       <!ATTLIST IRDB DBKey CDATA #REQUIRED>
+
+       <!ELEMENT Property (#PCDATA)>
+       <!ELEMENT DOSName (#PCDATA)>
+       <!ELEMENT UserDBPathName (#PCDATA)>
+       <!ELEMENT Notes (#PCDATA)>
+]>
+
+<Workspace CurrentVersion="3.2"><Identifier>Eagle</Identifier>
+<CreateVersion>3.2</CreateVersion>
+<PJS_File></PJS_File>
+<PJS_ConvertDate></PJS_ConvertDate>
+<PJS_CreateDate></PJS_CreateDate>
+<Comments></Comments>
+<Project><Identifier>Eagle Drive</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Eagle Main</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>192.168.188.21:1319:1:AMX Master</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="IRN_DB"><Identifier>User IRN: Sony-RM-YD036-1</Identifier>
+<FilePathName>USER IRN Database::1|2|1|1|1</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvTvBarBehind"><DevName>dvTvBarBehind</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTvBarMain"><DevName>dvTvBarMain</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTvBarNook"><DevName>dvTvBarNook</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTvBarSide"><DevName>dvTvBarSide</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTvLiving"><DevName>dvTvLiving</DevName>
+</DeviceMap>
+<IRDB DBKey="1|2|1|1|1"><Property>Sony|TV|KDL55NX810|RM-YD036|1</Property>
+<DOSName></DOSName>
+<UserDBPathName>Z:\AMX\Projects\RonIR.irn</UserDBPathName>
+<Notes></Notes>
+</IRDB>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Automation</Identifier>
+<FilePathName>Automation.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AutomationConfig</Identifier>
+<FilePathName>AutomationConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AvConfig</Identifier>
+<FilePathName>AvConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>AvControl</Identifier>
+<FilePathName>AvControl.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AvCtlInputControl</Identifier>
+<FilePathName>AvCtlInputControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AvCtlInputSelect</Identifier>
+<FilePathName>AvCtlInputSelect.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AvCtlOutputSelect</Identifier>
+<FilePathName>AvCtlOutputSelect.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>AvTpPageNames</Identifier>
+<FilePathName>AvTpPageNames.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ChannelDefs</Identifier>
+<FilePathName>ChannelDefs.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ConfigServerUtils</Identifier>
+<FilePathName>ConfigServerUtils.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>Debug</Identifier>
+<FilePathName>Debug.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DirecTvHttp_Comm</Identifier>
+<FilePathName>DirecTvHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Dmx</Identifier>
+<FilePathName>Dmx.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Eagle Main</Identifier>
+<FilePathName>Eagle Main.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Hvac_UI</Identifier>
+<FilePathName>Hvac_UI.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>IpControlledDeviceConfig</Identifier>
+<FilePathName>IpControlledDeviceConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>IpControlledDevices_Comm</Identifier>
+<FilePathName>IpControlledDevices_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="IR"><Identifier>MOTOROLA_DCH6416</Identifier>
+<FilePathName>IR\MOTOROLA_DCH6416.IRL</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvVideoPlayerCable"><DevName>dvVideoPlayerCable</DevName>
+</DeviceMap>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ITunesHttp_Comm</Identifier>
+<FilePathName>ITunesHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Lutron_Comm</Identifier>
+<FilePathName>Lutron_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>LutronConfig</Identifier>
+<FilePathName>LutronConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Plex_Comm</Identifier>
+<FilePathName>Plex_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>PresetConfig</Identifier>
+<FilePathName>PresetConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>PresetControl</Identifier>
+<FilePathName>PresetControl.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>RelayConfig</Identifier>
+<FilePathName>RelayConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>RelayControl</Identifier>
+<FilePathName>RelayControl.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>TouchPanel</Identifier>
+<FilePathName>TouchPanel.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>TouchPanelConfig</Identifier>
+<FilePathName>TouchPanelConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>WeatherUnderground</Identifier>
+<FilePathName>WeatherUnderground.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ZoneConfig</Identifier>
+<FilePathName>ZoneConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ZoneControl</Identifier>
+<FilePathName>ZoneControl.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="IR"><Identifier>Yamaha,RX-V667,RAV336,Receiver,1</Identifier>
+<FilePathName>..\Yamaha,RX-V667,RAV336,Receiver,1.irl</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvAvGuestSuite"><DevName>dvAvGuestSuite</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvAvLiving"><DevName>dvAvLiving</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvAvMasterBed"><DevName>dvAvMasterBed</DevName>
+</DeviceMap>
+</File>
+</System>
+</Project>
+</Workspace>
