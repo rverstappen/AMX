@@ -61,6 +61,10 @@ HVAC_VST_LEVEL_BAROMETRIC_PRESSURE		= 6	// Control
 HVAC_VST_LEVEL_HIGH_FORECAST			= 7	// Control
 HVAC_VST_LEVEL_LOW_FORECAST			= 8	// Control
 
+HVAC_VST_TIMELINE_ID_FETCH_SYS_MODES		= 1	// Timeline
+HVAC_VST_TIMELINE_ID_FETCH_PROGRAMS		= 2	// Timeline
+
+
 DEFINE_VARIABLE
 
 volatile char  VST_MODULE[] = 'HvacViewStat_COMM'
@@ -231,6 +235,24 @@ DEFINE_FUNCTION vstChannelName (char result[], integer vstChan)
 {
     switch (vstChan)
     {
+    case HVAC_VST_CHAN_WEATHER_ALERT:
+    	 result = 'HVAC_VST_CHAN_WEATHER_ALERT'
+    case HVAC_VST_CHAN_INCR_COOL_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_INCR_COOL_SETPOINT'
+    case HVAC_VST_CHAN_DECR_COOL_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_DECR_COOL_SETPOINT'
+    case HVAC_VST_CHAN_INCR_HEAT_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_INCR_HEAT_SETPOINT'
+    case HVAC_VST_CHAN_DECR_HEAT_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_DECR_HEAT_SETPOINT'
+    case HVAC_VST_CHAN_INCR_HUMIDIFY_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_INCR_HUMIDIFY_SETPOINT'
+    case HVAC_VST_CHAN_DECR_HUMIDIFY_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_DECR_HUMIDIFY_SETPOINT'
+    case HVAC_VST_CHAN_INCR_DEHUMIDIFY_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_INCR_DEHUMIDIFY_SETPOINT'
+    case HVAC_VST_CHAN_DECR_DEHUMIDIFY_SETPOINT:
+    	 result = 'HVAC_VST_CHAN_DECR_DEHUMIDIFY_SETPOINT'
     case HVAC_VST_CHAN_FILTER_CHANGE:
     	 result = 'FILTER_CHANGE'
     case HVAC_VST_CHAN_FAN_SPEED_1:
@@ -426,11 +448,44 @@ DEFINE_FUNCTION vstRequestLevels (integer hvacId)
     commSendCommand (gAllHvacs[hvacId].mDev, 'LEVON')
 }
 
-DEFINE_FUNCTION vstRequestProgram (integer hvacId)
+DEFINE_FUNCTION vstRequestStatusAll ()
+{
+    // Get system status for each Hvac using a timeline to smooth out the data responses
+    long tmLine[MAX_HVACS]
+    integer hvacId
+    set_length_array(tmLine,length_array(gAllHvacs))
+    for (hvacId = 1; hvacId <= length_array(gAllHvacs); hvacId++)
+    {
+	tmLine[hvacId] = 6113	// 6.113 seconds
+    }
+    debug (VST_MODULE,2,'Starting timeline to request system program statuses')
+    timeline_create (HVAC_VST_TIMELINE_ID_FETCH_SYS_MODES, tmLine, length_array(tmLine), 
+    		     TIMELINE_RELATIVE, TIMELINE_ONCE)
+}
+
+// To-Do: use a timeline for fetching programs...
+
+DEFINE_EVENT
+
+TIMELINE_EVENT [HVAC_VST_TIMELINE_ID_FETCH_SYS_MODES]
+{
+    vstRequestStatus (timeline.sequence)
+}
+
+TIMELINE_EVENT [HVAC_VST_TIMELINE_ID_FETCH_PROGRAMS]
+{
+    vstRequestProgram (timeline.sequence)
+}
+
+DEFINE_FUNCTION vstRequestStatus (integer hvacId)
 {
     // Get system status
+    debug (VST_MODULE,2,"'Requesting system program status for hvac: ',itoa(hvacId)")
     commSendCommand (gAllHvacs[hvacId].mDev, 'ST')
+}
 
+DEFINE_FUNCTION vstRequestProgram (integer hvacId)
+{
     // Get the first program (Sunday, Wake)
     gHvacProgramFetchStateDay[hvacId] = 0		// Sunday
     gHvacProgramFetchStatePeriod[hvacId] = 1	// Wake
@@ -496,6 +551,11 @@ DEFINE_FUNCTION hvacCommDecrCoolSetPoint (HvacType hvac)
     commSendPulse (hvac.mDev, HVAC_VST_CHAN_INCR_COOL_SETPOINT)
 }
 
+DEFINE_FUNCTION hvacCommToggleSetHold (HvacType hvac)
+{
+    hvacCommSystemModeSwitch (hvac, HVAC_MODE_PERM_HOLD)
+}
+
 DEFINE_FUNCTION hvacCommSystemModeSwitch (HvacType hvac, integer newMode)
 {
     switch (newMode)
@@ -507,8 +567,11 @@ DEFINE_FUNCTION hvacCommSystemModeSwitch (HvacType hvac, integer newMode)
     	 commSendCommand (hvac.mDev, "'MD MH H',itoa(hvac.mCurrSetPointHeat),
 	 		 	     	   ' C',itoa(hvac.mCurrSetPointCool)")
     case HVAC_MODE_PERM_HOLD:
-    	 commSendCommand (hvac.mDev, "'MD MPH'")
+    	 commSendCommand (hvac.mDev, "'MD MPH H',itoa(hvac.mCurrSetPointHeat),
+	 		 	     	    ' C',itoa(hvac.mCurrSetPointCool)")
     }
+    // Ask for verification of mode change
+    vstRequestStatus (hvac.mId)
 }
 
 DEFINE_FUNCTION commCheckUpdateMode (HvacType hvac)
@@ -538,8 +601,9 @@ DEFINE_START
     // Enclosing in a block reduces the scope of the rebuild_event()
     hvacSetDeviceList (dvAllHvacs, gAllHvacs)
     rebuild_event()
-    wait (113) // wait 11.3 seconds to begin requesting programs
+    wait (113) // wait 11.3 seconds after reboot to begin requesting statuses and programs
     {
+	vstRequestStatusAll()
 	vstRequestProgramFromNextHvac()
     }
 }

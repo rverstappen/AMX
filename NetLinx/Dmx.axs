@@ -26,6 +26,7 @@ persistent integer	gTpSelection[TP_MAX_PANELS]
 volatile integer	gTpStatus[TP_MAX_PANELS]
 volatile integer        gRgbButtons[DMX_MAX_DMXS]
 volatile integer        gRgbPresetButtons[DMX_MAX_DMX_PRESETS]
+volatile integer	gDoDatRainbowThing
 
 DEFINE_EVENT
 
@@ -81,14 +82,14 @@ DEFINE_FUNCTION handleTpPresetEvent (integer tpId, integer chan)
     {
     case DMX_TYPE_RGB:
     {
-    	 dmxSetRgbPreset(dmxId, presetId)
-	 refreshTpRgbLevels (tpId)
-	 break
+    	dmxSetRgbPreset(dmxId, presetId)
+	refreshTpRgbLevels (tpId)
+	break
     }
     case DMX_TYPE_RGB_CYCLE_RAINBOW:
     {
-    	 dmxStartRgbRainbow (dmxId, presetId)
-	 break
+    	dmxStartRgbRainbow (dmxId, presetId)
+	break
     }
     }
 }
@@ -284,6 +285,8 @@ DEFINE_FUNCTION setupTpDevices()
 
 DEFINE_FUNCTION dmxStartRgbRainbow (integer dmxId, integer presetId)
 {
+    gDoDatRainbowThing = 1
+
 (*
     integer interval // in milliseconds
     integer rgbJump  // how much to change at each transition
@@ -306,14 +309,20 @@ DEFINE_FUNCTION dmxStartRgbRainbow (integer dmxId, integer presetId)
 
 DEFINE_FUNCTION dmxSetRgbPreset (integer dmxId, integer presetId)
 {
+    gDoDatRainbowThing = 0
     gDmxRgbs[dmxId].mLevelRed   = gDmxRgbPresets[presetId].mLevelRed
     gDmxRgbs[dmxId].mLevelGreen = gDmxRgbPresets[presetId].mLevelGreen
     gDmxRgbs[dmxId].mLevelBlue  = gDmxRgbPresets[presetId].mLevelBlue
-    sendRgbCommandAll (gDmxRgbs[dmxId].mDev,
-    		       gDmxRgbs[dmxId].mChannelRed,   gDmxRgbPresets[presetId].mLevelRed,
-    		       gDmxRgbs[dmxId].mChannelGreen, gDmxRgbPresets[presetId].mLevelGreen,
-    		       gDmxRgbs[dmxId].mChannelBlue,  gDmxRgbPresets[presetId].mLevelBlue,
-		       gDmxRgbPresets[presetId].mFadeDecisecs)
+    dmxSendRgb (gDmxRgbs[dmxId], gDmxRgbPresets[presetId].mFadeDecisecs)
+}
+
+DEFINE_FUNCTION dmxSendRgb (DmxRgb dmx, integer fadeDecisecs)
+{
+    sendRgbCommandAll (dmx.mDev,
+    		       dmx.mChannelRed,   dmx.mLevelRed,
+    		       dmx.mChannelGreen, dmx.mLevelGreen,
+    		       dmx.mChannelBlue,  dmx.mLevelBlue,
+		       fadeDecisecs)
 }
 
 DEFINE_FUNCTION sendRgbCommand (dev rgbDev, integer rgbChan, integer rgbLevel, integer fadeDecisecs)
@@ -344,4 +353,95 @@ DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
 {
     debug (DBG_MODULE, 9, "'send_string ',devtoa(cmdDev),', ',cmdStr")
     send_command cmdDev, cmdStr
+}
+
+DEFINE_PROGRAM
+
+wait 37 // 3.7 seconds (prime-number-ish)
+{
+    if (gDoDatRainbowThing)
+        doDatRainbowThing()
+}
+
+DEFINE_FUNCTION doDatRainbowThing()
+{
+    // All this is just temporary for now... (until it's generalized)
+    local_var integer dmxId
+    dmxId = 1
+    bumpRainbow (dmxId)
+}
+
+DEFINE_VARIABLE
+
+DEFINE_FUNCTION bumpRainbow(integer dmxId)
+{
+    switch (gDmxRgbs[dmxId].mChannelCycleState)
+    {
+    case DMX_RAINBOW_START:
+    {
+	gDmxRgbs[dmxId].mLevelRed   = 255
+	gDmxRgbs[dmxId].mLevelGreen = 0
+	gDmxRgbs[dmxId].mLevelBlue  = 0
+        gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_GREEN_UP
+    }
+
+    case DMX_RAINBOW_GREEN_UP:
+    {
+	gDmxRgbs[dmxId].mLevelGreen++
+	if (gDmxRgbs[dmxId].mLevelGreen >= 255)
+	{
+	    gDmxRgbs[dmxId].mLevelGreen = 255
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_RED_DOWN
+	}
+    }
+
+    case DMX_RAINBOW_RED_DOWN:
+    {
+	gDmxRgbs[dmxId].mLevelRed--
+	if (gDmxRgbs[dmxId].mLevelRed = 0)
+	{
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_BLUE_UP
+	}
+    }
+
+    case DMX_RAINBOW_BLUE_UP:
+    {
+	gDmxRgbs[dmxId].mLevelBlue++
+	if (gDmxRgbs[dmxId].mLevelBlue >= 255)
+	{
+	    gDmxRgbs[dmxId].mLevelBlue = 255
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_GREEN_DOWN
+	}
+    }
+
+    case DMX_RAINBOW_GREEN_DOWN:
+    {
+	gDmxRgbs[dmxId].mLevelGreen--
+	if (gDmxRgbs[dmxId].mLevelGreen = 0)
+	{
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_RED_UP
+	}
+    }
+
+    case DMX_RAINBOW_RED_UP:
+    {
+	gDmxRgbs[dmxId].mLevelRed++
+	if (gDmxRgbs[dmxId].mLevelRed >= 255)
+	{
+	    gDmxRgbs[dmxId].mLevelRed = 255
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_BLUE_DOWN
+	}
+    }
+
+    case DMX_RAINBOW_BLUE_DOWN:
+    {
+	gDmxRgbs[dmxId].mLevelBlue--
+	if (gDmxRgbs[dmxId].mLevelBlue = 0)
+	{
+	    gDmxRgbs[dmxId].mChannelCycleState = DMX_RAINBOW_GREEN_UP
+	}
+    }
+
+    } // switch
+    dmxSendRgb (gDmxRgbs[dmxId], 0)
 }

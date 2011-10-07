@@ -27,6 +27,26 @@ DMX_READING_DMX_RGB		= 2
 DMX_READING_DMX_RGB_PRESET	= 3
 DMX_READING_PROGRAM		= 4
 
+DMX_RAINBOW_RED_FULL		= 0
+DMX_RAINBOW_GREEN_UP		= 1
+DMX_RAINBOW_RED_DOWN		= 2
+DMX_RAINBOW_BLUE_UP		= 3
+DMX_RAINBOW_GREEN_DOWN		= 4
+DMX_RAINBOW_RED_UP		= 5
+DMX_RAINBOW_BLUE_DOWN		= 6
+DMX_RAINBOW_START		= DMX_RAINBOW_RED_FULL
+
+DEFINE_VARIABLE
+
+integer DMX_RAINBOW_ROTATION[] =
+    { DMX_RAINBOW_START,       // = full red
+      DMX_RAINBOW_GREEN_UP,
+      DMX_RAINBOW_RED_DOWN,
+      DMX_RAINBOW_BLUE_UP,
+      DMX_RAINBOW_GREEN_DOWN,
+      DMX_RAINBOW_RED_UP,
+      DMX_RAINBOW_BLUE_DOWN }
+
 	        
 DEFINE_TYPE
 
@@ -52,6 +72,7 @@ structure DmxRgb
     integer	mLevelRed
     integer	mLevelGreen
     integer	mLevelBlue
+    integer	mChannelCycleState
 }
 
 structure DmxRgbPreset
@@ -227,12 +248,18 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    {
 		set_length_array(gDmxRgbPresets, gThisPreset)
 	    }
-	    gDmxRgbPresets[gThisPreset].mId = gThisPreset
+	    gDmxRgbPresets[gThisPreset].mId   = gThisPreset
+	    gDmxRgbPresets[gThisPreset].mType = DMX_TYPE_RGB // default
 	    break
 	}
 	case 'name':
 	{
 	    gDmxRgbPresets[gThisPreset].mName = propValue
+	    break
+	}
+	case 'type':
+	{
+	    gDmxRgbPresets[gThisPreset].mType = presetTypeFromStr(propValue)
 	    break
 	}
 	case 'red-level':

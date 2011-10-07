@@ -20,12 +20,17 @@ char HVAC_ADDRESS_CTL_HEAT_SET_POINT[]		= '71'
 char HVAC_ADDRESS_CTL_COOL_SET_POINT[]		= '72'
 char HVAC_ADDRESS_CTL_HUMIDIFY_SET_POINT[]	= '73'
 char HVAC_ADDRESS_CTL_DEHUMIDIFY_SET_POINT[]	= '74'
+integer HVAC_ADDRESS_CTL_THERMOSTAT_MODE_HOLD_TOGGLE = 112
 
 // Control fields for currently selected thermostat
 integer HVAC_CHAN_CTL_HEAT_SET_POINT_INCR	= 101
 integer HVAC_CHAN_CTL_HEAT_SET_POINT_DECR	= 102
 integer HVAC_CHAN_CTL_COOL_SET_POINT_INCR	= 103
 integer HVAC_CHAN_CTL_COOL_SET_POINT_DECR	= 104
+
+// Control fields for setting the program mode
+integer HVAC_CHAN_CTL_THERMOSTAT_MODE_CHANGE		= 111
+integer HVAC_CHAN_CTL_THERMOSTAT_MODE_HOLD_TOGGLE	= 112
 
 // Display fields for summary of all thermostats
 char HVAC_ADDRESS_TITLE[MAX_HVACS][3] =

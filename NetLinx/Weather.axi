@@ -240,6 +240,22 @@ DEFINE_FUNCTION sendFieldTp (integer tpId, char addressPort[], char value[], int
     sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',value")
 }
 
+DEFINE_FUNCTION sendTempIntFieldTp (integer tpId, char addressPort[], sinteger temp, char scale)
+{
+    // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
+    char str[8]
+    str = "itoa(temp),$B0,scale"
+    sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',str")
+}
+
+DEFINE_FUNCTION sendTempFloatFieldTp (integer tpId, char addressPort[], float temp, char scale)
+{
+    // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
+    char str[8]
+    str = "ftoa(temp),$B0,scale"
+    sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',str")
+}
+
 DEFINE_FUNCTION sendAppendFieldTp (integer tpId, char addressPort[], char value[])
 {
     sendCommand (dvTp[tpId], "'^BAT-',addressPort,',0,',value")
@@ -256,10 +272,10 @@ DEFINE_FUNCTION refreshTp (integer tpId)
     char    dateStr[32]
     char    subTextStr[500]
     debug (DBG_MODULE, 4, "'Refreshing weather for TP ',devtoa(dvTp[tpId])")
-    sendFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_F,	"ftoa(gCurrTempF),' ',$0B,'F'",	1)
-    sendFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_C,	"ftoa(gCurrTempC),' °C'",	1)
-//    sendFieldTp (tpId, WEATHER_CHAN_FEELS_LIKE_F,	"ftoa(gFeelsLikeF),' °F'",	0)
-//    sendFieldTp (tpId, WEATHER_CHAN_FEELS_LIKE_C,	"ftoa(gFeelsLikeC),' °C'",	0)
+    sendTempFloatFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_F,	gCurrTempF,	'F')
+    sendTempFloatFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_C,	gCurrTempC,	'C')
+//    sendFieldTp (tpId, WEATHER_CHAN_FEELS_LIKE_F,	"ftoa(gFeelsLikeF),$0B,'F'",	0)
+//    sendFieldTp (tpId, WEATHER_CHAN_FEELS_LIKE_C,	"ftoa(gFeelsLikeC),$0B,'C'",	0)
     sendFieldTp (tpId, WEATHER_CHAN_CURR_COND_STR,	gCurrCond,	     		0)
     sendIconFieldTp (tpId, WEATHER_CHAN_CURR_COND_ICON,	gCurrCondIcon)
     sendFieldTp (tpId, WEATHER_CHAN_OBS_LOCATION,	gObserveLocation,     		0)

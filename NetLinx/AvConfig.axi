@@ -47,6 +47,9 @@ AVCFG_SCENE_SPORTS		= 4
 AVCFG_IR_TYPE_NORMAL		= 0
 AVCFG_IR_TYPE_SEND_COMMAND	= 1
 
+AVCFG_AUDIO_SWITCH_ACTION_NORMAL = 0
+AVCFG_AUDIO_SWITCH_ACTION_OFF    = 1
+
 // Default values for outputs that have discrete volume control
 sinteger AVCFG_DEFAULT_VOL_MIN		= -700  // -70.0 Db
 sinteger AVCFG_DEFAULT_VOL_MAX		=  100  // +10.0 Db
@@ -1058,6 +1061,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	break
 	} // inner switch
     } // case READING_OUTPUT
+
     default:
     {
 	debug (moduleName, 1, "'error: property with no heading (',propName,'): <',propValue,'>'")
@@ -1111,15 +1115,26 @@ DEFINE_FUNCTION calcInputsForOutputs()
     }
 }
 
-DEFINE_FUNCTION integer avcfgGetScene (char strVal[])
+DEFINE_FUNCTION integer avcfgGetScene (char str[])
 {
-    switch (strVal)
+    lower_string (str)
+    switch (str)
     {
     case 'music':	return AVCFG_SCENE_MUSIC
     case 'movies':	return AVCFG_SCENE_MOVIES
     case 'tv':		return AVCFG_SCENE_TV
     case 'sports':	return AVCFG_SCENE_SPORTS
     default:		return AVCFG_SCENE_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer avcfgGetAudioSwitchAction (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'off':		return AVCFG_AUDIO_SWITCH_ACTION_OFF
+    default:		return AVCFG_AUDIO_SWITCH_ACTION_NORMAL
     }
 }
 

@@ -83,6 +83,7 @@ structure HvacType
 //    integer			mEmergencyHeatStatus
     integer			mDehumidifyStatus
     integer			mHumidifyStatus
+    integer			mHoldStatus
     HvacSchedPeriod		mDailySchedules[7][4]
 }
 
@@ -545,17 +546,17 @@ DEFINE_FUNCTION setHcSetPointStr (char result[], HvacType hvac, integer scale)
 DEFINE_FUNCTION setTempStr (char result[], sinteger tempFahr, integer scale)
 {
     if (scale = HVAC_TEMP_SCALE_CELSIUS)
-    	 result = "itoa(fahrenheit2Celsius(tempFahr)),'°C'"
+    	 result = "itoa(fahrenheit2Celsius(tempFahr)),$B0,'C'"
     else
-    	 result = "itoa(tempFahr),' ',$B0,'F'"
+    	 result = "itoa(tempFahr),$B0,'F'"
 }
 
 DEFINE_FUNCTION setTwoTempStr (char result[], sinteger tempFahr1, sinteger tempFahr2, integer scale)
 {
     if (scale = HVAC_TEMP_SCALE_CELSIUS)
-    	 result = "itoa(fahrenheit2Celsius(tempFahr1)),' / ',itoa(fahrenheit2Celsius(tempFahr2)),'°C'"
+    	 result = "itoa(fahrenheit2Celsius(tempFahr1)),' / ',itoa(fahrenheit2Celsius(tempFahr2)),$B0,'C'"
     else
-    	 result = "itoa(tempFahr1),' / ',itoa(tempFahr2),'°F'"
+    	 result = "itoa(tempFahr1),' / ',itoa(tempFahr2),$B0,'F'"
 }
 
 DEFINE_FUNCTION sinteger fahrenheit2Celsius (sinteger degFahr)

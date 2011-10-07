@@ -136,8 +136,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	{
 	case 'enabled':
 	{
-	    lower_string (propValue)
-	    gGeneral.mEnabled = (propValue = 'true' || propValue = 't' || propValue = 1)
+	    gGeneral.mEnabled = getBooleanProp(propValue)
 	    break
 	}
 	case 'dev-control-av':

@@ -73,4 +73,11 @@ DEFINE_FUNCTION readConfigFile (char moduleName[], char filename[])
     }
 }
 
+DEFINE_FUNCTION
+integer getBooleanProp (char propValue[])
+{
+    lower_string (propValue)
+    return (propValue = 'true' || propValue = 't' || propValue = 1)
+}
+
 #end_if // __CONFIG_SERVER_UTILS__

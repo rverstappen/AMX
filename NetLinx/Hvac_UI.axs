@@ -55,6 +55,23 @@ BUTTON_EVENT[dvTpControl,HVAC_CHAN_CTL_COOL_SET_POINT_DECR]
     }
 }
 
+BUTTON_EVENT[dvTpControl,HVAC_CHAN_CTL_THERMOSTAT_MODE_HOLD_TOGGLE]
+{
+    PUSH:
+    {
+	integer hvacId
+	hvacId = gTpHvacSelect[get_last(dvTpControl)]
+	if (hvacId > 0)
+	{
+	    if (gAllHvacs[hvacId].mSystemMode = HVAC_MODE_PERM_HOLD)
+		hvacCommSystemModeSwitch (gAllHvacs[hvacId], HVAC_MODE_PROGRAM)
+	    else
+		hvacCommSystemModeSwitch (gAllHvacs[hvacId], HVAC_MODE_PERM_HOLD)
+	    // The COMM module should tell us when the mode change has been successful
+	}
+    }
+}
+
 BUTTON_EVENT[dvTpSummary,0]
 {
     PUSH:
@@ -156,6 +173,8 @@ DEFINE_FUNCTION doTpRefreshControl (integer tpId)
 				      itoa(sysModeButtonState),',',itoa(sysModeButtonState)"
 	send_command dvTpControl, "'^ANI-',HVAC_ADDRESS_CTL_HC_STATUS_ICON,',',
 				  itoa(hcStatusButtonState),',',itoa(hcStatusButtonState)"
+	// Update the 'Hold' toggle button
+    	[dvTpControl[tpId], HVAC_ADDRESS_CTL_THERMOSTAT_MODE_HOLD_TOGGLE] = getSysHoldState(gAllHvacs[hvacId])
     }
 }
 
@@ -250,9 +269,12 @@ DEFINE_FUNCTION doTpUpdateSystemMode (integer hvacId, integer sysMode)
 	    continue
 	if (gTpHvacSelect[tpId] = hvacId)
 	{
-	    send_command dvTpControl, "'TEXT', HVAC_ADDRESS_CTL_SYSTEM_MODE,'-',sysModeStr"
-	    send_command dvTpControl, "'^ANI-',HVAC_ADDRESS_CTL_SYSTEM_MODE_ICON,',',
+	    // Update the system mode
+	    send_command dvTpControl[tpId], "'TEXT', HVAC_ADDRESS_CTL_SYSTEM_MODE,'-',sysModeStr"
+	    send_command dvTpControl[tpId], "'^ANI-',HVAC_ADDRESS_CTL_SYSTEM_MODE_ICON,',',
 				      itoa(sysModeButtonState),',',itoa(sysModeButtonState)"
+	    // Update the 'Hold' toggle button
+    	    [dvTpControl[tpId], HVAC_ADDRESS_CTL_THERMOSTAT_MODE_HOLD_TOGGLE] = getSysHoldState(gAllHvacs[hvacId])
 	}
     }
 }
@@ -317,6 +339,12 @@ DEFINE_FUNCTION integer getSysModeButtonState (HvacType hvac)
         return 5
     else
 	return hvac.mSystemMode
+}
+
+DEFINE_FUNCTION integer getSysHoldState (HvacType hvac)
+{
+    // Return whether the hvac is in the HOLD state
+    return (hvac.mSystemMode = HVAC_MODE_PERM_HOLD)
 }
 
 DEFINE_FUNCTION integer getHcStatusButtonState (HvacType hvac)

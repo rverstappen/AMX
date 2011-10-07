@@ -126,13 +126,12 @@ DEFINE_FUNCTION handleLocalConditions (char msg[])
 	if (getStringField (gCurrTempFStr,	msg, 'temp_f'))
 	{
 	    gCurrTempF = atof(gCurrTempFStr)
-//	    gCurrTempFStr = "ftoa(gCurrTempF),' °F'"
-	    gCurrTempFStr = "ftoa(gCurrTempF),' ',$B0,'F'"
+	    gCurrTempFStr = "ftoa(gCurrTempF),$B0,'F'"
 	}
 	if (getStringField (gCurrTempCStr,	msg, 'temp_c'))
 	{
 	    gCurrTempC = atof(gCurrTempCStr)
-	    gCurrTempCStr = "ftoa(gCurrTempC),' °C'"
+	    gCurrTempCStr = "ftoa(gCurrTempC),$0B,'C'"
 	}
 	if (getStringField (gRelHumidityStr,	msg, 'relative_humidity'))
 	    gRelHumidity = atoi(gRelHumidityStr)
@@ -215,10 +214,10 @@ DEFINE_FUNCTION handleForecast (char msg[])
 	getStringField (gForecastSimple[i].mCond,	simpleFc, 'conditions')
 	getStringField (gForecastSimple[i].mCondIcon,	simpleFc, 'icon')
 	getStringField (tmpStr, simpleFc, 'period') // next period, if any
-	gForecastSimple[i].mHighFStr = "'H ',itoa(gForecastSimple[i].mHighF),' °F'"
-	gForecastSimple[i].mHighCStr = "'H ',itoa(gForecastSimple[i].mHighC),' °C'"
-	gForecastSimple[i].mLowFStr  = "'L ',itoa(gForecastSimple[i].mLowF), ' °F'"
-	gForecastSimple[i].mLowCStr  = "'L ',itoa(gForecastSimple[i].mLowC), ' °C'"
+	gForecastSimple[i].mHighFStr = "'H ',itoa(gForecastSimple[i].mHighF),$0B,'F'"
+	gForecastSimple[i].mHighCStr = "'H ',itoa(gForecastSimple[i].mHighC),$0B,'C'"
+	gForecastSimple[i].mLowFStr  = "'L ',itoa(gForecastSimple[i].mLowF),$0B,'F'"
+	gForecastSimple[i].mLowCStr  = "'L ',itoa(gForecastSimple[i].mLowC),$0B,'C'"
 	i = atoi(tmpStr)
 	count++
     }
