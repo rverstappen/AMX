@@ -1537,14 +1537,10 @@ DEFINE_START
 {
     integer i
     tpReadConfigFile ('AvControl', tpConfigFile, gPanels)
-
-    set_length_array (gTpStatus,	length_array(gPanels))
-    set_length_array (gTpInputSelect,	length_array(gPanels))
-    set_length_array (gTpOutputSelect,	length_array(gPanels))
-    tpMakeLocalDevArray (dvTpInputSelect,	gPanels, TP_PORT_AV_INPUT_SELECT)
-    tpMakeLocalDevArray (dvTpInputControl,	gPanels, TP_PORT_AV_INPUT_CONTROL)
-    tpMakeLocalDevArray (dvTpOutputSelect,	gPanels, TP_PORT_AV_OUTPUT_SELECT)
-    tpMakeLocalDevArray (dvTpOutputControl,	gPanels, TP_PORT_AV_OUTPUT_CONTROL)
+    tpMakeLocalDevArray ('AvControl', dvTpInputSelect,	gPanels, TP_PORT_AV_INPUT_SELECT)
+    tpMakeLocalDevArray ('AvControl', dvTpInputControl,	gPanels, TP_PORT_AV_INPUT_CONTROL)
+    tpMakeLocalDevArray ('AvControl', dvTpOutputSelect,	gPanels, TP_PORT_AV_OUTPUT_SELECT)
+    tpMakeLocalDevArray ('AvControl', dvTpOutputControl,gPanels, TP_PORT_AV_OUTPUT_CONTROL)
     rebuild_event()
 }
 

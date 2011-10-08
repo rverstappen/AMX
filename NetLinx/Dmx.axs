@@ -237,9 +237,7 @@ DEFINE_START
 	setupDmxDevices()
 	setupDmxRgbPresets()
 	setupTpDevices()
-	tpMakeLocalDevArray (gDvTps, gPanels, gGeneral.mTpPort)
-        debug (DBG_MODULE, 3, "'Created ',itoa(length_array(gDvTps)),
-	      		       ' panel devices on port ',itoa(gGeneral.mTpPort)")
+	tpMakeLocalDevArray ('DmxConfig', gDvTps, gPanels, gGeneral.mTpPort)
 	rebuild_event()
     }
 }

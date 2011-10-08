@@ -5,8 +5,6 @@
 #if_not_defined __HVAC__
 #define __HVAC__
 
-#include 'Debug.axi'
-
 DEFINE_CONSTANT
 
 MAX_HVACS = 32
@@ -57,11 +55,8 @@ structure HvacSchedPeriod
     integer	mDehumidify
 }
 
-structure HvacType
+structure HvacState
 {
-    integer			mId
-    char			mName[32]
-    dev				mDev
     sinteger			mCurrTemp
     integer			mCurrHumidity
     sinteger			mCurrSetPointHeat
@@ -85,235 +80,6 @@ structure HvacType
     integer			mHumidifyStatus
     integer			mHoldStatus
     HvacSchedPeriod		mDailySchedules[7][4]
-}
-
-DEFINE_FUNCTION hvacReadSettings (HvacType hvacs[], char fileName[])
-{
-    char lineStr[256]
-//    char propStr[64]
-    char dayStr[3]
-    char timeStr[5]
-    char periodStr[8]
-    slong fd, result
-    integer hvacId, dayId, periodId
-    integer space
-
-    debug ('HVAC',3,"'Reading HVAC device configuration from file: ',fileName")
-    fd = file_open (fileName, FILE_READ_ONLY)
-    if (fd < 0)
-    {
-	debug ('HVAC',0,"'Error opening file for reading (',fileName,'): ',itoa(result)")
-	return
-    }
-
-    for (result = file_read_line (fd, lineStr, 256);
-    	 result >= 0;
-	 result = file_read_line (fd, lineStr, 256))
-    {
-	{
-	    // Handle each line as we encounter it
-	    select
-	    {
-	    active (find_string(lineStr,'PERIOD=',1)):
-	    {
-		remove_string(lineStr,'PERIOD=',1)
-		periodId = hvacPeriodInt (lineStr)
-		if (find_string(lineStr,'TIME=',1))
-		{
-		    remove_string(lineStr,'TIME=',1)
-		    hvacs[hvacId].mDailySchedules[dayId][periodId].mMinutes = hvacTimeMinutes(lineStr)
-		}
-		if (find_string(lineStr,'HEAT_TEMP=',1))
-		{
-		    remove_string(lineStr,'HEAT_TEMP=',1)
-		    hvacs[hvacId].mDailySchedules[dayId][periodId].mHeatTemp = atoi(lineStr)
-		}
-		if (find_string(lineStr,'COOL_TEMP=',1))
-		{
-		    remove_string(lineStr,'COOL_TEMP=',1)
-		    hvacs[hvacId].mDailySchedules[dayId][periodId].mCoolTemp = atoi(lineStr)
-		}
-		if (find_string(lineStr,'DEHUMIDIFY=',1))
-		{
-		    // put DEHUMIDIFY_SP before HUMIDIFY_SP, otherwise it won't be found
-		    remove_string(lineStr,'DEHUMIDIFY=',1)
-		    hvacs[hvacId].mDailySchedules[dayId][periodId].mDehumidify = atoi(lineStr)
-		} // active
-	    	if (find_string(lineStr,'HUMIDIFY=',1))
-		{
-		    remove_string(lineStr,'HUMIDIFY=',1)
-		    hvacs[hvacId].mDailySchedules[dayId][periodId].mHumidify = atoi(lineStr)
-		}
-	    } // active
-
-	    active (find_string(lineStr,'ID=',1)):
-	    {
-		remove_string(lineStr,'ID=',1)
-		hvacId = atoi(lineStr)
-		if (length_array(hvacs) < hvacId)
-		    set_length_array(hvacs,hvacId)
-		hvacs[hvacId].mId = hvacId
-		set_length_array(hvacs[hvacId].mDailySchedules,7)
-		if (find_string(lineStr,'NAME=',1))
-		{
-		    remove_string(lineStr,'NAME=',1)
-		    hvacs[hvacId].mName = left_string(lineStr,find_string(lineStr,' DEV=',1))
-		}
-		if (find_string(lineStr,'DEV=',1))
-		{
-		    remove_string(lineStr,'DEV=',1)
-		    parseDev (hvacs[hvacId].mDev, lineStr)
-		}
-	    	if (find_string(lineStr,'SYS_MODE=',1))
-		{
-		    remove_string(lineStr,'SYS_MODE=',1)
-		    hvacs[hvacId].mSystemMode = hvacSystemModeInt(lineStr)
-		}
-		if (find_string(lineStr,'HC_MODE=',1))
-		{
-		    remove_string(lineStr,'HC_MODE=',1)
-		    hvacs[hvacId].mHeatCoolMode = hvacHeatCoolModeInt(lineStr)
-		}
-		if (find_string(lineStr,'HUM_MODE=',1))
-		{
-		    remove_string(lineStr,'HUM_MODE=',1)
-		    hvacs[hvacId].mHumidifyMode = hvacHumidifyModeInt(lineStr)
-		}
-	    }
-	    active (find_string(lineStr,'HEAT_SP=',1)):
-	    {
-		remove_string(lineStr,'HEAT_SP=',1)
-		hvacs[hvacId].mFixedSetPointHeat = atoi(lineStr)
-		if (find_string(lineStr,'COOL_SP=',1))
-		{
-		    remove_string(lineStr,'COOL_SP=',1)
-		    hvacs[hvacId].mFixedSetPointCool = atoi(lineStr)
-		}
-		if (find_string(lineStr,'HUMIDIFY_SP=',1))
-		{
-		    remove_string(lineStr,'HUMIDIFY_SP=',1)
-		    hvacs[hvacId].mFixedSetPointHumidify = atoi(lineStr)
-		}
-		if (find_string(lineStr,'DEHUMIDIFY_SP=',1))
-		{
-		    // put DEHUMIDIFY_SP before HUMIDIFY_SP, otherwise it won't be found
-		    remove_string(lineStr,'DEHUMIDIFY_SP=',1)
-		    hvacs[hvacId].mFixedSetPointDehumidify = atoi(lineStr)
-		}
-	    }
-	    active (find_string(lineStr,'DAY=',1)):
-	    {
-		remove_string(lineStr,'DAY=',1)
-		dayId = hvacDayOfWeekInt (lineStr)
-		set_length_array(hvacs[hvacId].mDailySchedules[dayId],4)
-	    } // active
-	    } // select
-	} // while
-    } // for
-
-    if (result != -9)  // if not EOF
-    {
-	debug ('HVAC',0,"'Error reading file (',fileName,'): ',itoa(result)") 
-    }
-    file_close (fd)
-    debug ('HVAC',3,"'Finished reading ',itoa(length_array(hvacs)),
-    	  	     ' HVAC device configurations from file: ',fileName")
-}
-
-DEFINE_FUNCTION hvacSaveSettings (HvacType hvac[], char fileName[])
-{
-    // It is safer to write to a tmp file and move it than to overwrite the file...
-    char tmpFileName[100]
-    char tmpFileName2[100]
-    char lineStr[256]
-    char modeStr[8]
-    char dayStr[3]
-    char timeStr[5]
-    char periodStr[8]
-    slong fd, result
-    integer hvacId, dayId, periodId
-
-    debug ('HVAC',3,"'Saving ',itoa(length_array(hvac)),' HVAC device configurations to file: ',fileName")
-    tmpFileName  = "fileName,'.tmp'"
-    tmpFileName2 = "fileName,'.prev'"
-    fd = file_open (tmpFileName, FILE_RW_NEW)
-    if (fd < 0)
-    {
-	debug ('HVAC',0,"'Error opening file for writing (',tmpFileName,'): ',itoa(result)")
-	return
-    }
-
-    result = 0
-    for (hvacId = 1; (result >= 0) && (hvacId <= length_array(hvac)); hvacId++)
-    {
-	lineStr = "'ID=', itoa(hvac[hvacId].mId)"
-	hvacSystemModeStr (modeStr, hvac[hvacId].mSystemMode)
-	lineStr = "lineStr,' SYS_MODE=', modeStr"
-	hvacHeatCoolModeStr (modeStr, hvac[hvacId].mHeatCoolMode)
-	lineStr = "lineStr,' HC_MODE=', modeStr"
-	hvacHumidifyModeStr (modeStr, hvac[hvacId].mHumidifyMode)
-	lineStr = "lineStr,' HUM_MODE=', modeStr"
-	result = file_write_line (fd, lineStr, length_array(lineStr))
-	lineStr = "'  HEAT_SP=',		itoa(hvac[hvacId].mFixedSetPointHeat)"
-	lineStr = "lineStr,'  COOL_SP=',	itoa(hvac[hvacId].mFixedSetPointCool)"
-	lineStr = "lineStr,'  HUMIDIFY_SP=',	itoa(hvac[hvacId].mFixedSetPointHumidify)"
-	lineStr = "lineStr,'  DEHUMIDIFY_SP=',	itoa(hvac[hvacId].mFixedSetPointDehumidify)"
-	result = file_write_line (fd, lineStr, length_array(lineStr))
-	for (dayId = 1; (result >= 0) && (dayId <= 7); dayId++)
-	{
-	    hvacDayOfWeekString (dayStr, dayId)
-	    lineStr = "'  DAY=',dayStr"
-	    result = file_write_line (fd, lineStr, length_array(lineStr))
-	    for (periodId = 1; (result >= 0) && (periodId <= 4); periodId++)
-	    {
-		hvacPeriodString (periodStr, periodId)
-		hvacTimeString (timeStr, hvac[hvacId].mDailySchedules[dayId][periodId].mMinutes)
-		lineStr = "'    PERIOD=',periodStr"
-		lineStr = "lineStr,' TIME=', timeStr"
-		lineStr = "lineStr,' HEAT_TEMP=',
-			  itoa(hvac[hvacId].mDailySchedules[dayId][periodId].mHeatTemp)"
-		lineStr = "lineStr,' COOL_TEMP=',
-			  itoa(hvac[hvacId].mDailySchedules[dayId][periodId].mCoolTemp)"
-		lineStr = "lineStr,' HUMIDIFY=',
-			  itoa(hvac[hvacId].mDailySchedules[dayId][periodId].mHumidify)"
-		lineStr = "lineStr,' DEHUMIDIFY=',
-			  itoa(hvac[hvacId].mDailySchedules[dayId][periodId].mDehumidify)"
-		result = file_write_line (fd, lineStr, length_array(lineStr))
-	    }
-	}
-    }
-    if (result < 0)
-    {
-	debug ('HVAC',0,"'Error writing file (',tmpFileName,'): ',itoa(result)") 
-    }
-
-    file_close (fd)
-    result  = file_rename (fileName, tmpFileName2)
-    if (result >= 0)
-    {
-	// move new file in place and remote the old file
-	result = file_rename (tmpFileName, fileName)
-	file_delete (tmpFileName2)
-    }
-    else
-    {
-	// try to put the original file back!
-	file_rename (tmpFileName2, fileName)
-    }
-    if (result < 0)
-    {
-	debug ('HVAC',0,"'Error renaming file (',tmpFileName,'->',fileName,'): ',itoa(result)") 
-    }
-}
-
-DEFINE_FUNCTION hvacSetDeviceList (dev dvList[], HvacType hvacs[])
-{
-    integer i
-    set_length_array (dvList, length_array(hvacs))
-    for (i = 1; i <= length_array(hvacs); i++)
-    {
-	dvList[i] = hvacs[i].mDev
-    }
 }
 
 DEFINE_FUNCTION hvacTimeString (char result[], integer minutesSinceMidnight)
@@ -482,24 +248,7 @@ DEFINE_FUNCTION hvacHeatCoolStatusStr (char result[], integer mode)
     }
 }
 
-(*
-DEFINE_FUNCTION hvacCheckSetPoint (HvacType hvac)
-{
-    sinteger setPoint
-    switch (hvac.mSystemMode)
-    {
-    case HVAC_MODE_PROGRAM:
-    {
-	switch (hvac.mCurrentPeriod)
-	{
-	case HVAC_PERIOD_WAKE:		setPoint = hvac.mDailySchedules[
-	}
-    }
-    }
-}
-*)
-
-DEFINE_FUNCTION sinteger getHcSetPoint (HvacType hvac)
+DEFINE_FUNCTION sinteger getHcSetPoint (HvacState hvac)
 {
     switch (hvac.mHeatCoolStatus)
     {
@@ -512,7 +261,7 @@ DEFINE_FUNCTION sinteger getHcSetPoint (HvacType hvac)
     }
 }
 
-DEFINE_FUNCTION setHcSetPointStr (char result[], HvacType hvac, integer scale)
+DEFINE_FUNCTION setHcSetPointStr (char result[], HvacState hvac, integer scale)
 {
     // Ususally either the heating *or* cooling setpoint is active, but if the thermostat mode is
     // 'auto', we suppose they could both be active(?)
@@ -569,22 +318,5 @@ DEFINE_FUNCTION sinteger celsius2Fahrenheit (sinteger degCels)
     return (((degCels*9) / 5) + 32)
 }
 
-DEFINE_FUNCTION parseDev (dev result, char propValue[])
-{
-    integer  colon1, colon2
-    colon1 = find_string (propValue, ':',1)
-    if (colon1)
-    {
-	colon2 = find_string (propValue, ':', colon1+1)
-	if (colon2)
-	{
-	    result.Number = atoi(propValue)
-	    result.Port   = atoi(right_string(propValue,length_array(propValue)-colon1+1))
-	    result.System = atoi(right_string(propValue,length_array(propValue)-colon2+1))
-	    return
-	}
-    }
-    debug ('HVAC',1,"'ConfigBase::parseDev(): Error processing DEV string: ',propValue")
-}
 
 #end_if // __HVAC__

@@ -222,9 +222,7 @@ DEFINE_START
     {
 	debug (DBG_MODULE, 1, "'Presets module is enabled.'")
 	setupPresets()
-	tpMakeLocalDevArray (gDvTps, gPanels, gGeneral.mTpPort)
-        debug (DBG_MODULE, 3, "'Created ',itoa(length_array(gDvTps)),
-	      		       ' panel devices on port ',itoa(gGeneral.mTpPort)")
+	tpMakeLocalDevArray ('PresetConfig', gDvTps, gPanels, gGeneral.mTpPort)
     	rebuild_event()
     }
     else

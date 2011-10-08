@@ -113,7 +113,7 @@ DEFINE_START
     readConfigFile ('RelayConfig', configFile)
     if (gGeneral.mEnabled)
     {
-	tpMakeLocalDevArray (gDvTps, gPanels, gGeneral.mTpPort)
+	tpMakeLocalDevArray ('RelayConfig', gDvTps, gPanels, gGeneral.mTpPort)
     	rebuild_event()
     }
 }

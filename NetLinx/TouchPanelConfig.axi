@@ -15,6 +15,16 @@ TP_MAX_PANELS		= 64
 TP_STATUS_OFF		= 0
 TP_STATUS_ON		= 1
 
+TP_TYPE_UNKNOWN		= 0
+TP_TYPE_IPAD		= 1
+TP_TYPE_IPHONE		= 2
+TP_TYPE_IPOD_TOUCH	= 3
+
+TP_SIZE_UNKNOWN		= 0
+TP_SIZE_SMALL		= 1
+TP_SIZE_MEDIUM		= 2
+TP_SIZE_LARGE		= 3
+
 // The following are really for the implementation
 TP_CFG_MAX_BUF_LEN	= 1000
 TP_READING_NONE		= 0
@@ -27,6 +37,8 @@ structure TouchPanel
 {
     integer	mId		// AMX Touch Panel ID (e.g. 10001)
     char	mName[32]	// TP device name
+    integer	mType		// Type of device (iPad, iPhone, MVP9000i, etc.)
+    integer	mSize		// Size of device
     integer	mIsIridium	// Whether the TP is an Iridium app running on iPhone/iPod/iPad
 }
 
@@ -34,7 +46,7 @@ DEFINE_VARIABLE
 
 volatile integer gTpReadMode = TP_READING_NONE
 
-DEFINE_FUNCTION tpMakeLocalDevArray (dev result[], TouchPanel panels[], integer port)
+DEFINE_FUNCTION tpMakeLocalDevArray (char moduleName[], dev result[], TouchPanel panels[], integer port)
 {
     integer i
     set_length_array (result, length_array(panels))
@@ -42,11 +54,17 @@ DEFINE_FUNCTION tpMakeLocalDevArray (dev result[], TouchPanel panels[], integer 
     {
 	result[i] = panels[i].mId:port:0
     }
+    debug (moduleName, 3, "'Created ',itoa(length_array(result)),' panel devices on port ',itoa(port)")
 }
 
 DEFINE_FUNCTION integer tpIsIridium (TouchPanel panels[], integer tpId)
 {
     return panels[tpId].mIsIridium
+}
+
+DEFINE_FUNCTION integer tpType (TouchPanel panels[], integer tpId)
+{
+    return panels[tpId].mType
 }
 
 DEFINE_FUNCTION tpReadConfigFile (char moduleName[], char filename[], TouchPanel panels[])
@@ -123,16 +141,12 @@ DEFINE_FUNCTION tpHandleHeading (char moduleName[], char heading[], TouchPanel p
     switch (heading)
     {
     case 'touch-panel':
-    {
 	gTpReadMode = TP_READING_PANEL
     	set_length_array (panels, length_array(panels)+1)
 	break
-    }
     default:
-    {
 	debug (moduleName, 0, "'unknown config heading: ',heading")
 	gTpReadMode = TP_READING_NONE
-    }
     }
 }
 
@@ -146,25 +160,21 @@ DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propV
 	switch (propName)
 	{
 	case 'id':
-	{
 	    panels[length_array(panels)].mId = atoi(propValue)
 	    break
-	}
 	case 'name':
-	{
 	    panels[length_array(panels)].mName = propValue
 	    break
-	}
+	case 'type':
+	    panels[length_array(panels)].mType = tpTypeFromStr(propValue)
+	    tpAddAttrsByType (panels[length_array(panels)])
+	    break
 	case 'iridium':
-	{
 	    panels[length_array(panels)].mIsIridium = parseBoolean(propValue)
 	    break
-	}
 	default:
-	{
 	    debug (moduleName, 0, "'Unhandled property: ',propName")
 	    break
-	}
 	break
 	} // inner switch
     } // case READING_OUTPUT
@@ -175,5 +185,38 @@ DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propV
     }
 }
 
+DEFINE_FUNCTION tpAddAttrsByType (TouchPanel panel)
+{
+    switch (panel.mType)
+    {
+    case TP_TYPE_IPAD:
+    	panel.mSize = TP_SIZE_MEDIUM
+	break
+    case TP_TYPE_IPHONE:
+    	panel.mSize = TP_SIZE_SMALL
+	break
+    case TP_TYPE_IPOD_TOUCH:
+    	panel.mSize = TP_SIZE_SMALL
+	break
+    default:
+    	panel.mSize = TP_SIZE_MEDIUM
+	break
+    }
+}
+
+DEFINE_FUNCTION integer tpTypeFromStr (char typeStr[])
+{
+    lower_string (typeStr)
+    switch (typeStr)
+    {
+    case 'ipad':	return TP_TYPE_IPAD
+    case 'iphone':	return TP_TYPE_IPHONE
+    case 'ipod_touch':	return TP_TYPE_IPOD_TOUCH
+    case 'ipod-touch':	return TP_TYPE_IPOD_TOUCH
+    case 'ipod touch':	return TP_TYPE_IPOD_TOUCH
+    case 'ipodtouch':	return TP_TYPE_IPOD_TOUCH
+    default:		return TP_TYPE_UNKNOWN
+    }
+}
 
 #end_if // __TOUCH_PANEL_CONFIG__

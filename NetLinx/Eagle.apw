@@ -205,8 +205,8 @@
 <FilePathName>Eagle Main.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="Netlinx" Type="Module"><Identifier>Hvac_UI</Identifier>
-<FilePathName>Hvac_UI.axs</FilePathName>
+<File CompileType="Netlinx" Type="Module"><Identifier>Hvac_ViewStat</Identifier>
+<FilePathName>Hvac_ViewStat.axs</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="Include"><Identifier>IpControlledDeviceConfig</Identifier>

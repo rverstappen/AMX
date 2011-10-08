@@ -35,8 +35,6 @@ dvDtv3Local		= 0:26:0
 vdvAvInputSelect	= 33051:TP_PORT_AV_INPUT_SELECT:0
 vdvAvOutputSelect	= 33051:TP_PORT_AV_OUTPUT_SELECT:0
 vdvZoneSelect		= 33051:TP_PORT_ZONE_SELECT:0
-vdvHvacControl		= 33051:TP_PORT_HVAC_CONTROL:0
-vdvHvacStatus		= 33052:TP_PORT_HVAC_CONTROL:0
 
 // Virtual devices for IP control
 vdvIp1			= 33041:1:0
@@ -93,7 +91,7 @@ DEFINE_MODULE 'RelayControl'  relayConn  (relayConfigFile,  tpConfigFile, dvAllR
 DEFINE_MODULE 'PresetControl' presetConn (presetConfigFile, tpConfigFile)
 //DEFINE_MODULE 'WeatherDotCom_Comm' weatherCom (vdvWeatherStatus,dvWeatherLocal,weatherZipCode)
 DEFINE_MODULE 'WeatherUnderground' wunder (vdvWeatherStatus,dvWeatherLocal,gWunderStationId,gWunderAirportId,gWunderForecastId,TP_COUNT)
-DEFINE_MODULE 'Hvac_UI' hvacUi (TP_COUNT, vdvHvacStatus, vdvHvacControl, hvacConfigFile)
+DEFINE_MODULE 'Hvac_ViewStat' hvacVst (hvacConfigFile, tpConfigFile)
 //DEFINE_MODULE 'Automation' automat (automationConfigFile)
 DEFINE_MODULE 'IpControlledDevices_Comm' ipDevices()
 DEFINE_MODULE 'Dmx' dmx(dmxConfigFile, tpConfigFile)
