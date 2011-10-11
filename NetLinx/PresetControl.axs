@@ -17,15 +17,15 @@ DEFINE_EVENT
 
 BUTTON_EVENT[gDvTps, 0]
 {
-    PUSH: { handleTpPresetEvent(button.input.channel) }
+    PUSH: { handleTpPresetEvent (get_last(gDvTps), button.input.channel) }
 }
 
 DATA_EVENT[gDvTps]
 {
-    ONLINE: { wait 32 { handleTpOnlineEvent(get_last(gDvTps)) } }
+    ONLINE: { wait 32 { handleTpOnlineEvent (get_last(gDvTps)) } }
 }
 
-DEFINE_FUNCTION handleTpPresetEvent (integer chan)
+DEFINE_FUNCTION handleTpPresetEvent (integer tpId, integer chan)
 {
     integer presetId
     presetId = gPresetByChannel[chan]
@@ -43,13 +43,13 @@ DEFINE_FUNCTION handleTpPresetEvent (integer chan)
 	case PRESET_TYPE_LUTRON_COMMAND:
 	     sendCommand(gGeneral.mDevControlLutron,	gPresets[presetId].mCommandStr)
 	case PRESET_TYPE_GENERAL_COMMAND:
-	     sendCommand(gPresets[presetId].mCommandDev,	gPresets[presetId].mCommandStr)
+	     sendCommand(gPresets[presetId].mCommandDev,gPresets[presetId].mCommandStr)
         case PRESET_TYPE_AV_GRID:
-	     handleTpGridEvent(presetId, chan)
+	     handleTpAvGridEvent(tpId, presetId, chan)
     }
 }
 
-DEFINE_FUNCTION handleTpGridEvent (integer presetId, integer chan)
+DEFINE_FUNCTION handleTpAvGridEvent (integer tpId, integer presetId, integer chan)
 {
     integer row, col, actionId, groupId
     row = (chan - gPresets[presetId].mTpGridChannelsBegin) / gPresets[presetId].mTpGridChannelsRowIncr
@@ -159,14 +159,14 @@ DEFINE_FUNCTION doPresetAvPowerOff (integer outputIds[])
 DEFINE_FUNCTION doPresetAvSwitchGroup (integer inputId, integer outputIds[])
 {
     integer i
-    char cmdStr[128]
-    cmdStr = "'SWITCH-INPUT',itoa(inputId)"
+    char switchCmdStr[128]
+    switchCmdStr = "'SWITCH-INPUT',itoa(inputId)"
     for (i = 1; i <= length_array(outputIds); i++)
     {
-	cmdStr = "cmdStr,'O',itoa(outputIds[i])"
+	switchCmdStr = "switchCmdStr,'O',itoa(outputIds[i])"
     }
     debug (DBG_MODULE, 4, "'Switching input ',itoa(inputId),' to output groups'")
-    sendCommand (gGeneral.mDevControlAv, cmdStr)
+    sendCommand (gGeneral.mDevControlAv, switchCmdStr)
 }
 
 DEFINE_FUNCTION doPresetLightsOffAll ()

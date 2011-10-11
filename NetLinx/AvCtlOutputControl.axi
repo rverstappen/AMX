@@ -55,11 +55,12 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 	}
 	case CHAN_POWER_SLAVE_TOGGLE:
 	{
-	    integer slaveTvId
-	    slaveTvId = gAllOutputs[outputId].mAvrTvId
-	    debug (DBG_MODULE, 9, "'slave power TOGGLE: ',itoa(slaveTvId)")
-	    if (slaveTvId > 0)
+	    integer i
+	    for (i = 1; i <= length_array(gAllOutputs[outputId].mAvrTvId); i++)
 	    {
+		integer slaveTvId
+		slaveTvId = gAllOutputs[outputId].mAvrTvId[i]
+	    	debug (DBG_MODULE, 9, "'slave power TOGGLE: ',itoa(slaveTvId)")
 		if (gOutputPowerStatus[slaveTvId] = POWER_STATUS_ON)
 		{
 		    setOutputPowerStatus (slaveTvId, POWER_STATUS_OFF, 1, 0)
@@ -73,22 +74,24 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 	}
 	case CHAN_POWER_SLAVE_ON:
 	{
-	    integer slaveTvId
-	    slaveTvId = gAllOutputs[outputId].mAvrTvId
-	    debug (DBG_MODULE, 9, "'slave power ON: ',itoa(slaveTvId)")
-	    if (slaveTvId > 0)
+	    integer i
+	    for (i = 1; i <= length_array(gAllOutputs[outputId].mAvrTvId); i++)
 	    {
+		integer slaveTvId
+		slaveTvId = gAllOutputs[outputId].mAvrTvId[i]
+		debug (DBG_MODULE, 9, "'slave power ON: ',itoa(slaveTvId)")
 		setOutputPowerStatus (slaveTvId, POWER_STATUS_ON, 1, 0)
 	    }
 	    break
 	}
 	case CHAN_POWER_SLAVE_OFF:
 	{
-	    integer slaveTvId
-	    slaveTvId = gAllOutputs[outputId].mAvrTvId
-	    debug (DBG_MODULE, 9, "'slave power OFF: ',itoa(slaveTvId)")
-	    if (slaveTvId > 0)
+	    integer i
+	    for (i = 1; i <= length_array(gAllOutputs[outputId].mAvrTvId); i++)
 	    {
+		integer slaveTvId
+		slaveTvId = gAllOutputs[outputId].mAvrTvId[i]
+		debug (DBG_MODULE, 9, "'slave power OFF: ',itoa(slaveTvId)")
 		setOutputPowerStatus (slaveTvId, POWER_STATUS_OFF, 1, 0)
 	    }
 	    break
@@ -112,7 +115,7 @@ DEFINE_FUNCTION setOutputPowerStatus (integer outputId, integer newStatus, integ
     local_var integer waitingId
 
 debug (DBG_MODULE,9,"'Slave too: ',itoa(slaveToo)")
-    slaveTvId = gAllOutputs[outputId].mAvrTvId
+    slaveTvId = gAllOutputs[outputId].mAvrTvId[1]
 debug (DBG_MODULE,9,"'Slave TV ID: ',itoa(slaveTvId)")
     currentStatus = gOutputPowerStatus[outputId]
     if (slaveTvId)
@@ -170,9 +173,9 @@ debug (DBG_MODULE,9,"'Slave Auto On 2: ',itoa(slaveAutoOn)")
 	    integer i
 	    debug (DBG_MODULE, 2, "'turning OFF device: ',gAllOutputs[outputId].mName")
 	    setOutputPowerStatusExec (outputId, POWER_STATUS_OFF)
-	    slaveTvId = gAllOutputs[outputId].mAvrTvId
-	    if (slaveTvId > 0)
+	    for (i = 1; i <= length_array(gAllOutputs[outputId].mAvrTvId); i++)
 	    {
+		slaveTvId = gAllOutputs[outputId].mAvrTvId[i]
 		debug (DBG_MODULE, 2, "'also turning OFF slave device: ',gAllOutputs[slaveTvId].mName")
 		waitingId = slaveTvId
 		wait 10
@@ -282,7 +285,7 @@ DEFINE_FUNCTION checkTpOutputPower (integer tpId, integer outputId)
     }
     active (gAllOutputs[outputId].mOutputType = AVCFG_OUTPUT_TYPE_TV_SLAVE):
     {
-	if (outputId = gAllOutputs[gTpOutputSelect[tpId]].mAvrTvId)
+	if (outputId = gAllOutputs[gTpOutputSelect[tpId]].mAvrTvId[1])
 	{
 	    debug (DBG_MODULE, 9, "'setting power feedback (',itoa(onOff),') for slave device: ',
 		      		  gAllOutputs[outputId].mName")
@@ -517,10 +520,10 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_TV_ADVANCED]
 	tpId = get_last(dvTpOutputControl)
 	outputId = gTpOutputSelect[tpId]
 	debug (DBG_MODULE, 8, "'handling output button press on channel ',itoa(button.input.channel)")
-	if (gAllOutputs[outputId].mAvrTvId)
+	if (length_array(gAllOutputs[outputId].mAvrTvId) > 0)
 	{
-	    debug (DBG_MODULE, 9, "'passing to slave: ',itoa(gAllOutputs[outputId].mAvrTvId)")
-	    outputId = gAllOutputs[outputId].mAvrTvId
+	    debug (DBG_MODULE, 9, "'passing to slave: ',itoa(gAllOutputs[outputId].mAvrTvId[1])")
+	    outputId = gAllOutputs[outputId].mAvrTvId[1]
 	}
 	doOutputPulse (outputId, button.input.channel)
     }

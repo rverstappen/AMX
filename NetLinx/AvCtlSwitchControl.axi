@@ -10,7 +10,7 @@ volatile char bRecvBufVideo[1024]
 DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 {
     // Do the A/V switching, including changing local inputs, if necessary, since
-    // the input may be either centrally switched or locally connected
+    // the input may be either centrally switched or locally connected.
     integer needLocalSwitch
     integer prevInputId
 

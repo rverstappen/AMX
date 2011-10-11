@@ -1,5 +1,3 @@
-PROGRAM_NAME='Debug'
-
 #if_not_defined __DEBUG_FUNC__
 #define __DEBUG_FUNC__
 

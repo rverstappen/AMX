@@ -77,139 +77,6 @@ AVCFG_MUTE_STATE_ON   = 1
 AVCFG_POWER_STATE_OFF = 0
 AVCFG_POWER_STATE_ON  = 1
 
-(*
-AVCFG_VOL_DIR_UP     = 1
-AVCFG_VOL_DIR_DOWN   = 2
-AVCFG_GAIN_DIR_UP    = 1
-AVCFG_GAIN_DIR_DOWN  = 2
-
-// Input control channels
-//AVCFG_INPUT_TITLE	= 91
-//AVCFG_INPUT_SHORT_TITLE	= 92
-
-AVCFG_OUTPUT_CTL_SELECT_TITLE	= 5
-AVCFG_OUTPUT_CTL_SELECT_NONE	= 6
-AVCFG_OUTPUT_CTL_SELECT_PREV	= 7
-AVCFG_OUTPUT_CTL_SELECT_NEXT	= 8
-
-// Output control channels for multiple output TP displays.
-//  See below for "support" arrays and functions.
-AVCFG_OUTPUT_CTL_VOL_UP_MASTER	= 1
-AVCFG_OUTPUT_CTL_VOL_DOWN_MASTER	= 2
-AVCFG_OUTPUT_CTL_VOL_MUTE_MASTER	= 3
-AVCFG_OUTPUT_CTL_VOL_LEVEL_MASTER= 4
-AVCFG_OUTPUT_CTL_POWER_MASTER	= 9
-AVCFG_OUTPUT_CTL_VOL_UP_1	= 11
-AVCFG_OUTPUT_CTL_VOL_DOWN_1	= 12
-AVCFG_OUTPUT_CTL_VOL_MUTE_1	= 13
-AVCFG_OUTPUT_CTL_VOL_LEVEL_1	= 14
-AVCFG_OUTPUT_CTL_TITLE_1		= 18
-AVCFG_OUTPUT_CTL_POWER_1		= 19
-AVCFG_OUTPUT_CTL_VOL_UP_2	= 21
-AVCFG_OUTPUT_CTL_VOL_DOWN_2	= 22
-AVCFG_OUTPUT_CTL_VOL_MUTE_2	= 23
-AVCFG_OUTPUT_CTL_VOL_LEVEL_2	= 24
-AVCFG_OUTPUT_CTL_TITLE_2		= 28
-AVCFG_OUTPUT_CTL_POWER_2		= 29
-AVCFG_OUTPUT_CTL_VOL_UP_3	= 31
-AVCFG_OUTPUT_CTL_VOL_DOWN_3	= 32
-AVCFG_OUTPUT_CTL_VOL_MUTE_3	= 33
-AVCFG_OUTPUT_CTL_VOL_LEVEL_3	= 34
-AVCFG_OUTPUT_CTL_TITLE_3		= 38
-AVCFG_OUTPUT_CTL_POWER_3		= 39
-AVCFG_OUTPUT_CTL_VOL_UP_4	= 41
-AVCFG_OUTPUT_CTL_VOL_DOWN_4	= 42
-AVCFG_OUTPUT_CTL_VOL_MUTE_4	= 43
-AVCFG_OUTPUT_CTL_VOL_LEVEL_4	= 44
-AVCFG_OUTPUT_CTL_TITLE_4		= 48
-AVCFG_OUTPUT_CTL_POWER_4		= 49
-AVCFG_OUTPUT_CTL_VOL_UP_5	= 51
-AVCFG_OUTPUT_CTL_VOL_DOWN_5	= 52
-AVCFG_OUTPUT_CTL_VOL_MUTE_5	= 53
-AVCFG_OUTPUT_CTL_VOL_LEVEL_5	= 54
-AVCFG_OUTPUT_CTL_TITLE_5		= 58
-AVCFG_OUTPUT_CTL_POWER_5		= 59
-AVCFG_OUTPUT_CTL_VOL_UP_6	= 61
-AVCFG_OUTPUT_CTL_VOL_DOWN_6	= 62
-AVCFG_OUTPUT_CTL_VOL_MUTE_6	= 63
-AVCFG_OUTPUT_CTL_VOL_LEVEL_6	= 64
-AVCFG_OUTPUT_CTL_TITLE_6		= 68
-AVCFG_OUTPUT_CTL_POWER_6		= 69
-AVCFG_OUTPUT_CTL_VOL_UP_7	= 71
-AVCFG_OUTPUT_CTL_VOL_DOWN_7	= 72
-AVCFG_OUTPUT_CTL_VOL_MUTE_7	= 73
-AVCFG_OUTPUT_CTL_VOL_LEVEL_7	= 74
-AVCFG_OUTPUT_CTL_TITLE_7		= 78
-AVCFG_OUTPUT_CTL_POWER_7		= 79
-AVCFG_OUTPUT_CTL_VOL_UP_8	= 81
-AVCFG_OUTPUT_CTL_VOL_DOWN_8	= 82
-AVCFG_OUTPUT_CTL_VOL_MUTE_8	= 83
-AVCFG_OUTPUT_CTL_VOL_LEVEL_8	= 84
-AVCFG_OUTPUT_CTL_TITLE_8		= 88
-AVCFG_OUTPUT_CTL_POWER_8		= 89
-AVCFG_OUTPUT_CTL_VOL_UP_9	= 91
-AVCFG_OUTPUT_CTL_VOL_DOWN_9	= 92
-AVCFG_OUTPUT_CTL_VOL_MUTE_9	= 93
-AVCFG_OUTPUT_CTL_VOL_LEVEL_9	= 94
-AVCFG_OUTPUT_CTL_TITLE_9		= 98
-AVCFG_OUTPUT_CTL_POWER_9		= 99
-AVCFG_OUTPUT_CTL_VOL_UP_10	= 101
-AVCFG_OUTPUT_CTL_VOL_DOWN_10	= 102
-AVCFG_OUTPUT_CTL_VOL_MUTE_10	= 103
-AVCFG_OUTPUT_CTL_VOL_LEVEL_10	= 104
-AVCFG_OUTPUT_CTL_TITLE_10	= 118
-AVCFG_OUTPUT_CTL_POWER_10	= 109
-AVCFG_OUTPUT_CTL_VOL_UP_11	= 111
-AVCFG_OUTPUT_CTL_VOL_DOWN_11	= 112
-AVCFG_OUTPUT_CTL_VOL_MUTE_11	= 113
-AVCFG_OUTPUT_CTL_VOL_LEVEL_11	= 114
-AVCFG_OUTPUT_CTL_TITLE_11	= 118
-AVCFG_OUTPUT_CTL_POWER_11	= 119
-AVCFG_OUTPUT_CTL_VOL_UP_12	= 121
-AVCFG_OUTPUT_CTL_VOL_DOWN_12	= 122
-AVCFG_OUTPUT_CTL_VOL_MUTE_12	= 123
-AVCFG_OUTPUT_CTL_VOL_LEVEL_12	= 124
-AVCFG_OUTPUT_CTL_TITLE_12	= 128
-AVCFG_OUTPUT_CTL_POWER_12	= 129
-AVCFG_OUTPUT_CTL_VOL_UP_13	= 131
-AVCFG_OUTPUT_CTL_VOL_DOWN_13	= 132
-AVCFG_OUTPUT_CTL_VOL_MUTE_13	= 133
-AVCFG_OUTPUT_CTL_VOL_LEVEL_13	= 134
-AVCFG_OUTPUT_CTL_TITLE_13	= 138
-AVCFG_OUTPUT_CTL_POWER_13	= 139
-AVCFG_OUTPUT_CTL_VOL_UP_14	= 141
-AVCFG_OUTPUT_CTL_VOL_DOWN_14	= 142
-AVCFG_OUTPUT_CTL_VOL_MUTE_14	= 143
-AVCFG_OUTPUT_CTL_VOL_LEVEL_14	= 144
-AVCFG_OUTPUT_CTL_TITLE_14	= 148
-AVCFG_OUTPUT_CTL_POWER_14	= 149
-AVCFG_OUTPUT_CTL_VOL_UP_15	= 151
-AVCFG_OUTPUT_CTL_VOL_DOWN_15	= 152
-AVCFG_OUTPUT_CTL_VOL_MUTE_15	= 153
-AVCFG_OUTPUT_CTL_VOL_LEVEL_15	= 154
-AVCFG_OUTPUT_CTL_TITLE_15	= 158
-AVCFG_OUTPUT_CTL_POWER_15	= 159
-AVCFG_OUTPUT_CTL_VOL_UP_16	= 161
-AVCFG_OUTPUT_CTL_VOL_DOWN_16	= 162
-AVCFG_OUTPUT_CTL_VOL_MUTE_16	= 163
-AVCFG_OUTPUT_CTL_VOL_LEVEL_16	= 164
-AVCFG_OUTPUT_CTL_TITLE_16	= 168
-AVCFG_OUTPUT_CTL_POWER_16	= 169
-AVCFG_OUTPUT_CTL_VOL_UP_17	= 171
-AVCFG_OUTPUT_CTL_VOL_DOWN_17	= 172
-AVCFG_OUTPUT_CTL_VOL_MUTE_17	= 173
-AVCFG_OUTPUT_CTL_VOL_LEVEL_17	= 174
-AVCFG_OUTPUT_CTL_TITLE_17	= 178
-AVCFG_OUTPUT_CTL_POWER_17	= 179
-AVCFG_OUTPUT_CTL_VOL_UP_18	= 181
-AVCFG_OUTPUT_CTL_VOL_DOWN_18	= 182
-AVCFG_OUTPUT_CTL_VOL_MUTE_18	= 183
-AVCFG_OUTPUT_CTL_VOL_LEVEL_18	= 184
-AVCFG_OUTPUT_CTL_TITLE_18	= 188
-AVCFG_OUTPUT_CTL_POWER_18	= 189
-// Keep going if there are more outputs! :-)
-*)
-
 DEFINE_VARIABLE
 
 volatile integer AVCFG_INPUT_SELECT[] = {
@@ -229,8 +96,7 @@ volatile integer AVCFG_OUTPUT_SELECT[] = {
     61, 62, 63, 64 }
     // ...should be filled to AVCFG_MAX_OUTPUTS
 
-constant integer AVCFG_OUTPUT_SELECT_ALL = 255
-
+constant integer AVCFG_OUTPUT_SELECT_ALL		= 255
 constant integer AVCFG_OUTPUT_SELECT_PREV		= 202
 constant integer AVCFG_OUTPUT_SELECT_NEXT		= 203
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT[]		= '201'
@@ -247,158 +113,6 @@ constant char    AVCFG_ADDRESS_INPUT_SELECT_NEXT[]	= '203'
 constant char    AVCFG_ADDRESS_INPUT_NAME[]		= '211'
 constant char    AVCFG_ADDRESS_INPUT_SHORT_NAME[]	= '212'
 
-
-(*
-constant integer AVCFG_OUTPUT_CTL_VOL_UP[] = {
-    AVCFG_OUTPUT_CTL_VOL_UP_1,
-    AVCFG_OUTPUT_CTL_VOL_UP_2,
-    AVCFG_OUTPUT_CTL_VOL_UP_3,
-    AVCFG_OUTPUT_CTL_VOL_UP_4,
-    AVCFG_OUTPUT_CTL_VOL_UP_5,
-    AVCFG_OUTPUT_CTL_VOL_UP_6,
-    AVCFG_OUTPUT_CTL_VOL_UP_7,
-    AVCFG_OUTPUT_CTL_VOL_UP_8,
-    AVCFG_OUTPUT_CTL_VOL_UP_9,
-    AVCFG_OUTPUT_CTL_VOL_UP_10,
-    AVCFG_OUTPUT_CTL_VOL_UP_11,
-    AVCFG_OUTPUT_CTL_VOL_UP_12,
-    AVCFG_OUTPUT_CTL_VOL_UP_13,
-    AVCFG_OUTPUT_CTL_VOL_UP_14,
-    AVCFG_OUTPUT_CTL_VOL_UP_15,
-    AVCFG_OUTPUT_CTL_VOL_UP_16,
-    AVCFG_OUTPUT_CTL_VOL_UP_17,
-    AVCFG_OUTPUT_CTL_VOL_UP_18}
-constant integer AVCFG_OUTPUT_CTL_VOL_DOWN[] = {
-    AVCFG_OUTPUT_CTL_VOL_DOWN_1,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_2,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_3,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_4,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_5,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_6,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_7,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_8,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_9,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_10,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_11,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_12,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_13,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_14,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_15,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_16,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_17,
-    AVCFG_OUTPUT_CTL_VOL_DOWN_18}
-constant integer AVCFG_OUTPUT_CTL_VOL_MUTE[] = {
-    AVCFG_OUTPUT_CTL_VOL_MUTE_1,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_2,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_3,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_4,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_5,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_6,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_7,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_8,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_9,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_10,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_11,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_12,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_13,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_14,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_15,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_16,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_17,
-    AVCFG_OUTPUT_CTL_VOL_MUTE_18}
-constant integer AVCFG_OUTPUT_CTL_VOL_LEVEL[] = {
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_1,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_2,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_3,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_4,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_5,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_6,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_7,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_8,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_9,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_10,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_11,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_12,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_13,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_14,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_15,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_16,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_17,
-    AVCFG_OUTPUT_CTL_VOL_LEVEL_18}
-constant integer AVCFG_OUTPUT_CTL_POWER[] = {
-    AVCFG_OUTPUT_CTL_POWER_1,
-    AVCFG_OUTPUT_CTL_POWER_2,
-    AVCFG_OUTPUT_CTL_POWER_3,
-    AVCFG_OUTPUT_CTL_POWER_4,
-    AVCFG_OUTPUT_CTL_POWER_5,
-    AVCFG_OUTPUT_CTL_POWER_6,
-    AVCFG_OUTPUT_CTL_POWER_7,
-    AVCFG_OUTPUT_CTL_POWER_8,
-    AVCFG_OUTPUT_CTL_POWER_9,
-    AVCFG_OUTPUT_CTL_POWER_10,
-    AVCFG_OUTPUT_CTL_POWER_11,
-    AVCFG_OUTPUT_CTL_POWER_12,
-    AVCFG_OUTPUT_CTL_POWER_13,
-    AVCFG_OUTPUT_CTL_POWER_14,
-    AVCFG_OUTPUT_CTL_POWER_15,
-    AVCFG_OUTPUT_CTL_POWER_16,
-    AVCFG_OUTPUT_CTL_POWER_17,
-    AVCFG_OUTPUT_CTL_POWER_18}
-
-DEFINE_FUNCTION integer audioCtlChannel2Ui (integer channel)
-{
-    // the output UI is the channel divided by 10 with remainder discarded (i.e., integer division)
-    return channel / 10
-}
-
-DEFINE_FUNCTION integer audioCtlChannel2Action (integer channel)
-{
-    // the action is the remainder after the channel is divided by 10 (i.e., integer 'mod')
-    return channel - (10*(channel/10))
-}
-
-DEFINE_FUNCTION integer audioCtlChannel2VolDir (integer channel)
-{
-    // the volume direction happens also to be the remainder after the channel is divided by 10 (i.e., integer 'mod')
-    return channel - (10*(channel/10))
-}
-
-DEFINE_FUNCTION integer audioCtlUi2VolUpAddress (integer ui)
-{
-    // the address (channel) of a output title is 11, 21, 31, etc.
-    return ((ui*10)+1)
-}
-
-DEFINE_FUNCTION integer audioCtlUi2VolDownAddress (integer ui)
-{
-    // the address (channel) of a output title is 12, 22, 32, etc.
-    return ((ui*10)+2)
-}
-
-DEFINE_FUNCTION integer audioCtlUi2VolMuteAddress (integer ui)
-{
-    // the address (channel) of a output title is 13, 23, 33, etc.
-    return ((ui*10)+3)
-}
-
-DEFINE_FUNCTION integer audioCtlUi2VolumeLevel (integer ui)
-{
-    // the address (channel) of a output title is 14, 24, 34, etc.
-    return ((ui*10)+4)
-}
-
-DEFINE_FUNCTION integer audioCtlUi2TitleAddress (integer ui)
-{
-    // the address (channel) of a output title is 18, 28, 38, etc.
-    return ((ui*10)+8)
-}
-
-DEFINE_FUNCTION integer audioCtlUi2PowerAddress (integer ui)
-{
-    // the address (channel) of a output title is 19, 29, 39, etc.
-    return ((ui*10)+9)
-}
-*)
 
 DEFINE_TYPE
 
@@ -459,7 +173,7 @@ structure AvOutput
     integer	mSwitchedInputChannel // AMX channel for switched audio input sources (0 = none)
 //    integer	mSwitchedVideoInputChannel // AMX channel for switched video input sources (0 = none)
     integer     mLocalInputIds[10]	// Locally connected AV input IDs (mId of AvInputs)
-    integer	mAvrTvId		// ID of the slave TV connected to this AVR (if this is an AVR)
+    integer	mAvrTvId[8]		// IDs of the slave TVs connected to this AVR (if this is an AVR)
     // The following fields are only relevant to outputs with discrete volume control:
     sinteger	mVolumeMin  	     	// Minimum discrete volume
     sinteger	mVolumeMax  	     	// Maximum discrete volume
@@ -490,6 +204,7 @@ structure SupportedChannels
 }
 
 DEFINE_VARIABLE
+
 volatile AvGeneral gGeneral
 volatile AvInput   gAllInputs[AVCFG_MAX_INPUTS]
 volatile AvOutput  gAllOutputs[AVCFG_MAX_OUTPUTS]
@@ -523,13 +238,11 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
 	set_length_array(suppChannels,length_array(suppChannels)+1)
 	set_length_array(suppChannels[length_array(suppChannels)].mChannelMap, CHAN_MAX_CHANNELS)
 	set_length_array(suppChannels[length_array(suppChannels)].mChannelMask, CHAN_MAX_CHANNELS)
-	break
     }
     case 'input':
     {
 	gReadMode = READING_INPUT
 	gThisItem = 0
-	break
     }
     case 'output':
     {
@@ -537,7 +250,6 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
 	gOutputType   = AVCFG_OUTPUT_TYPE_UNKNOWN
 	gVolType  = AVCFG_OUTPUT_VOL_UNKNOWN
 	gThisItem = 0
-	break
     }
     case 'audio-output':
     {
@@ -545,7 +257,6 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
 	gOutputType   = AVCFG_OUTPUT_TYPE_AUDIO
 	gVolType  = AVCFG_OUTPUT_VOL_DISCRETE
 	gThisItem = 0
-	break
     }
     case 'video-output':
     {
@@ -553,7 +264,6 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
 	gOutputType   = AVCFG_OUTPUT_TYPE_UNKNOWN
 	gVolType  = AVCFG_OUTPUT_VOL_UNKNOWN
 	gThisItem = 0
-	break
     }
     default:
     {
@@ -572,43 +282,13 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'audio-switcher':
-	{
 	    parseDev (gGeneral.mAudioSwitcher, propValue)
-	    break
-	}
 	case 'video-switcher':
-	{
 	    parseDev (gGeneral.mVideoSwitcher, propValue)
-	    break
-	}
 	case 'audio-output-list-order':
-	{
-	    integer id, i
-	    for (id = atoi(propValue);
-		 (id > 0) && (propValue != "");
-		 id = atoi(propValue))
-	    {
-		i++
-		set_length_array (gGeneral.mTpDefaults.mAudioOutputListOrder, i)
-		gGeneral.mTpDefaults.mAudioOutputListOrder[i] = id
-		if (remove_string(propValue,',',1) = '')
-		    break
-	    }
-	} // case
+	    parseIntegerList (gGeneral.mTpDefaults.mAudioOutputListOrder, propValue)
 	case 'video-output-list-order':
-	{
-	    integer id, i
-	    for (id = atoi(propValue);
-		 (id > 0) && (propValue != "");
-		 id = atoi(propValue))
-	    {
-		i++
-		set_length_array (gGeneral.mTpDefaults.mVideoOutputListOrder, i)
-		gGeneral.mTpDefaults.mVideoOutputListOrder[i] = id
-		if (remove_string(propValue,',',1) = '')
-		    break
-	    }
-	} // case
+	    parseIntegerList (gGeneral.mTpDefaults.mVideoOutputListOrder, propValue)
 	} // switch
     } // case READING_GENERAL
 
@@ -628,33 +308,9 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    }
 	}
 	case 'audio-output-list-order':
-	{
-	    integer id, i
-	    for (id = atoi(propValue);
-		 (id > 0) && (propValue != "");
-		 id = atoi(propValue))
-	    {
-		i++
-		set_length_array (gTpInfo[gThisItem].mAudioOutputListOrder, i)
-		gTpInfo[gThisItem].mAudioOutputListOrder[i] = id
-		if (remove_string(propValue,',',1) = '')
-		    break
-	    }
-	} // case
+	    parseIntegerList (gTpInfo[gThisItem].mAudioOutputListOrder, propValue)
 	case 'video-output-list-order':
-	{
-	    integer id, i
-	    for (id = atoi(propValue);
-		 (id > 0) && (propValue != "");
-		 id = atoi(propValue))
-	    {
-		i++
-		set_length_array (gTpInfo[gThisItem].mVideoOutputListOrder, i)
-		gTpInfo[gThisItem].mVideoOutputListOrder[i] = id
-		if (remove_string(propValue,',',1) = '')
-		    break
-	    }
-	} // case
+	    parseIntegerList (gTpInfo[gThisItem].mVideoOutputListOrder, propValue)
 	} // switch
     } // case READING_GENERAL
 
@@ -665,10 +321,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'name':
-	{
 	    suppChannels[thisDevice].mDeviceName = propValue
-	    break
-	}
 	case 'channels':
 	{
 	    integer i
@@ -726,7 +379,6 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		} // active
 		} // select
 	    }
-	    break
 	}
 	case 'channel-maps':
 	{
@@ -744,10 +396,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		remove_string(propValue,',',1)
 		lhs = atoi(propValue)
 	    }
-	    break
 	}
-	}
-	break
+	} // inner switch
     }  // case READING_SUPPORTED_CHANNEL
 
     case READING_INPUT:
@@ -763,7 +413,6 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllInputs[gThisItem].mScene		= AVCFG_SCENE_UNKNOWN
 	    if (gMaxInput < gThisItem)
 		gMaxInput = gThisItem
-	    break
 	}
 	case 'name':
 	{
@@ -773,18 +422,11 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		// Copy to the short name (may be overridden)
 		gAllInputs[gThisItem].mShortName = propValue
 	    }
-	    break
 	}
 	case 'short-name':
-	{
 	    gAllInputs[gThisItem].mShortName = propValue
-	    break
-	}
 	case 'dev':
-	{
 	    parseDev (gAllInputs[gThisItem].mDev, propValue)
-	    break
-	}
 	case 'channels':
 	{
 	    integer i, found
@@ -795,77 +437,25 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		    gAllInputs[gThisItem].mSupportedChannels	= suppChannels[i].mChannels
 		    gAllInputs[gThisItem].mChannelMap		= suppChannels[i].mChannelMap
 		    gAllInputs[gThisItem].mChannelMask		= suppChannels[i].mChannelMask
-		    break
 		}
 	    }
-	    break
 	}
 	case 'location':
-	{
-	    switch (propValue)
-	    {
-	    case 'switch':
-	    {
-		gAllInputs[gThisItem].mLocationType = AVCFG_INPUT_TYPE_SWITCH
-		break
-	    }
-	    case 'local':
-	    {
-		gAllInputs[gThisItem].mLocationType = AVCFG_INPUT_TYPE_LOCAL
-		break
-	    }
-	    default:
-	    {
-		gAllInputs[gThisItem].mLocationType = AVCFG_INPUT_TYPE_UNKNOWN
-		break
-	    }
-	    } // switch (propValue)
-	    break
-	}
+	    gAllInputs[gThisItem].mLocationType = avcfgGetInputType (propValue)
 	case 'video-switch-id':
-	{
 	    gAllInputs[gThisItem].mVideoSwitchId = atoi(propValue)
-	    break
-	}
 	case 'audio-switch-id':
-	{
 	    gAllInputs[gThisItem].mAudioSwitchId = atoi(propValue)
-	    break
-	}
 	case 'audio-gain':
-	{
 	    gAllInputs[gThisItem].mAudioGain = atoi(propValue)
-	    break
-	}
 	case 'local-input-channel':
-	{
 	    gAllInputs[gThisItem].mLocalInputChannel = atoi(propValue)
-	    break
-	}
 	case 'slave-auto-on':
-	{
-	    lower_string (propValue)
-	    if (propValue = 'true')
-	    {
-	    	gAllInputs[gThisItem].mSlaveAutoOn = 1
-	    }
-	    else
-	    {
-	    	gAllInputs[gThisItem].mSlaveAutoOn = (atoi(propValue) != 0)
-	    }
-	    break
-	}
+	    gAllInputs[gThisItem].mSlaveAutoOn = parseBoolean (propValue)
 	case 'scene':
-	{
 	    gAllInputs[gThisItem].mScene = avcfgGetScene (propValue)
-	    break
-	}
 	default:
-	{
 	    debug (moduleName, 0, "'Unhandled input property: ',propName")
-	    break
-	}
-	break
 	} // inner switch
     } // case READING_INPUT
 
@@ -888,7 +478,6 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllOutputs[gThisItem].mIrType	       = AVCFG_IR_TYPE_NORMAL
 	    if (gMaxOutput < gThisItem)
 		gMaxOutput = gThisItem
-	    break
 	}
 	case 'name':
 	{
@@ -898,63 +487,19 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		// Copy to the short name (may be overridden)
 		gAllOutputs[gThisItem].mShortName = propValue
 	    }
-	    break
 	}
 	case 'short-name':
-	{
 	    gAllOutputs[gThisItem].mShortName = propValue
-	    break
-	}
 	case 'audio-switch-id':
-	{
 	    gAllOutputs[gThisItem].mAudioSwitchId = atoi(propValue)
-	    break
-	}
 	case 'video-switch-id':
-	{
 	    gAllOutputs[gThisItem].mVideoSwitchId = atoi(propValue)
-	    break
-	}
 	case 'av-type':
-	{
-	    propValue = lower_string(propValue)
-	    switch (propValue)
-	    {
-	    case 'audio':
-	    	gAllOutputs[gThisItem].mOutputType = AVCFG_OUTPUT_TYPE_AUDIO
-	    case 'tv-slave':
-	    	gAllOutputs[gThisItem].mOutputType = AVCFG_OUTPUT_TYPE_TV_SLAVE
-	    case 'tv-master':
-	    	gAllOutputs[gThisItem].mOutputType = AVCFG_OUTPUT_TYPE_TV_MASTER
-	    case 'receiver':
-	    	gAllOutputs[gThisItem].mOutputType = AVCFG_OUTPUT_TYPE_RECEIVER
-	    default:
-	    	gAllOutputs[gThisItem].mOutputType = AVCFG_OUTPUT_TYPE_UNKNOWN
-	    }
-	    break
-	}
+	    gAllOutputs[gThisItem].mOutputType = avcfgGetOutputType (propValue)
 	case 'av-vol-type':
-	{
-	    propValue = lower_string(propValue)
-	    switch (propValue)
-	    {
-	    case 'relative':
-	    	gAllOutputs[gThisItem].mVolType = AVCFG_OUTPUT_VOL_RELATIVE
-		break
-	    case 'discrete':
-	    	gAllOutputs[gThisItem].mVolType = AVCFG_OUTPUT_VOL_DISCRETE
-		break
-	    default:
-	    	gAllOutputs[gThisItem].mVolType = AVCFG_OUTPUT_VOL_UNKNOWN
-		break
-	    }
-	    break
-	}
+	    gAllOutputs[gThisItem].mVolType = avcfgGetVolumeType (propValue)
 	case 'dev':
-	{
 	    parseDev (gAllOutputs[gThisItem].mDev, propValue)
-	    break
-	}
 	case 'channels':
 	{
 	    integer i
@@ -964,101 +509,35 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		{
 		    gAllOutputs[gThisItem].mSupportedChannels	= suppChannels[i].mChannels
 		    gAllOutputs[gThisItem].mChannelMap		= suppChannels[i].mChannelMap
-		    gAllOutputs[gThisItem].mChannelMask	= suppChannels[i].mChannelMask
-		    break
+		    gAllOutputs[gThisItem].mChannelMask		= suppChannels[i].mChannelMask
+		    break // out of the for-loop
 		}
 	    }
-	    debug (moduleName,9,"'found channel list: ',suppChannels[i].mDeviceName,'; mask[9]=',itoa(gAllOutputs[gThisItem].mChannelMask[9])")
-	    break
 	}
 	case 'switched-audio-input-channel':
-	{
 	    gAllOutputs[gThisItem].mSwitchedInputChannel = atoi(propValue)
-	    break
-	}
 	case 'switched-video-input-channel':
-	{
 	    gAllOutputs[gThisItem].mSwitchedInputChannel = atoi(propValue)
-	    break
-	}
 	case 'switched-input-channel':
-	{
 	    gAllOutputs[gThisItem].mSwitchedInputChannel = atoi(propValue)
-	    break
-	}
 	case 'local-inputs':
-	{
-	    integer count
-	    integer inputId
-	    count = 0
-	    for (inputId = atoi(propValue); inputId > 0; inputId = atoi(propValue))
-	    {
-		count++
-		set_length_array(gAllOutputs[gThisItem].mLocalInputIds, count)
-		gAllOutputs[gThisItem].mLocalInputIds[count] = inputId
-		if (remove_string (propValue, ',', 1) == '')
-		{
-		    // No more commas, so we are finished with the list
-		    propValue = ""
-		}
-	    }
-	    break
-	}
+	    parseIntegerList (gAllOutputs[gThisItem].mLocalInputIds, propValue)
+	case 'receiver-tv-ids':
+	    parseIntegerList (gAllOutputs[gThisItem].mAvrTvId, propValue)
 	case 'receiver-tv-id':
-	{
-	    gAllOutputs[gThisItem].mAvrTvId = atoi(propValue)
-	    break
-	}
+	    parseIntegerList (gAllOutputs[gThisItem].mAvrTvId, propValue)
 	case 'volume-min':
-	{
 	    gAllOutputs[gThisItem].mVolumeMin = atoi(propValue)
-	    break
-	}
 	case 'volume-max':
-	{
 	    gAllOutputs[gThisItem].mVolumeMax = atoi(propValue)
-	    break
-	}
 	case 'volume-default':
-	{
 	    gAllOutputs[gThisItem].mVolumeDefault = atoi(propValue)
-	    break
-	}
 	case 'volume-increment':
-	{
 	    gAllOutputs[gThisItem].mVolumeIncrement = atoi(propValue)
-	    break
-	}
 	case 'ir-type':
-	{
-	    select
-	    {
-	    active (propValue = 'send_command'):
-	    {
-		gAllOutputs[gThisItem].mIrType = AVCFG_IR_TYPE_SEND_COMMAND
-	    }
-	    active (propValue = 'pulse'):
-	    {
-		gAllOutputs[gThisItem].mIrType = AVCFG_IR_TYPE_NORMAL
-	    }
-	    active (propValue = 'normal'):
-	    {
-		gAllOutputs[gThisItem].mIrType = AVCFG_IR_TYPE_NORMAL
-	    }
-	    active (1):
-	    {
-		debug (moduleName, 0, "'Incorrect property value for ',propName,': ',propValue")
-		gAllOutputs[gThisItem].mIrType = AVCFG_IR_TYPE_NORMAL
-	    } // active
-	    } // select
-	    break
-	}
+	    gAllOutputs[gThisItem].mIrType = avcfgGetIrType (propValue)
 	default:
-	{
 	    debug (moduleName, 0, "'Unhandled output property: ',propName")
-	    break
-	}
-	break
 	} // inner switch
     } // case READING_OUTPUT
 
@@ -1066,7 +545,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
     {
 	debug (moduleName, 1, "'error: property with no heading (',propName,'): <',propValue,'>'")
     }
-    }
+    } // switch
 }
 
 DEFINE_FUNCTION calcInputsForOutputs()
@@ -1113,6 +592,56 @@ DEFINE_FUNCTION calcInputsForOutputs()
 	}
 	set_length_array (gAllOutputs[outputId].mAllInputIds, count)
     }
+}
+
+DEFINE_FUNCTION integer avcfgGetInputType (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'switch':	return AVCFG_INPUT_TYPE_SWITCH
+    case 'local':	return AVCFG_INPUT_TYPE_LOCAL
+    default:		return AVCFG_INPUT_TYPE_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer avcfgGetOutputType (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'audio':	return AVCFG_OUTPUT_TYPE_AUDIO
+    case 'tv-slave':	return AVCFG_OUTPUT_TYPE_TV_SLAVE
+    case 'tv-master':	return AVCFG_OUTPUT_TYPE_TV_MASTER
+    case 'receiver':	return AVCFG_OUTPUT_TYPE_RECEIVER
+    default:		return AVCFG_OUTPUT_TYPE_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer avcfgGetVolumeType (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'relative':	return AVCFG_OUTPUT_VOL_RELATIVE
+    case 'discrete':	return AVCFG_OUTPUT_VOL_DISCRETE
+    default:		return AVCFG_OUTPUT_VOL_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer avcfgGetIrType (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'send_command':	return AVCFG_IR_TYPE_SEND_COMMAND
+    case 'pulse':		return AVCFG_IR_TYPE_NORMAL
+    case 'normal':		return AVCFG_IR_TYPE_NORMAL
+    default:
+    {
+	gAllOutputs[gThisItem].mIrType = AVCFG_IR_TYPE_NORMAL
+    }
+    } // switch
 }
 
 DEFINE_FUNCTION integer avcfgGetScene (char str[])

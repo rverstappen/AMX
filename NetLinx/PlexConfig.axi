@@ -4,11 +4,7 @@
 #include 'Debug.axi'
 #include 'ConfigUtils.axi'
 #include 'ConfigServerUtils.axi'
-
-
-DEFINE_CONSTANT
-
-MAX_PLEX_SERVERS = 10
+#include 'HttpConfig.axi'
 
 
 DEFINE_TYPE
@@ -22,10 +18,6 @@ structure PlexConfigItem
 {
     integer	mId
     char	mName[32]
-    dev		mDevControl		// Device for AMX internal control
-    dev		mDevLocal		// For socket connection
-    char	mServerIpAddress[16]
-    integer	mServerPort
     char	mPlayerName[64]
 }
 
@@ -39,9 +31,8 @@ READING_PLEX			= 2
 DEFINE_VARIABLE
 
 volatile PlexConfigGeneral	gGeneral
-volatile PlexConfigItem		gPlexs[MAX_PLEX_SERVERS]
-volatile dev			gDvPlexControl[MAX_PLEX_SERVERS]
-volatile dev			gDvPlexLocal[MAX_PLEX_SERVERS]
+volatile PlexConfigItem		gPlexs[MAX_HTTP_SERVERS]
+volatile HttpConfig		gHttpCfgs[MAX_HTTP_SERVERS]
 volatile integer		gThisItem = 0 // plex servers
 volatile integer		gReadMode = READING_NONE
 
@@ -78,14 +69,9 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'enabled':
-	{
 	    gGeneral.mEnabled = getBooleanProp(propValue)
-	    break
-	}
 	default:
-	{
 	    debug (moduleName, 3, "'Unknown general config property: ',propName,' (=',propValue,')'")
-	}
 	} // switch
     }
 
@@ -98,28 +84,20 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gThisItem = atoi(propValue)
 	    if (length_array(gPlexs) < gThisItem)
 	    {
-		set_length_array(gPlexs,	gThisItem)
-		set_length_array(gDvPlexControl,gThisItem)
-		set_length_array(gDvPlexLocal,	gThisItem)
+		set_length_array(gPlexs,    gThisItem)
+		set_length_array(gHttpCfgs, gThisItem)
 	    }
 	}
 	case 'name':
 	    gPlexs[gThisItem].mName = propValue
 	case 'dev-control':
-	{
-	    parseDev (gPlexs[gThisItem].mDevControl, propValue)
-	    gDvPlexControl[gThisItem] = gPlexs[gThisItem].mDevControl
-	    debug (moduleName, 9, "'Got plex control device: ',devtoa(gDvPlexControl[gThisItem])")
-	}
+	    parseDev (gHttpCfgs[gThisItem].mDevControl, propValue)
 	case 'dev-local':
-	{
-	    parseDev (gPlexs[gThisItem].mDevLocal, propValue)
-	    gDvPlexLocal[gThisItem] = gPlexs[gThisItem].mDevLocal
-	}
-	case 'media-server-ip-address':
-	    gPlexs[gThisItem].mServerIpAddress = propValue
-	case 'media-server-port':
-	    gPlexs[gThisItem].mServerPort = atoi(propValue)
+	    parseDev (gHttpCfgs[gThisItem].mDevLocal, propValue)
+	case 'server-ip-address':
+	    gHttpCfgs[gThisItem].mServerIpAddress = propValue
+	case 'server-port':
+	    gHttpCfgs[gThisItem].mServerPort = atoi(propValue)
 	case 'media-player-name':
 	    gPlexs[gThisItem].mPlayerName = propValue
 	default:
@@ -133,6 +111,5 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
     }
     }
 }
-
 
 #end_if // __PLEX_CONFIG__

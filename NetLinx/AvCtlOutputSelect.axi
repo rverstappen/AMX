@@ -65,7 +65,7 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
     debug (DBG_MODULE,9,"'Output Channel Selection Handler -- ',itoa(outputId)")
     if (force || (outputId != prevOutputId))
     {
-	integer multipleOutputs
+	integer multipleOutputs, i
 	gTpOutputSelect[tpId] = outputId
 	setTpZoneOutput (tpId, outputId)
         if (outputId > 0)
@@ -84,14 +84,14 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-',gAllOutputs[outputId].mName"
 		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-',gAllOutputs[outputId].mShortName"
 		send_command dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',',
-					itoa(gAllOutputs[outputId].mAvrTvId>0)"
+					itoa(length_array(gAllOutputs[outputId].mAvrTvId)>0)"
 	    }
 
 	    // Check the power button status(es)
 	    checkTpOutputPower (tpId, outputId)
-	    if (gAllOutputs[outputId].mAvrTvId)
+	    for (i = 1; i <= length_array(gAllOutputs[outputId].mAvrTvId); i++)
 	    {
-		checkTpOutputPower (tpId, gAllOutputs[outputId].mAvrTvId)
+		checkTpOutputPower (tpId, gAllOutputs[outputId].mAvrTvId[i])
 	    }
 
 	    // Make sure the current zone contains this output ID
