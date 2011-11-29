@@ -60,7 +60,7 @@ DEFINE_FUNCTION initHttpImpl (integer httpId, HttpConfig http, char prefix[], ch
     gHttpImpl[httpId].mHtmlSuffix = "innerSuffix,
 		 ' HTTP/1.1',crlf,
 		 'Host: ',http.mServerIpAddress,':',itoa(http.mServerPort),crlf,
-		 'Connection: keep-alive',crlf,
+		 'Connection: close',crlf,
 		 authStr,
 		 crlf"
     gHttpImpl[httpId].mRecvBuf = ''
