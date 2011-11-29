@@ -2,6 +2,28 @@ MODULE_NAME='DirecTvHttp_Comm' (char configFile[])
 
 // This DirecTV module provides control over multiple DirecTV servers via their HTTP interface.
 
+// We also have to define local devices somewhere in order to receive data back from
+// HTTP servers. We will use these in order, one per HTTP server.
+DEFINE_CONSTANT
+STUPID_AMX_REQUIREMENT11 = 0:30:0
+STUPID_AMX_REQUIREMENT12 = 0:31:0
+STUPID_AMX_REQUIREMENT13 = 0:32:0
+STUPID_AMX_REQUIREMENT14 = 0:33:0
+STUPID_AMX_REQUIREMENT15 = 0:34:0
+STUPID_AMX_REQUIREMENT16 = 0:35:0
+STUPID_AMX_REQUIREMENT17 = 0:36:0
+STUPID_AMX_REQUIREMENT18 = 0:37:0
+STUPID_AMX_REQUIREMENT19 = 0:38:0
+STUPID_AMX_REQUIREMENT20 = 0:39:0
+
+DEFINE_VARIABLE
+// This needs to be defined before the inclusion of HttpImpl.axi:
+volatile dev gHttpLocalDv [] = { 
+    STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
+    STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
+    STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
+    STUPID_AMX_REQUIREMENT20 }
+
 DEFINE_VARIABLE
 volatile char	DBG_MODULE[] = 'DirecTV'
 
@@ -77,7 +99,8 @@ volatile char    DIRECTV_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 171-180
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 181-190
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 191-200
-    {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 201-210
+    {'active'},						// 201
+    {''},{''},{''},{''},{''},{''},{''},{''},{''},	// 202-210
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 211-220
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 221-230
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 231-240
@@ -87,22 +110,6 @@ volatile char    DIRECTV_SUPPORTED_CHANNEL_STRS[256][32] = {
 
 // Array of devices for communication
 volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]
-
-
-// We have to define the actual devices somewhere. This is a stupid AMX requirement.
-DEFINE_DEVICE
-STUPID_AMX_REQUIREMENT1  = 33031:1:1
-STUPID_AMX_REQUIREMENT2  = 33031:2:1
-STUPID_AMX_REQUIREMENT3  = 33031:3:1
-STUPID_AMX_REQUIREMENT4  = 33031:4:1
-STUPID_AMX_REQUIREMENT5  = 33031:5:1
-STUPID_AMX_REQUIREMENT6  = 33031:6:1
-STUPID_AMX_REQUIREMENT7  = 33031:7:1
-STUPID_AMX_REQUIREMENT8  = 33031:8:1
-STUPID_AMX_REQUIREMENT9  = 33031:9:1
-STUPID_AMX_REQUIREMENT10 = 33031:10:1
-STUPID_AMX_REQUIREMENT11 = 33031:11:1
-STUPID_AMX_REQUIREMENT12 = 33031:12:1
 
 
 DEFINE_FUNCTION initAllDtvImpl()
@@ -126,7 +133,7 @@ DEFINE_FUNCTION dtvRelayChannel (integer dtvId, integer chan)
     }
 }
 
-DEFINE_FUNCTION handleHttpResponse (char msg[])
+DEFINE_FUNCTION handleHttpResponse (integer httpId, char msg[])
 {
     debug (DBG_MODULE, 8, "'got DirecTV response: ',msg")
 }
@@ -165,7 +172,8 @@ DEFINE_START
 	initAllDtvImpl()
 
 	// For some (AMX) reason, create_buffer must be called directly in DEFINE_START
-	{    integer httpId
+	{
+	    integer httpId
 	    for (httpId = 1; httpId <= length_array(gHttpLocalDv); httpId++)
 	    {
 	    	create_buffer gHttpLocalDv[httpId], gHttpImpl[httpId].mRecvBuf

@@ -9,6 +9,7 @@
 
 
 #include 'HttpConfig.axi'
+#include 'Base64.axi'
 
 
 DEFINE_TYPE
@@ -23,28 +24,46 @@ structure HttpImpl
 DEFINE_VARIABLE
 
 volatile HttpImpl	gHttpImpl[MAX_HTTP_SERVERS]
-volatile dev		gHttpLocalDv[MAX_HTTP_SERVERS]
+//volatile dev		gHttpLocalDv[MAX_HTTP_SERVERS]
 volatile char		crlf[] = {$0D,$0A}
 
 
 DEFINE_FUNCTION sendHttp (HttpConfig http, integer httpId, char msg[])
 {
-    ip_client_open (http.mDevLocal.port, http.mServerIpAddress, http.mServerPort, IP_TCP)
-    debug (DBG_MODULE, 8, "'sending HTTP message:',
-	  	                 gHttpImpl[httpId].mHtmlPrefix,msg,gHttpImpl[httpId].mHtmlSuffix")
-    send_string http.mDevLocal, "gHttpImpl[httpId].mHtmlPrefix,msg,gHttpImpl[httpId].mHtmlSuffix"
+    ip_client_open (gHttpLocalDv[httpId].port, http.mServerIpAddress, http.mServerPort, IP_TCP)
+    debug (DBG_MODULE, 8, 
+   	   "'sending HTTP message to ',http.mServerIpAddress,':',itoa(http.mServerPort),
+	    '[',itoa(httpId),']: ',
+	    gHttpImpl[httpId].mHtmlPrefix,msg,gHttpImpl[httpId].mHtmlSuffix")
+    send_string gHttpLocalDv[httpId],
+    		"gHttpImpl[httpId].mHtmlPrefix,msg,gHttpImpl[httpId].mHtmlSuffix"
 }
 
 DEFINE_FUNCTION initHttpImpl (integer httpId, HttpConfig http, char prefix[], char innerSuffix[])
 {
-    debug (DBG_MODULE, 1, "'Initializing HTTP interface: ',http.mServerIpAddress,':',itoa(http.mServerPort)")
+    char authStr[100]
+    debug (DBG_MODULE, 1, 
+    	   "'Initializing HTTP interface: ',http.mServerIpAddress,':',itoa(http.mServerPort)")
+    if (http.mServerUsername)
+    {
+	if (http.mServerPassword)
+	{
+	    authStr = "'Authorization: Basic ',
+	    	       sEncodeBase64("http.mServerUsername,':',http.mServerPassword"),crlf"
+	}
+	else
+	{
+	    authStr = "'Authorization: Basic ', sEncodeBase64(http.mServerUsername),crlf"
+	}
+    }
     gHttpImpl[httpId].mHtmlPrefix = prefix
     gHttpImpl[httpId].mHtmlSuffix = "innerSuffix,
-		 ' HTTP/1.0',crlf,
+		 ' HTTP/1.1',crlf,
 		 'Host: ',http.mServerIpAddress,':',itoa(http.mServerPort),crlf,
-		 'Connection: Keep-Alive',crlf,crlf"
+		 'Connection: keep-alive',crlf,
+		 authStr,
+		 crlf"
     gHttpImpl[httpId].mRecvBuf = ''
-    gHttpLocalDv[httpId] = http.mDevLocal
 }
 
 DEFINE_EVENT
@@ -58,7 +77,7 @@ DATA_EVENT[gHttpLocalDv]
 	httpId = get_last(gHttpLocalDv)
 	debug (DBG_MODULE, 9, "'received string from HTTP server ',itoa(httpId),': ',
 	      		      gHttpImpl[httpId].mRecvBuf")
-	handleHttpResponse (gHttpImpl[httpId].mRecvBuf)
+	handleHttpResponse (httpId, gHttpImpl[httpId].mRecvBuf)
 	gHttpImpl[httpId].mRecvBuf = ''
 	clear_buffer gHttpImpl[httpId].mRecvBuf
     }
@@ -71,7 +90,6 @@ DATA_EVENT[gHttpLocalDv]
 	debug (DBG_MODULE, 1, "'HTTP connection ',itoa(get_last(gHttpLocalDv)),' error: ',itoa(data.number)")
     }
 }
-
 
 
 #end_if // __HTTP_IMPL__

@@ -235,8 +235,16 @@
 <FilePathName>LutronConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NetBooterHttp_COMM</Identifier>
+<FilePathName>NetBooterHttp_COMM.axs</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Plex_Comm</Identifier>
 <FilePathName>Plex_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>PowerManagement_UI</Identifier>
+<FilePathName>PowerManagement_UI.axs</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="Include"><Identifier>PresetConfig</Identifier>

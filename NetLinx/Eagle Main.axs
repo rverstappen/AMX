@@ -15,6 +15,49 @@ dvSystem2Device6 = 5001:6:2
 dvSystem2Device7 = 5001:7:2
 dvSystem2Device8 = 5001:8:2
 
+// We have to define the actual virtual devices somewhere, not just in config 
+// files. This is a stupid AMX requirement. At least by declaring a virtual
+// device with port 1, the virtual devices for all the other ports wil work.
+// For example, declaring 33031:1:0 will also enable  33031:2:0, 33031:3:0,
+// etc. So, here we actually have 1,000s of virtual devices that we can use
+// in configuration files.  
+// BTW: I call this stupid because not only is this requirement inconvenient,
+// it is also inconsistent. It is fine to not explicitly declare 'local' 
+// socket devices, like 0:21:0, 0:22:0, etc. It's also OK not to define real
+// devices, like 5001:1:1 -- unless they are remote devices, like 5001:1:2.
+// All this implementation-dependent nonsense should really be under the
+// NetLinx hood.
+DEFINE_DEVICE
+STUPID_AMX_REQUIREMENT1  = 33021:1:0	// and 33021:2:0, 33021:3:0, etc.
+STUPID_AMX_REQUIREMENT2  = 33022:1:0	// and ...
+STUPID_AMX_REQUIREMENT3  = 33023:1:0	// and ...
+STUPID_AMX_REQUIREMENT4  = 33024:1:0
+STUPID_AMX_REQUIREMENT5  = 33025:1:0
+STUPID_AMX_REQUIREMENT6  = 33026:1:0
+STUPID_AMX_REQUIREMENT7  = 33027:1:0
+STUPID_AMX_REQUIREMENT8  = 33028:1:0
+STUPID_AMX_REQUIREMENT9  = 33029:1:0
+STUPID_AMX_REQUIREMENT10 = 33030:1:0
+STUPID_AMX_REQUIREMENT11 = 33031:1:0
+STUPID_AMX_REQUIREMENT12 = 33032:1:0
+STUPID_AMX_REQUIREMENT13 = 33033:1:0
+STUPID_AMX_REQUIREMENT14 = 33034:1:0
+STUPID_AMX_REQUIREMENT15 = 33035:1:0
+STUPID_AMX_REQUIREMENT16 = 33036:1:0
+STUPID_AMX_REQUIREMENT17 = 33037:1:0
+STUPID_AMX_REQUIREMENT18 = 33038:1:0
+STUPID_AMX_REQUIREMENT19 = 33039:1:0
+STUPID_AMX_REQUIREMENT20 = 33040:1:0
+STUPID_AMX_REQUIREMENT21 = 33041:1:0
+STUPID_AMX_REQUIREMENT22 = 33042:1:0
+STUPID_AMX_REQUIREMENT23 = 33043:1:0
+STUPID_AMX_REQUIREMENT24 = 33044:1:0
+STUPID_AMX_REQUIREMENT25 = 33045:1:0
+STUPID_AMX_REQUIREMENT26 = 33046:1:0
+STUPID_AMX_REQUIREMENT27 = 33047:1:0
+STUPID_AMX_REQUIREMENT28 = 33048:1:0
+STUPID_AMX_REQUIREMENT29 = 33049:1:0
+
 // Virtual A/V devices
 vdvItunes		= 33022:1:0
 vdvWeatherStatus	= 33023:1:0	// various stats sent to NetLinx channels
@@ -60,6 +103,8 @@ dev	dvAllRelays[] = { 5001:8:1, 1021:1:1, 1022:1:1 }
 
 char	presetConfigFile[] = 'Presets.cfg'
 char	dmxConfigFile[] = 'Dmx.cfg'
+char	netBooterConfigFile[] = 'NetBooter.cfg'
+char	powerManConfigFile[] = 'Power.cfg'
 
 integer TP_COUNT = 7
 
@@ -77,6 +122,8 @@ DEFINE_MODULE 'Hvac_ViewStat' hvacVst (hvacConfigFile, tpConfigFile)
 //DEFINE_MODULE 'Automation' automat (automationConfigFile)
 DEFINE_MODULE 'IpControlledDevices_Comm' ipDevices()
 DEFINE_MODULE 'Dmx' dmx(dmxConfigFile, tpConfigFile)
+DEFINE_MODULE 'NetBooterHttp_Comm' netBooter(netBooterConfigFile)
+DEFINE_MODULE 'PowerManagement_UI' powerMan(powerManConfigFile, tpConfigFile)
 
 
 DEFINE_START

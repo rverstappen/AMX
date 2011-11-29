@@ -91,8 +91,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gDtvs[gThisItem].mName = propValue
 	case 'dev-control':
 	    parseDev (gHttpCfgs[gThisItem].mDevControl, propValue)
-	case 'dev-local':
-	    parseDev (gHttpCfgs[gThisItem].mDevLocal, propValue)
+//	case 'dev-local':
+//	    parseDev (gHttpCfgs[gThisItem].mDevLocal, propValue)
 	case 'server-ip-address':
 	    gHttpCfgs[gThisItem].mServerIpAddress = propValue
 	case 'server-port':

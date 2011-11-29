@@ -18,8 +18,10 @@ structure HttpConfig
 {
     dev		mDevControl		// Device for AMX internal control
     dev		mDevLocal		// For socket connection
-    char	mServerIpAddress[16]
+    char	mServerIpAddress[50]
     integer	mServerPort
+    char	mServerUsername[50]
+    char	mServerPassword[50]
 }
 
 DEFINE_FUNCTION setHttpDeviceList (dev dvControls[], HttpConfig httpCfgs[])
@@ -27,11 +29,9 @@ DEFINE_FUNCTION setHttpDeviceList (dev dvControls[], HttpConfig httpCfgs[])
     integer count
     count = length_array(httpCfgs)
     set_length_array (dvControls, count)
-debug('HTTP',9,"'count=',itoa(count)")
     for (; count > 0; count--)
     {
 	dvControls[count] = httpCfgs[count].mDevControl
-debug('HTTP',9,"'set dev=',devtoa(dvControls[count])")
     }
 }
 

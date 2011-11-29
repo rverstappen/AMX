@@ -1,5 +1,27 @@
 MODULE_NAME='Plex_Comm' (char configFile[])
 
+// We also have to define local devices somewhere in order to receive data back from
+// HTTP servers. We will use these in order, one per HTTP server.
+DEFINE_CONSTANT
+STUPID_AMX_REQUIREMENT11 = 0:70:0
+STUPID_AMX_REQUIREMENT12 = 0:71:0
+STUPID_AMX_REQUIREMENT13 = 0:72:0
+STUPID_AMX_REQUIREMENT14 = 0:73:0
+STUPID_AMX_REQUIREMENT15 = 0:74:0
+STUPID_AMX_REQUIREMENT16 = 0:75:0
+STUPID_AMX_REQUIREMENT17 = 0:76:0
+STUPID_AMX_REQUIREMENT18 = 0:77:0
+STUPID_AMX_REQUIREMENT19 = 0:78:0
+STUPID_AMX_REQUIREMENT20 = 0:79:0
+
+DEFINE_VARIABLE
+// This needs to be defined before the inclusion of HttpImpl.axi:
+volatile dev gHttpLocalDv [] = { 
+    STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
+    STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
+    STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
+    STUPID_AMX_REQUIREMENT20 }
+
 DEFINE_VARIABLE
 volatile char	DBG_MODULE[] = 'Plex'
 
@@ -21,15 +43,17 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 11-20
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 21-30
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 31-40
-    {''},{''},{''},{''},				// 41-44
+    {''},{''},{''},					// 41-43
+    {'navigation/contextMenu'},				// 44
     {'navigation/moveUp'},				// 45
     {'navigation/moveDown'},				// 46
     {'navigation/moveLeft'},				// 47
     {'navigation/moveRight'},				// 48
     {'navigation/select'},				// 49
     {'navigation/back'},				// 50
-    {'navigation/contextMenu'},				// 51
-    {''},{''},{''},{''},{''},{''},{''},{''},{''},	// 52-60
+    {''},{''},{''},{''},				// 51-54
+    {'navigation/toggleOSD'},				// 55
+    {''},{''},{''},{''},{''},				// 56-60
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 61-70
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 71-80
     {'playback/stepForward'},				// 81
@@ -66,16 +90,6 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
 volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]
 
 
-// We have to define the actual devices somewhere. This is a stupid AMX requirement.
-DEFINE_DEVICE
-STUPID_AMX_REQUIREMENT1 = 33021:1:1
-STUPID_AMX_REQUIREMENT2 = 33021:2:1
-STUPID_AMX_REQUIREMENT3 = 33021:3:1
-STUPID_AMX_REQUIREMENT4 = 33021:4:1
-STUPID_AMX_REQUIREMENT5 = 33021:5:1
-STUPID_AMX_REQUIREMENT6 = 33021:6:1
-
-
 DEFINE_FUNCTION initAllPlexImpl()
 {
     integer httpId
@@ -97,7 +111,7 @@ DEFINE_FUNCTION plexRelayChannel (integer plexId, integer chan)
     }
 }
 
-DEFINE_FUNCTION handleHttpResponse (char msg[])
+DEFINE_FUNCTION handleHttpResponse (integer httpId, char msg[])
 {
     debug (DBG_MODULE, 8, "'got Plex response: ',msg")
 }
