@@ -16,7 +16,7 @@ STUPID_AMX_REQUIREMENT20 = 0:79:0
 
 DEFINE_VARIABLE
 // This needs to be defined before the inclusion of HttpImpl.axi:
-volatile dev gHttpLocalDv [] = { 
+volatile dev gHttpLocalDvPool [] = { 
     STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
     STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
     STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
@@ -51,9 +51,7 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
     {'navigation/moveRight'},				// 48
     {'navigation/select'},				// 49
     {'navigation/back'},				// 50
-    {''},{''},{''},{''},				// 51-54
-    {'navigation/toggleOSD'},				// 55
-    {''},{''},{''},{''},{''},				// 56-60
+    {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 51-60
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 61-70
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 71-80
     {'playback/stepForward'},				// 81
@@ -62,7 +60,8 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
     {'playback/bigStepBack'},				// 84
     {''},{''},{''},{''},{''},{''},			// 85-90
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 91-100
-    {''},{''},{''},{''},{''},				// 101-105
+    {'navigation/toggleOSD'},				// 101
+    {''},{''},{''},{''},				// 102-105
     {'navigation/pageUp'},				// 106
     {'navigation/pageDown'},				// 107
     {''},{''},{''},					// 108-110
@@ -147,14 +146,6 @@ DEFINE_START
 	debug (DBG_MODULE, 1, "'Plex module is enabled.'")
 	setHttpDeviceList (gDvHttpControl, gHttpCfgs)
 	initAllPlexImpl()
-
-	// For some (AMX) reason, create_buffer must be called directly in DEFINE_START
-	{    integer httpId
-	    for (httpId = 1; httpId <= length_array(gHttpLocalDv); httpId++)
-	    {
-	    	create_buffer gHttpLocalDv[httpId], gHttpImpl[httpId].mRecvBuf
-	    }
-	}
     }
     else
     {

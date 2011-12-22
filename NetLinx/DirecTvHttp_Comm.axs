@@ -18,7 +18,7 @@ STUPID_AMX_REQUIREMENT20 = 0:39:0
 
 DEFINE_VARIABLE
 // This needs to be defined before the inclusion of HttpImpl.axi:
-volatile dev gHttpLocalDv [] = { 
+volatile dev gHttpLocalDvPool [] = { 
     STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
     STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
     STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
@@ -170,15 +170,6 @@ DEFINE_START
 	debug (DBG_MODULE, 1, "'DirecTV module is enabled.'")
 	setHttpDeviceList (gDvHttpControl, gHttpCfgs)
 	initAllDtvImpl()
-
-	// For some (AMX) reason, create_buffer must be called directly in DEFINE_START
-	{
-	    integer httpId
-	    for (httpId = 1; httpId <= length_array(gHttpLocalDv); httpId++)
-	    {
-	    	create_buffer gHttpLocalDv[httpId], gHttpImpl[httpId].mRecvBuf
-	    }
-	}
     }
     else
     {

@@ -7,8 +7,7 @@ MODULE_NAME='NetBooterHttp_Comm' (char configFile[])
 // etc. So, here we actually have 1,000s of virtual devices that we can use
 // in configuration files.  
 // BTW: I call this stupid because not only is this requirement inconvenient,
-// it is also inconsistent. It is fine to not explicitly declare 'local' 
-// socket devices, like 0:21:0, 0:22:0, etc. It's also OK not to define real
+// it is also inconsistent. It's OK not to define real
 // devices, like 5001:1:1 -- unless they are remote devices, like 5001:1:2.
 // All this implementation-dependent nonsense should really be under the
 // NetLinx hood.
@@ -40,11 +39,11 @@ STUPID_AMX_REQUIREMENT20 = 0:69:0
 
 DEFINE_VARIABLE
 // This needs to be defined before the inclusion of HttpImpl.axi:
-volatile dev gHttpLocalDv [] = { 
-    STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
+volatile dev gHttpLocalDvPool [] = { 
+    STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
     STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
     STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
-    STUPID_AMX_REQUIREMENT20, STUPID_AMX_REQUIREMENT11 }
+    STUPID_AMX_REQUIREMENT20 }
 
 DEFINE_VARIABLE
 volatile char	DBG_MODULE[] = 'netBooter'
@@ -238,17 +237,9 @@ DEFINE_START
     if (gGeneral.mEnabled)
     {
 	debug (DBG_MODULE, 1, "'NetBooter module is enabled.'")
-//	setNetBooterDeviceList (gDvControl, gNetBooters, gHttpCfgs)
 	setNetBooterDeviceList()
 	initAllNetBooterImpl()
-
-	// For some (AMX) reason, create_buffer must be called directly in DEFINE_START
-	{    integer httpId
-	    for (httpId = 1; httpId <= length_array(gHttpLocalDv); httpId++)
-	    {
-	    	create_buffer gHttpLocalDv[httpId], gHttpImpl[httpId].mRecvBuf
-	    }
-	}
+	USE_HTTP_QUEUE = 1
     }
     else
     {

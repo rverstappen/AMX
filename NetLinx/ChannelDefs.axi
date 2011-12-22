@@ -70,7 +70,7 @@ integer CHAN_MENU_DOWN		= 46	// Momentary: Navigate down
 integer CHAN_MENU_LEFT		= 47	// Momentary: Navigate left
 integer CHAN_MENU_RIGHT		= 48	// Momentary: Navigate right
 integer CHAN_MENU_SELECT	= 49	// Momentary: Select menu item
-integer CHAN_MENU_EXIT		= 50	// Momentary: Cancel/return
+integer CHAN_MENU_EXIT		= 50	// Momentary: Cancel/return/back
 integer CHAN_MENU_UP_LT         = 51    // Momentary: Navigate up left button
 integer CHAN_MENU_UP_RT         = 52    // Momentary: Navigate up right button
 integer CHAN_MENU_DOWN_LT       = 53    // Momentary: Navigate down left button
@@ -94,6 +94,7 @@ integer CHAN_SHORT_SKIP_FORWARD  = 81    // Momentary: Short skip forward
 integer CHAN_SHORT_SKIP_BACKWARD = 82    // Momentary: Instant replay
 integer CHAN_LONG_SKIP_FORWARD   = 83    // Momentary: Long skip forward
 integer CHAN_LONG_SKIP_BACKWARD  = 84    // Momentary: Long instant replay
+integer CHAN_PLAY_PAUSE_COMBO	 = 85	 // Momentary: Play/Pause combo
 
 integer CHAN_DASH		= 96	// Momentary: '-'
 integer CHAN_PLUS_100           = 97    // Momentary: Press button plus 100

@@ -88,6 +88,7 @@ volatile integer gIgnoreSliderLevelEvents[ACFG_MAX_TP_CONTROLLERS]
 #include 'AvCtlInputSelect.axi'
 #include 'AvCtlInputControl.axi'
 #include 'AvCtlSwitchControl.axi'
+#include 'AvCtlPower.axi'
 
 (*
 DEFINE_EVENT
@@ -1551,14 +1552,11 @@ wait 11
     readConfigFile (DBG_MODULE, configFile)
     set_length_array (gAllInputs,  gMaxInput)
     set_length_array (gAllOutputs, gMaxOutput)
+    set_length_array (gOutputPowerStatus, gMaxOutput)
     calcInputsForOutputs ()
     rebuild_event()
     create_buffer gGeneral.mAudioSwitcher, bRecvBufAudio
     create_buffer gGeneral.mVideoSwitcher, bRecvBufVideo
-    wait 111 // 11.1 seconds
-    {
-	checkSwitches()
-    }
 }
 
 wait 377 // 37.7 seconds after startup

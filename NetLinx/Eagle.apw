@@ -263,6 +263,10 @@
 <FilePathName>RelayControl.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Roku_Comm</Identifier>
+<FilePathName>Roku_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="None" Type="Include"><Identifier>TouchPanel</Identifier>
 <FilePathName>TouchPanel.axi</FilePathName>
 <Comments></Comments>

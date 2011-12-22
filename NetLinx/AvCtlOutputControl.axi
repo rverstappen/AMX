@@ -41,17 +41,14 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 	    {
 		setOutputPowerStatus (outputId, POWER_STATUS_ON, 1, 1)
 	    }
-	    break
 	}
 	case CHAN_POWER_ON:
 	{
 	    setOutputPowerStatus (outputId, POWER_STATUS_ON, 1, 1)
-	    break
 	}
 	case CHAN_POWER_OFF:
 	{
 	    setOutputPowerStatus (outputId, POWER_STATUS_OFF, 1, 1)
-	    break
 	}
 	case CHAN_POWER_SLAVE_TOGGLE:
 	{
@@ -70,7 +67,6 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 		    setOutputPowerStatus (slaveTvId, POWER_STATUS_ON, 1, 0)
 		}
 	    }
-	    break
 	}
 	case CHAN_POWER_SLAVE_ON:
 	{
@@ -82,7 +78,6 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 		debug (DBG_MODULE, 9, "'slave power ON: ',itoa(slaveTvId)")
 		setOutputPowerStatus (slaveTvId, POWER_STATUS_ON, 1, 0)
 	    }
-	    break
 	}
 	case CHAN_POWER_SLAVE_OFF:
 	{
@@ -94,7 +89,6 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_POWER_CHANNELS]
 		debug (DBG_MODULE, 9, "'slave power OFF: ',itoa(slaveTvId)")
 		setOutputPowerStatus (slaveTvId, POWER_STATUS_OFF, 1, 0)
 	    }
-	    break
 	}
 	default:
 	{
@@ -163,7 +157,7 @@ debug (DBG_MODULE,9,"'Slave Auto On 2: ',itoa(slaveAutoOn)")
 		}
 	    }
 	}
-	break
+	checkPowerUp()
     }
 
     case POWER_STATUS_OFF:
@@ -201,7 +195,7 @@ debug (DBG_MODULE,9,"'Slave Auto On 2: ',itoa(slaveAutoOn)")
 	    gOutputPowerStatus[slaveTvId] = POWER_STATUS_OFF
 	}
 	resetOutputVolumeDefault (outputId)
-	break
+	checkPowerDown()
     }
 
     default: {}
@@ -379,7 +373,6 @@ DEFINE_FUNCTION doVolumeControlDiscrete (integer tpId, integer chan)
 	}
 	debug (DBG_MODULE, 7, "'increasing volume to ',itoa(gOutputVolume[outputId])")
 	setAbsoluteVolume (outputId)
-	break
     }
 
     case CHAN_VOL_DOWN:
@@ -397,7 +390,6 @@ DEFINE_FUNCTION doVolumeControlDiscrete (integer tpId, integer chan)
 	}
 	debug (DBG_MODULE, 7, "'decreasing volume to ',itoa(gOutputVolume[outputId])")
 	setAbsoluteVolume (outputId)
-	break
     }
 
     case CHAN_VOL_MUTE:
@@ -417,7 +409,6 @@ DEFINE_FUNCTION doVolumeControlDiscrete (integer tpId, integer chan)
 	debug (DBG_MODULE, 7, "'decreasing volume to ',itoa(gOutputVolume[outputId])")
 	setAbsoluteVolume (outputId)
 *)
-	break
     }
 
     default:
@@ -607,4 +598,35 @@ DEFINE_FUNCTION updateTpOutputControls (integer tpId)
 	    send_command dvTpOutputControl[tpId], "'^SHO-1.500,0'"
 	}
     }    
+}
+
+DEFINE_FUNCTION checkPowerUp()
+{
+    avCancelPowerDownTimer()
+    avEnsurePowerOn()
+}
+
+DEFINE_FUNCTION checkPowerDown()
+{
+    if (allOutputDevicesOff())
+    {
+	debug (DBG_MODULE, 2, "'All A/V output devices are OFF'")
+	avStartPowerDownTimer()
+    }
+    else
+    {
+	debug (DBG_MODULE, 9, "'Some A/V output devices are ON'")
+    }
+}
+
+DEFINE_FUNCTION integer allOutputDevicesOff()
+{
+    integer outputId
+debug(DBG_MODULE,9,"'Check gOutputPowerStatus length: ',itoa(length_array(gOutputPowerStatus))")
+    for (outputId = length_array(gOutputPowerStatus); outputId > 0; outputId--)
+    {
+	if (gOutputPowerStatus[outputId] != POWER_STATUS_OFF)
+	    return 0
+    }
+    return 1
 }

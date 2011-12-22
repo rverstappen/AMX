@@ -61,13 +61,8 @@ STUPID_AMX_REQUIREMENT29 = 33049:1:0
 // Virtual A/V devices
 vdvItunes		= 33022:1:0
 vdvWeatherStatus	= 33023:1:0	// various stats sent to NetLinx channels
-//vdvLutronConnect	= 33024:1:0
 dvItunesLocal		= 0:22:0
 dvWeatherLocal		= 0:23:0
-//dvDtv1Local		= 0:24:0
-//dvDtv2Local		= 0:25:0
-//dvDtv3Local		= 0:26:0
-//dvLutronLocal		= 0:27:0
 
 // Virtual devices for inter-module communications
 vdvAvInputSelect	= 33051:TP_PORT_AV_INPUT_SELECT:0
@@ -85,6 +80,7 @@ char    zoneConfigFile[] = 'ZoneConfig.cfg'
 char    lutronConfigFile1[] = 'Lutron.cfg'
 char    lutronConfigFile2[] = 'LutronAuto.cfg'
 char	plexConfigFile[]    = 'Plex.cfg'
+char	rokuConfigFile[]    = 'Roku.cfg'
 char	dtvConfigFile[]    = 'DirecTV.cfg'
 
 char    gItunesHost[] = '192.168.188.12'
@@ -109,7 +105,8 @@ char	powerManConfigFile[] = 'Power.cfg'
 integer TP_COUNT = 7
 
 DEFINE_MODULE 'AvControl' avCtl (avConfigFile,tpConfigFile,vdvAvOutputSelect,vdvZoneSelect)
-DEFINE_MODULE 'Plex_Comm' Plex (plexConfigFile)
+DEFINE_MODULE 'Plex_Comm' plex (plexConfigFile)
+DEFINE_MODULE 'Roku_Comm' roku (rokuConfigFile)
 DEFINE_MODULE 'ITunesHttp_Comm' iTunesHttp (vdvItunes,dvItunesLocal,gItunesHost,gItunesPort, TP_COUNT)
 DEFINE_MODULE 'DirecTvHttp_Comm' dtvHttp (dtvConfigFile)
 DEFINE_MODULE 'ZoneControl' zoneConn (zoneConfigFile,TP_COUNT,vdvZoneSelect,vdvAvOutputSelect)

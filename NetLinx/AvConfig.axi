@@ -71,11 +71,16 @@ char AVCFG_DEFAULT_CHANNEL_MASK[CHAN_MAX_CHANNELS] =
 }
 
 AVCFG_MAX_SUPPORTED_CHANNEL_STRLEN	= 1024
+AVCFG_MAX_GLOBAL_POWER_DEVS		= 16
 
-AVCFG_MUTE_STATE_OFF  = 0
-AVCFG_MUTE_STATE_ON   = 1
-AVCFG_POWER_STATE_OFF = 0
-AVCFG_POWER_STATE_ON  = 1
+AVCFG_MUTE_STATE_UNKNOWN	= 0
+AVCFG_MUTE_STATE_OFF		= 1
+AVCFG_MUTE_STATE_ON		= 2
+AVCFG_POWER_STATE_UNKNOWN	= 0
+AVCFG_POWER_STATE_OFF		= 1
+AVCFG_POWER_STATE_ON		= 2
+AVCFG_POWER_STATE_MIXED		= 3	// For a group of devices, some on and some off
+AVCFG_POWER_STATE_POWERING_UP	= 4	// We just switched something on
 
 DEFINE_VARIABLE
 
@@ -205,11 +210,14 @@ structure SupportedChannels
 
 DEFINE_VARIABLE
 
-volatile AvGeneral gGeneral
-volatile AvInput   gAllInputs[AVCFG_MAX_INPUTS]
-volatile AvOutput  gAllOutputs[AVCFG_MAX_OUTPUTS]
-volatile AvTpInfo  gTpInfo[TP_MAX_PANELS]
+volatile AvGeneral	gGeneral
+volatile AvInput	gAllInputs[AVCFG_MAX_INPUTS]
+volatile AvOutput	gAllOutputs[AVCFG_MAX_OUTPUTS]
+volatile AvTpInfo	gTpInfo[TP_MAX_PANELS]
 volatile SupportedChannels  suppChannels[AVCFG_MAX_OUTPUTS]
+
+volatile dev		gGlobalPowerDevs[AVCFG_MAX_GLOBAL_POWER_DEVS]
+volatile integer	gGlobalPowerTimeout	// seconds
 
 volatile integer gThisItem	= 0
 volatile integer gMaxInput	= 0
@@ -289,6 +297,10 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    parseIntegerList (gGeneral.mTpDefaults.mAudioOutputListOrder, propValue)
 	case 'video-output-list-order':
 	    parseIntegerList (gGeneral.mTpDefaults.mVideoOutputListOrder, propValue)
+	case 'global-power-control-devs':
+	    parseDevList (gGlobalPowerDevs, propValue)
+	case 'global-power-auto-shutdown-timeout':
+	    gGlobalPowerTimeout = atoi(propValue)
 	} // switch
     } // case READING_GENERAL
 

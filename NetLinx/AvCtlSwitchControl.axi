@@ -204,6 +204,11 @@ DATA_EVENT[gGeneral.mAudioSwitcher]
 	send_string gGeneral.mAudioSwitcher,"'HSOFF'"
 	send_string gGeneral.mAudioSwitcher,"'XOFF'"
 	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') is online'")
+        wait 39 // 3.9 seconds after online event
+	{
+	    checkAudioSwitchMatrix()
+	    wait 39 { checkAudioSwitchVolumeLevels() }
+	}
     }
     OFFLINE:
     {
@@ -237,6 +242,10 @@ DATA_EVENT[gGeneral.mVideoSwitcher]
     ONLINE:
     {
 	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') is online'")
+        wait 29 // 2.9 seconds after online event
+	{
+	    checkVideoSwitchMatrix()
+	}
     }
     OFFLINE:
     {
@@ -550,4 +559,3 @@ wait 35731 // every 59 minutes, 33.1 seconds (somewhat random, so that we probab
 {
     checkSwitches()
 }
-
