@@ -1,0 +1,4367 @@
+<?xml version="1.0"?>
+<HWProject>
+  <ProjectName>473 Eagle</ProjectName>
+  <FileName>Eagle.HDF</FileName>
+  <AppVer>1.4902</AppVer>
+  <FileType>Minimum</FileType>
+  <XMLVer>2.1</XMLVer>
+  <ExportDate>01/06/2012</ExportDate>
+  <ExportTime>18:38</ExportTime>
+  <Area>
+    <Name>-0: Main Level</Name>
+    <Id>1</Id>
+    <Room>
+      <Name>Dining</Name>
+      <Id>16</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Dining Slider</Name>
+          <Id>2</Id>
+          <Devices>
+            <Device>
+              <Id>2</Id>
+              <Address>1:6:5</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Dining Slider</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Dining</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Living</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Shades</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Kitchen</Name>
+      <Id>18</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Kitchen Slider</Name>
+          <Id>10</Id>
+          <Devices>
+            <Device>
+              <Id>10</Id>
+              <Address>1:6:6</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Kitchen Slider</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Kitchen</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Dining</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Shades</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Kitchen Deck Door</Name>
+          <Id>18</Id>
+          <Devices>
+            <Device>
+              <Id>18</Id>
+              <Address>1:6:7</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Kitchen Deck Dr</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Kitchen</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Kitchen to Mudroom</Name>
+          <Id>19</Id>
+          <Devices/>
+        </ControlStation>
+        <ControlStation>
+          <Name>Range Top Island</Name>
+          <Id>26</Id>
+          <Devices>
+            <Device>
+              <Id>27</Id>
+              <Address>1:6:8</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Stovetop</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Range/Pots</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Kitchen</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Dining</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Living</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>43</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Entry</Name>
+      <Id>19</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Front Door</Name>
+          <Id>1</Id>
+          <Devices>
+            <Device>
+              <Id>1</Id>
+              <Address>1:6:1</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Front Door</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Outside</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Entry</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Off</Name>
+                  <Type>Conditional</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Exterior</Name>
+      <Id>20</Id>
+      <Outputs/>
+      <Inputs/>
+    </Room>
+    <Room>
+      <Name>Stairs</Name>
+      <Id>21</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Main Level to Bar</Name>
+          <Id>9</Id>
+          <Devices>
+            <Device>
+              <Id>9</Id>
+              <Address>1:6:2</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Main-Bar Stair</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Stairs</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Office</Name>
+      <Id>29</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>41</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Powder Room</Name>
+      <Id>30</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>42</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Garage</Name>
+      <Id>31</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Garage Entry</Name>
+          <Id>11</Id>
+          <Devices>
+            <Device>
+              <Id>11</Id>
+              <Address>1:6:10</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Garage Entry</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Garage</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Mudroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Guests In</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>At Home</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>44</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Living Room</Name>
+      <Id>37</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Outside Office</Name>
+          <Id>17</Id>
+          <Devices>
+            <Device>
+              <Id>17</Id>
+              <Address>1:6:3</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Outside Office</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Stairs</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Living</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Fan</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Living Slider</Name>
+          <Id>25</Id>
+          <Devices>
+            <Device>
+              <Id>26</Id>
+              <Address>1:6:4</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Living Rm Slider</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Living</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Fan</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Shades</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Main Lvl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Main Deck</Name>
+      <Id>39</Id>
+      <Outputs/>
+      <Inputs/>
+    </Room>
+  </Area>
+  <Area>
+    <Name>-2: Theater Level</Name>
+    <Id>5</Id>
+    <Room>
+      <Name>Theater</Name>
+      <Id>4</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Theater Bar</Name>
+          <Id>15</Id>
+          <Devices>
+            <Device>
+              <Id>15</Id>
+              <Address>1:6:26</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Theater Bar</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Theater Door to Ext.</Name>
+          <Id>22</Id>
+          <Devices>
+            <Device>
+              <Id>22</Id>
+              <Address>1:6:23</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Theater Door</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Exterior</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Theater</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Theater Entry</Name>
+          <Id>33</Id>
+          <Devices>
+            <Device>
+              <Id>35</Id>
+              <Address>1:6:31</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Theater Entry</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Theater</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Out Theater Door</Name>
+          <Id>35</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Wine Room</Name>
+      <Id>15</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Stairs from Bar</Name>
+          <Id>8</Id>
+          <Devices/>
+        </ControlStation>
+        <ControlStation>
+          <Name>Wine Room Entry</Name>
+          <Id>23</Id>
+          <Devices>
+            <Device>
+              <Id>23</Id>
+              <Address>1:6:27</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Wine Room</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Wine Cellar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Theater</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Scenes</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Mech.</Name>
+      <Id>24</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Panel 1</Name>
+          <Id>11</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Theater Bath</Name>
+      <Id>25</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Bath</Name>
+          <Id>36</Id>
+          <Devices/>
+        </ControlStation>
+        <ControlStation>
+          <Name>Mech Room</Name>
+          <Id>59</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+  </Area>
+  <Area>
+    <Name>-1: Bar Level</Name>
+    <Id>6</Id>
+    <Room>
+      <Name>Guest Bed</Name>
+      <Id>8</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Bed Left</Name>
+          <Id>6</Id>
+          <Devices>
+            <Device>
+              <Id>6</Id>
+              <Address>1:6:21</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Guest Bed Left</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bed</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Room Off</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Deck Door</Name>
+          <Id>14</Id>
+          <Devices>
+            <Device>
+              <Id>14</Id>
+              <Address>1:6:22</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Hall By Guest</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Button 3</Name>
+                  <Type>Advanced Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Bar Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Entry</Name>
+          <Id>21</Id>
+          <Devices>
+            <Device>
+              <Id>21</Id>
+              <Address>1:6:19</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Guest Bed Entry</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Hall</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Bed Right</Name>
+          <Id>29</Id>
+          <Devices>
+            <Device>
+              <Id>31</Id>
+              <Address>1:6:20</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Guest Bed Right</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bed</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Room Off</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Bar Deck</Name>
+      <Id>9</Id>
+      <Outputs/>
+      <Inputs/>
+    </Room>
+    <Room>
+      <Name>Spa Hallway</Name>
+      <Id>10</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Hall Near Bathroom</Name>
+          <Id>5</Id>
+          <Devices>
+            <Device>
+              <Id>5</Id>
+              <Address>1:6:17</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Hall By Spa Bath</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Hall</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Decks</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Room Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Hall</Name>
+          <Id>13</Id>
+          <Devices>
+            <Device>
+              <Id>13</Id>
+              <Address>1:6:18</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Guest Hall</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Decks</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Hall</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Stairs to Theater</Name>
+      <Id>12</Id>
+      <Outputs/>
+      <Inputs/>
+    </Room>
+    <Room>
+      <Name>Game Room</Name>
+      <Id>13</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Behind Bar</Name>
+          <Id>7</Id>
+          <Devices>
+            <Device>
+              <Id>7</Id>
+              <Address>1:6:25</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Behind Bar</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Mirror</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Pool Tbl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Pinball</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Stairs to Main Level</Name>
+          <Id>16</Id>
+          <Devices>
+            <Device>
+              <Id>16</Id>
+              <Address>1:6:29</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Bar-Main Stair</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Stairs</Name>
+                  <Type>Default Dual Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Bar</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Pool Tbl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Pinball</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Stairs to Theater</Name>
+          <Id>24</Id>
+          <Devices>
+            <Device>
+              <Id>24</Id>
+              <Address>1:6:30</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Bar-Theater St</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Stairs</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Nook</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Pool Tbl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Pinball</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>All Off</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Deck Slider</Name>
+          <Id>30</Id>
+          <Devices>
+            <Device>
+              <Id>32</Id>
+              <Address>1:6:24</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Bar Deck Slider</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Deck</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Nook</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Pool Tbl</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Pinball</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Bar</Name>
+      <Id>14</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>54</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Guest Bath</Name>
+      <Id>26</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>38</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Game Bath</Name>
+      <Id>28</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>40</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+  </Area>
+  <Area>
+    <Name>+1: Top Level</Name>
+    <Id>7</Id>
+    <Room>
+      <Name>Master Bath</Name>
+      <Id>22</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>M.Bath Left</Name>
+          <Id>4</Id>
+          <Devices>
+            <Device>
+              <Id>4</Id>
+              <Address>1:6:13</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Master Bath Left</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Brighter</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>M.Bath Right</Name>
+          <Id>27</Id>
+          <Devices>
+            <Device>
+              <Id>28</Id>
+              <Address>1:6:12</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Master Bath Rght</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Brighter</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>46</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Master Bedroom</Name>
+      <Id>23</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>M.Bed Right</Name>
+          <Id>12</Id>
+          <Devices>
+            <Device>
+              <Id>12</Id>
+              <Address>1:6:14</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Master Bed Right</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bedlight</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Fan</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Button 5</Name>
+                  <Type>Conditional</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Off</Name>
+                  <Type>Conditional</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>M.Bed Left</Name>
+          <Id>20</Id>
+          <Devices>
+            <Device>
+              <Id>20</Id>
+              <Address>1:6:15</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Master Bed Left</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Bedlight</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Bathroom</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Fan</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Off</Name>
+                  <Type>Conditional</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>M.Bed Entry</Name>
+          <Id>28</Id>
+          <Devices>
+            <Device>
+              <Id>30</Id>
+              <Address>1:6:16</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Master Bed Entry</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Room</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Hall</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>3</Number>
+                  <Name>Fan</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>Music</Name>
+                  <Type>Advanced Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Off</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>52</Id>
+          <Devices/>
+        </ControlStation>
+        <ControlStation>
+          <Name>Stairs</Name>
+          <Id>53</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Shared Bath</Name>
+      <Id>32</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>47</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Hallway</Name>
+      <Id>33</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Top of Stairs</Name>
+          <Id>34</Id>
+          <Devices>
+            <Device>
+              <Id>36</Id>
+              <Address>1:6:32</Address>
+              <Model>ST-6BRL-I</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>Top of Stairs</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Exercise</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Hall &amp;amp; Stairs</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>True</Double-Tap>
+                    <Hold>True</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>4</Number>
+                  <Name>Skylite</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>5</Number>
+                  <Name>B1 SHD</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>B2 SHD</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>5</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>23</Number>
+                  <Name>Button 23</Name>
+                  <Type>Master Raise/Lower - Lower</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>LOWER BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>Button 24</Name>
+                  <Type>Master Raise/Lower - Raise</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>True</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>3</Column>
+                    <Height>1</Height>
+                    <Width>1</Width>
+                    <Type>RAISE BUTTON</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>48</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Bed 1</Name>
+      <Id>34</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>49</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Bed 2</Name>
+      <Id>35</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>50</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+    <Room>
+      <Name>Exercise</Name>
+      <Id>38</Id>
+      <Outputs/>
+      <Inputs/>
+    </Room>
+    <Room>
+      <Name>Laundry</Name>
+      <Id>40</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Control Station 1</Name>
+          <Id>51</Id>
+          <Devices/>
+        </ControlStation>
+      </Inputs>
+    </Room>
+  </Area>
+  <Area>
+    <Name>Virtual</Name>
+    <Id>8</Id>
+    <Room>
+      <Name>AMX</Name>
+      <Id>41</Id>
+      <Outputs/>
+      <Inputs>
+        <ControlStation>
+          <Name>Favorite Controls</Name>
+          <Id>55</Id>
+          <Devices>
+            <Device>
+              <Id>116</Id>
+              <Address>1:6:9</Address>
+              <Model>Phantom</Model>
+              <GangPosition>1</GangPosition>
+              <Type>KEYPAD</Type>
+              <WebEnabled>True</WebEnabled>
+              <WebKeypadName>AMX</WebKeypadName>
+              <Buttons>
+                <Button>
+                  <Number>1</Number>
+                  <Name>Arrive Home</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>4</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>2</Number>
+                  <Name>Leave Home</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>4</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>6</Number>
+                  <Name>Prog Dinner</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>0</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>7</Number>
+                  <Name>Prog Movie</Name>
+                  <Type>Global Manual Sequence Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>8</Number>
+                  <Name>Liv Shades</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>2</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>9</Number>
+                  <Name>All Shades</Name>
+                  <Type>Global Shade Button</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>3</Row>
+                    <Column>2</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>12</Number>
+                  <Name>Liv Rm Fan</Name>
+                  <Type>Default Single Action</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>1</Row>
+                    <Column>0</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>15</Number>
+                  <Name>Vacation</Name>
+                  <Type>Default Toggle</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>4</Row>
+                    <Column>0</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITH LED</Type>
+                  </DisplayProperties>
+                </Button>
+                <Button>
+                  <Number>24</Number>
+                  <Name>All Off</Name>
+                  <Type>Conditional</Type>
+                  <Actions>
+                    <Press>True</Press>
+                    <Release>False</Release>
+                    <Double-Tap>False</Double-Tap>
+                    <Hold>False</Hold>
+                  </Actions>
+                  <DisplayProperties>
+                    <Row>6</Row>
+                    <Column>0</Column>
+                    <Height>1</Height>
+                    <Width>2</Width>
+                    <Type>BUTTON WITHOUT LED</Type>
+                  </DisplayProperties>
+                </Button>
+              </Buttons>
+            </Device>
+          </Devices>
+        </ControlStation>
+      </Inputs>
+    </Room>
+  </Area>
+</HWProject>

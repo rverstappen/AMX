@@ -1,12 +1,15 @@
-Buttons: (rounding = 8)
+Glass Buttons: (rounding = 8)
 
+                  DARK/LIGHT
 Purple:		880088/bb88bb
 Light blue:	3377ad/4bb7f0
 Red:  		ff0000/ffaaaa
 Dark Green:	007700/77bb77
 Gray:		333333/999999
-light gray:	666666/b2b2b2
+Light gray:	666666/b2b2b2
+Lighter gray:	bbbbbb/dddddd
 Orange:		dd6600/dd9966
+Yellow-orange:	f88800/f8d0a0
 Baby-poo:	c6a728/d0c289
 Yellow:		ffee00/ffeeaa
 Blue:		0000ff/aaaaff
