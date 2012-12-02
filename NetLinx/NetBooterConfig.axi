@@ -23,6 +23,7 @@ DEFINE_TYPE
 structure NetBooterConfigGeneral
 {
     integer	mEnabled		// Whether netBooters are even present in this system
+    integer	mDebugLevel
 }
 
 structure NetBooterConfigItem
@@ -83,6 +84,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	{
 	case 'enabled':
 	    gGeneral.mEnabled = getBooleanProp(propValue)
+	case 'debug-level':
+	    gGeneral.mDebugLevel = atoi(propValue)
 	default:
 	    debug (moduleName, 3, "'Unknown general config property: ',propName,' (=',propValue,')'")
 	} // switch

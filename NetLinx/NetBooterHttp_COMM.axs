@@ -236,6 +236,7 @@ DEFINE_START
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gNetBooters)),' NetBooter definitions'")
     if (gGeneral.mEnabled)
     {
+        setDebugLevel (gGeneral.mDebugLevel)
 	debug (DBG_MODULE, 1, "'NetBooter module is enabled.'")
 	setNetBooterDeviceList()
 	initAllNetBooterImpl()

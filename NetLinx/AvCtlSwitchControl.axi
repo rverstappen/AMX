@@ -55,7 +55,13 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	    // We need to change the local input to the switched input
 	    wait 20 // wait a couple of seconds, in case the display was powered off
 	    {
-		doLocalSwitch (outputId, gAllOutputs[outputId].mSwitchedInputChannel)
+		doLocalSwitch (outputId, selectLocalInputChannel(inputId,outputId))
+		debug (DBG_MODULE, 9, "'checking slave TV input channel: ',gAllInputs[inputId].mSlaveInputChannel")
+		if (gAllInputs[inputId].mSlaveInputChannel)
+		{
+		    debug (DBG_MODULE, 5, 'changing slave TV input')
+		    doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+		}
 	    }
 	}
 	else
@@ -70,6 +76,11 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	wait 20 // wait a couple of seconds, in case the display was powered off
 	{
 	    doLocalSwitch (outputId, gAllInputs[inputId].mLocalInputChannel)
+	    if (gAllInputs[inputId].mSlaveInputChannel)
+	    {
+		debug (DBG_MODULE, 5, 'changing slave TV input')
+		doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+	    }
 	}
 
 	// Make sure the input is turned ON
@@ -544,6 +555,19 @@ DEFINE_FUNCTION checkSwitches()
     wait 20
     {
 	checkAudioSwitchVolumeLevels()
+    }
+}
+
+DEFINE_FUNCTION integer selectLocalInputChannel (integer inputId, integer outputId)
+{
+    if ((gAllInputs[inputId].mPrefAudioFormat == AVCFG_AUDIO_FORMAT_ANALOG) &&
+	(gAllOutputs[outputId].mSwitchedInputChannelAnalogAudio > 0))
+    {
+	return gAllOutputs[outputId].mSwitchedInputChannelAnalogAudio
+    }
+    else
+    {
+	return gAllOutputs[outputId].mSwitchedInputChannel
     }
 }
 

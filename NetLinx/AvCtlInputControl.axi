@@ -88,6 +88,15 @@ DEFINE_FUNCTION stopAllAvInputs()
     }
 }
 
+DEFINE_FUNCTION checkInputPowerOn (integer inputId)
+{
+    if (!gAllInputs[inputId].mAlwaysOn)
+    {
+	pulse [gAllInputs[inputId].mDev, CHAN_POWER_ON]
+    }
+}
+
+
 DEFINE_EVENT
 
 // Relay channel operations for selected input

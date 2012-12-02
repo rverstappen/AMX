@@ -227,6 +227,10 @@
 <FilePathName>ITunesHttp_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Lighting_UI</Identifier>
+<FilePathName>Lighting_UI.axs</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Lutron_Comm</Identifier>
 <FilePathName>Lutron_Comm.axs</FilePathName>
 <Comments></Comments>

@@ -53,6 +53,7 @@ DEFINE_TYPE
 structure DmxGeneral
 {
     integer	mEnabled
+    integer	mDebugLevel
     integer	mTpPort			// Port for Touch Panel events
     integer	mTpChannelRgbLow	// Low channel for RGB DMX auto-blanking
     integer	mTpChannelRgbHigh	// High channel for RGB DMX auto-blanking
@@ -148,40 +149,22 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'enabled':
-	{
 	    lower_string (propValue)
 	    gGeneral.mEnabled = (propValue = 'true' || propValue = 't' || propValue = 1)
-	    break
-	}
+	case 'debug-level':
+	    gGeneral.mDebugLevel = atoi(propValue)
 	case 'tp-port':
-	{
 	    gGeneral.mTpPort = atoi(propValue)
-	    break
-	}
 	case 'tp-channel-rgb-range-low':
-	{
 	    gGeneral.mTpChannelRgbLow = atoi(propValue)
-	    break
-	}
 	case 'tp-channel-rgb-range-high':
-	{
 	    gGeneral.mTpChannelRgbHigh = atoi(propValue)
-	    break
-	}
 	case 'tp-channel-rgb-preset-range-low':
-	{
 	    gGeneral.mTpChannelRgbPresetLow = atoi(propValue)
-	    break
-	}
 	case 'tp-channel-rgb-preset-range-high':
-	{
 	    gGeneral.mTpChannelRgbPresetHigh = atoi(propValue)
-	    break
-	}
 	default:
-	{
 	    debug (moduleName, 3, "'Unknown config property: ',propName,' (=',propValue,')'")
-	}
 	} // switch
     } // case DMX_READING_GENERAL
 

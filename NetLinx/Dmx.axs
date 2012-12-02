@@ -233,6 +233,7 @@ DEFINE_START
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gDmxRgbs)),' DMX RGB device definitions'")
     if (gGeneral.mEnabled)
     {
+        setDebugLevel (gGeneral.mDebugLevel)
 	debug (DBG_MODULE, 1, "'DMX module is enabled.'")
 	setupDmxDevices()
 	setupDmxRgbPresets()

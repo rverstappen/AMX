@@ -43,34 +43,39 @@ DEFINE_FUNCTION handleLutronCommand (char msg[])
 {
     select
     {
-    active (find_string(msg,'PUSH-',1)):
+    active (find_string(msg,'CLICK=>',1)):
     {
 	// 'Push' a control button
-	remove_string(msg,'PUSH-',1)
+	remove_string(msg,'CLICK=>',1)
 	handleLutronControlPush (atoi(msg))
     } // active
-    active (find_string(msg,'OUTPUT-SETLEVEL',1)):
+    active (find_string(msg,'OUTPUT-SETLEVEL=>',1)):
     {
 	// Set the (dimmer/fan/etc.) level of an output
 	integer id, lev
-	remove_string (msg,'OUTPUT-SETLEVEL',1)
+	remove_string (msg,'OUTPUT-SETLEVEL=>',1)
 	id = atoi(msg)
 	remove_string (msg,',',1)
 	lev = atoi(msg)
 	handleLutronOutputSetLevel (id, lev)
     } // active
-    active (find_string(msg,'?GETALLOUTPUTS',1)):
+    active (find_string(msg,'?GET-ALL-OUTPUTS',1)):
     {
 	// Get the list of IDs, names and short-names
-	remove_string(msg,'?GETALLOUTPUTS',1)
+	remove_string(msg,'?GET-ALL-OUTPUTS',1)
 	handleLutronGetAllOutputs (0:1:0)
     } // active
-    active (find_string(msg,'?GETALLINPUTS',1)):
+    active (find_string(msg,'?GET-ALL-INPUTS',1)):
     {
 	// Get the list of IDs, names and short-names
-	remove_string(msg,'?GETALLINPUTS',1)
+	remove_string(msg,'?GET-ALL-INPUTS',1)
 	handleLutronGetAllInputs (0:1:0)
     } // active
+    active (1):
+    {
+        debug (DBG_MODULE, 9, "'Lutron pass-thru msg: ',msg")
+        sendLutronCommand(msg)
+    }
     } // select
 }
 
@@ -120,18 +125,28 @@ DEFINE_FUNCTION handleLutronGetAllOutputs (dev replyDev)
 
 DEFINE_FUNCTION handleLutronGetAllInputs (dev replyDev)
 {
-    local_var char replyMsg[1024]
+    char replyMsg[1024]
+    integer i, j
+
     debug (DBG_MODULE, 9, "'got request for all Lutron IDs and names; replying to device: ',devtoa(replyDev)")
-    if (length_array(replyMsg) = 0)
-    {
-	integer i
-	replyMsg = 'GETALLOUTPUTS-'
-	for (i = 1; i < length_array(gInputs); i++)
+(* FINISH THIS!!!!
+	for (i = 1; i <= length_array(gInputs); i++)
 	{
-	    replyMsg = "replyMsg,itoa(gInputs[i].mId),TAB,gInputs[i].mName,TAB,gInputs[i].mShortName,NEWLINE"
+	    // Input control ID and name:
+	    replyMsg = "'INPUT-DEF=>',itoa(gInputs[i].mId),TAB,
+	    	         gInputs[i].mName,TAB,gInputs[i].mShortName,NEWLINE"
+	    // Input control buttons:
+	    for (j = 1; j <= length_array(gInputs[i].mButtonNames[j]); j++)
+	    {
+		if (length_array(gInputs[i].mButtonNames[j]) != '')
+		{
+		    replyMsg += "itoa(g"
+		}
+	    }
+	    send_command replyDev, replyMsg
 	}
     }
-    send_command replyDev, replyMsg
+*)
 }
 
 DEFINE_EVENT
@@ -270,11 +285,16 @@ DEFINE_START
 {
     readConfigFile ('LutronConfig', configFileGeneral)
     readConfigFile ('LutronConfig', configFileAuto)
+    debug(DBG_MODULE,2,"'Finished reading configuration; favorite control ID = ',
+    			itoa(gGeneral.mFavoriteInputId)")
     create_buffer gGeneral.mDev, gBuf
     rebuild_event()
-    wait 43
+    if (gGeneral.mEnabled)
     {
-	connect()
+        wait 43
+    	{
+	    connect()
+    	}
     }
 }
 
@@ -282,5 +302,8 @@ DEFINE_PROGRAM
 wait 297 // 2971
 {
     // keep the link to the Lutron alive by sending a blank string every 5 mins (approx)
-    sendLutronCommand ('')
+    if (gGeneral.mEnabled)
+    {
+        sendLutronCommand ('')
+    }
 }

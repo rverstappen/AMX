@@ -1,26 +1,16 @@
-PROGRAM_NAME='LutronConfig'
-
-// Lutron config definitions.
-//
-// These are used by several modules but must be served up to each module using 
-// serialization over TCP. The LutronConfigServer module will listen for requests 
-// for the Lutron configuration data.
-
 #if_not_defined __LUTRON_CONFIG__
 #define __LUTRON_CONFIG__
 
 #include 'Debug.axi'
 #include 'ConfigUtils.axi'
 #include 'ConfigServerUtils.axi'
+#include 'LightingCommon.axi'
 
 DEFINE_CONSTANT
 
 LUTRON_DEV_TYPE_UNKNOWN	= 0
 LUTRON_DEV_TYPE_TELNET	= 1
 LUTRON_DEV_TYPE_SERIAL	= 2
-
-LUTRON_MAX_OUTPUTS	= 300
-LUTRON_MAX_INPUTS	= 300
 
 LUTRON_OUTPUT_TYPE_UNKNOWN	= 0
 LUTRON_OUTPUT_TYPE_DIMMER	= 1
@@ -36,6 +26,9 @@ DEFINE_TYPE
 structure LutronGeneral
 {
     integer	mEnabled		// Whether Lutron is even present in this system
+    integer	mDebugLevel		// How verbose the logging should be
+    char        mFavoriteInput[32]	// Favorite input keypad, probably a "phantom" control
+    integer	mFavoriteInputId	// ID for latter
     dev		mDev			// Device to connect and send commands
     integer	mDevType		// 'telnet' or 'serial' (default)
     char	mDevName[32]		// Telnet or serial device name
@@ -118,9 +111,11 @@ READING_INPUT			= 3
 DEFINE_VARIABLE
 
 volatile LutronGeneral	   gGeneral
-volatile LutronOutput	   gOutputs[LUTRON_MAX_OUTPUTS]
-volatile LutronInput	   gInputs[LUTRON_MAX_INPUTS]
+volatile LutronInput	   gInputs[LIGHTING_MAX_INPUTS]
+volatile LutronOutput	   gOutputs[LIGHTING_MAX_OUTPUTS]
+volatile LightingControl   gInputsDefn[LIGHTING_MAX_INPUTS]
 volatile integer	   gThisItem = 0
+volatile integer	   gThisButtonCount = 0
 volatile integer	   gReadMode = READING_NONE
 
 DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
@@ -163,53 +158,33 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'enabled':
-	{
 	    lower_string (propValue)
 	    gGeneral.mEnabled = (propValue = 'true' || propValue = 't' || propValue = 1)
-	    break
-	}
+	case 'debug-level':
+	    gGeneral.mDebugLevel = atoi(propValue)
+	case 'favorite-input':
+	    gGeneral.mFavoriteInput = propValue
 	case 'device':
-	{
 	    parseDev (gGeneral.mDev, propValue)
-	    break
-	}
 	case 'device-type':
-	{
 	    lower_string (propValue)
 	    switch (propValue)
 	    {
 	    case 'telnet':	gGeneral.mDevType = LUTRON_DEV_TYPE_TELNET
 	    case 'serial':	gGeneral.mDevType = LUTRON_DEV_TYPE_SERIAL
 	    }
-	    break
-	}
 	case 'telnet-address':
-	{
 	    gGeneral.mTelnetAddr = propValue
 	    if (gGeneral.mTelnetPort = 0)
 	        gGeneral.mTelnetPort = 23
-	    break
-	}
 	case 'telnet-port':
-	{
-	    gGeneral.mTelnetport = atoi(propValue)
-	    break
-	}
+	    gGeneral.mTelnetPort = atoi(propValue)
 	case 'username':
-	{
 	    gGeneral.mUsername = propValue
-	    break
-	}
 	case 'password':
-	{
 	    gGeneral.mPassword = propValue
-	    break
-	}
 	case 'dev-control':
-	{
 	    parseDev (gGeneral.mDevControl, propValue)
-	    break
-	}
 	} // switch
     }
 
@@ -218,46 +193,27 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'id':
-	{
 	    gThisItem = atoi(propValue)
 	    if (length_array(gOutputs) < gThisItem)
 	    {
 		set_length_array(gOutputs, gThisItem)
 	    }
 	    gOutputs[gThisItem].mId = gThisItem
-	    break
-	}
 	case 'name':
-	{
 	    gOutputs[gThisItem].mName = propValue
 	    if (gOutputs[gThisItem].mShortName = '')
 	    {
 		// Copy to the short name (may be overridden)
 		gOutputs[gThisItem].mShortName = propValue
 	    }
-	    break
-	}
 	case 'short-name':
-	{
 	    gOutputs[gThisItem].mShortName = propValue
-	    break
-	}
 	case 'type':
-	{
 	    gOutputs[gThisItem].mType = lutronOutputTypeFromStr (propValue)
-	    break
-	}
 	case 'address':
-	{
 	    gOutputs[gThisItem].mAddress = propValue
-	    break
-	}
 	default:
-	{
 	    debug (moduleName, 0, "'Unhandled property: ',propName")
-	    break
-	}
-	break
 	} // inner switch
     } // case READING_OUTPUT
 
@@ -266,53 +222,68 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'id':
-	{
 	    gThisItem = atoi(propValue)
 	    if (length_array(gInputs) < gThisItem)
 	    {
-		set_length_array(gInputs, gThisItem)
+		set_length_array(gInputs,     gThisItem)
+		set_length_array(gInputsDefn, gThisItem)
 	    }
 	    gInputs[gThisItem].mId = gThisItem
+	    gInputsDefn[gThisItem].mId = gThisItem
+	    gThisButtonCount = 0
+	    set_length_array(gInputsDefn[gThisItem].mButtons,0)
 	    break
-	}
 	case 'name':
-	{
 	    gInputs[gThisItem].mName = propValue
+	    gInputsDefn[gThisItem].mName = propValue
 	    if (gInputs[gThisItem].mShortName = '')
 	    {
 		// Copy to the short name (may be overridden)
 		gInputs[gThisItem].mShortName = propValue
+		gInputsDefn[gThisItem].mShortName = propValue
 	    }
-	    break
-	}
+	    if (propValue = gGeneral.mFavoriteInput)
+	    {
+	        gGeneral.mFavoriteInputId = gThisItem
+	    }
 	case 'short-name':
-	{
 	    gInputs[gThisItem].mShortName = propValue
-	    break
-	}
+	    gInputsDefn[gThisItem].mShortName = propValue
 	case 'type':
-	{
 	    gInputs[gThisItem].mType = lutronOutputTypeFromStr (propValue)
-	    break
-	}
 	case 'address':
-	{
 	    gInputs[gThisItem].mAddress = propValue
-	    break
-	}
-	case 'buttons':
-	{
-//	    gInputs[gThisItem].mButtonNames = atoi(propValue)
-	    break
-	}
 	default:
-	{
-	    debug (moduleName, 0, "'Unhandled property: ',propName")
-	    break
-	}
-	break
+	    select
+	    {
+	    active (find_string(propName,'button-name-',1)):
+	    {
+	        char propNameCopy[16]
+	        integer buttonNumber
+		propNameCopy = propName
+	        remove_string(propNameCopy,'button-name-',1)
+		buttonNumber = atoi(propNameCopy)
+		if (buttonNumber > 0)
+		{
+		    gInputs[gThisItem].mButtonNames[buttonNumber] = propValue
+		    gThisButtonCount++
+		    set_length_array(gInputsDefn[gThisItem].mButtons,gThisButtonCount)
+		    gInputsDefn[gThisItem].mButtons[gThisButtonCount].mId = buttonNumber
+		    gInputsDefn[gThisItem].mButtons[gThisButtonCount].mName = propValue
+		}
+		else
+		{
+		    debug (moduleName, 0, "'Unhandled property: ',propName")
+		}
+	    } // active
+	    active (1):
+	    {
+	        debug (moduleName, 0, "'Unhandled property: ',propName")
+	    } // active
+	    } // select
 	} // inner switch
     } // case READING_INPUT
+
     default:
     {
 	debug (moduleName, 1, "'error: property with no heading (',propName,'): <',propValue,'>'")

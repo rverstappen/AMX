@@ -37,9 +37,9 @@ volatile char	DBG_MODULE[] = 'Roku'
 DEFINE_VARIABLE
 
 volatile char    	ROKU_SUPPORTED_CHANNEL_STRS[256][32] = {
-    {'keypress/Play'},					// 1
-    {'keypress/Stop'},					// 2
-    {'keypress/Pause'},					// 3
+    {'keypress/Play'},					// 1  (Play-Pause combo)
+    {''},						// 2
+    {'keypress/Play'},					// 3  (Play-Pause combo)
     {''},{''},						// 4,5
     {'keypress/Fwd'},					// 6
     {'keypress/Rev'},					// 7
@@ -61,7 +61,7 @@ volatile char    	ROKU_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},						// 81
     {'keypress/InstantReplay'},				// 82
     {''},{''},						// 83-84
-    {'keypress/Play'},					// 85		(Play-Pause combo)
+    {'keypress/Play'},					// 85  (Play-Pause combo)
     {''},{''},{''},{''},{''},				// 86-90
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 91-100
     {'keypress/Info'},					// 101

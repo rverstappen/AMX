@@ -84,7 +84,7 @@ DEFINE_MUTUALLY_EXCLUSIVE
 DEFINE_FUNCTION sendToHttpServer (char msg[])
 {
     ip_client_open (dvHttpLocal.PORT, httpIp, httpPort, IP_TCP)
-//  debug (DBG_MODULE, 8, "'sending Apache PHP iTunes message:',ITUNES_HTML_PREFIX,msg,ITUNES_HTML_SUFFIX")
+    debug (DBG_MODULE, 8, "'sending Apache PHP iTunes message:',ITUNES_HTML_PREFIX,msg,ITUNES_HTML_SUFFIX")
     send_string dvHttpLocal, "ITUNES_HTML_PREFIX,msg,ITUNES_HTML_SUFFIX"
 }
 

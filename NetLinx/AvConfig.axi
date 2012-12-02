@@ -33,6 +33,10 @@ AVCFG_OUTPUT_VOL_UNKNOWN	= 0
 AVCFG_OUTPUT_VOL_RELATIVE	= 1
 AVCFG_OUTPUT_VOL_DISCRETE	= 2
 
+AVCFG_AUDIO_FORMAT_UNKNOWN	= 0
+AVCFG_AUDIO_FORMAT_HDMI		= 1
+AVCFG_AUDIO_FORMAT_ANALOG	= 2
+
 AVCFG_SCENE_TYPE_UNKNOWN	= 0
 AVCFG_SCENE_TYPE_NONE		= 1
 AVCFG_SCENE_TYPE_MENU		= 2
@@ -146,12 +150,15 @@ structure AvInput
     char	mChannelMask[CHAN_MAX_CHANNELS] // 0/1 array of channels representing buttons
     char	mChannelMap[CHAN_MAX_CHANNELS]	// Map to normalize channels to our standard
     integer	mLocationType		// Is this a switch AV input or local AV input
+    integer	mAlwaysOn		// Whether this input is always powered ON
     integer	mVideoSwitchId		// Video switch input ID (0 if not connected to video switch)
     integer	mAudioSwitchId		// Audio switch input ID (0 if not connected to audio switch)
     sinteger	mAudioGain		// Gain into audio switch
     integer	mLocalInputChannel	// Input channel for this (local) input on its output
     integer	mSlaveAutoOn		// Whether to turn on a slave TV automatically (AVR only) when using this 
     					// input (e.g., maybe set to false for music inputs)
+    integer     mSlaveInputChannel	// Which input on the slave TV to use (0 if input never changes)
+    integer	mPrefAudioFormat	// Preferred audio format (can help with HDMI echo problems in rooms with mixed output devices)
     integer	mScene			// Type of input (to help displays select an appropriate scene)
 }
 
@@ -175,8 +182,8 @@ structure AvOutput
     char	mChannelMask[CHAN_MAX_CHANNELS] // 0/1 array of channels representing buttons
     char	mChannelMap[CHAN_MAX_CHANNELS]	// Map to normalize channels to our standard
     // The following fields are only relevant to master output devices, such as Master TVs and AVRs
-    integer	mSwitchedInputChannel // AMX channel for switched audio input sources (0 = none)
-//    integer	mSwitchedVideoInputChannel // AMX channel for switched video input sources (0 = none)
+    integer	mSwitchedInputChannel   // AMX channel for switched input sources (0 = none)
+    integer	mSwitchedInputChannelAnalogAudio // channel for analog audio only inputs (0 = none)
     integer     mLocalInputIds[10]	// Locally connected AV input IDs (mId of AvInputs)
     integer	mAvrTvId[8]		// IDs of the slave TVs connected to this AVR (if this is an AVR)
     // The following fields are only relevant to outputs with discrete volume control:
@@ -452,6 +459,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		}
 	    }
 	}
+	case 'always-on':
+	    gAllInputs[gThisItem].mAlwaysOn = parseBoolean (propValue)
 	case 'location':
 	    gAllInputs[gThisItem].mLocationType = avcfgGetInputType (propValue)
 	case 'video-switch-id':
@@ -464,6 +473,10 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllInputs[gThisItem].mLocalInputChannel = atoi(propValue)
 	case 'slave-auto-on':
 	    gAllInputs[gThisItem].mSlaveAutoOn = parseBoolean (propValue)
+	case 'slave-input-channel':
+	    gAllInputs[gThisItem].mSlaveInputChannel = atoi(propValue)
+	case 'pref-audio-format':
+	    gAllInputs[gThisItem].mPrefAudioFormat = avcfgGetAudioFormat (propValue)
 	case 'scene':
 	    gAllInputs[gThisItem].mScene = avcfgGetScene (propValue)
 	default:
@@ -526,6 +539,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		}
 	    }
 	}
+	case 'switched-input-channel-analog-audio':
+	    gAllOutputs[gThisItem].mSwitchedInputChannelAnalogAudio = atoi(propValue)
 	case 'switched-audio-input-channel':
 	    gAllOutputs[gThisItem].mSwitchedInputChannel = atoi(propValue)
 	case 'switched-video-input-channel':
@@ -666,6 +681,17 @@ DEFINE_FUNCTION integer avcfgGetScene (char str[])
     case 'tv':		return AVCFG_SCENE_TV
     case 'sports':	return AVCFG_SCENE_SPORTS
     default:		return AVCFG_SCENE_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer avcfgGetAudioFormat (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'hdmi':	return AVCFG_AUDIO_FORMAT_HDMI
+    case 'analog':	return AVCFG_AUDIO_FORMAT_ANALOG
+    default:		return AVCFG_AUDIO_FORMAT_UNKNOWN
     }
 }
 

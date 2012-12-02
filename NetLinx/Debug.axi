@@ -1,15 +1,18 @@
 #if_not_defined __DEBUG_FUNC__
 #define __DEBUG_FUNC__
 
-DEFINE_CONSTANT
+DEFINE_VARIABLE
 
-DEBUG_LEVEL = 10
+gDebugLevel = 10
 
-
+DEFINE_FUNCTION setDebugLevel (integer lev)
+{
+     gDebugLevel = lev
+}
 
 DEFINE_FUNCTION debug (char pkgName[], integer dbgLevel, char msg[])
 {
-    if ((dbgLevel = 0) || ((DEBUG_LEVEL > 0) && (dbgLevel <= DEBUG_LEVEL)))
+    if ((dbgLevel = 0) || ((gDebugLevel > 0) && (dbgLevel <= gDebugLevel)))
     {
         send_string 0, "pkgName,'[',itoa(dbgLevel),']: ',msg"
     }

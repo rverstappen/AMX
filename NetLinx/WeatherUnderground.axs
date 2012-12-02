@@ -6,6 +6,8 @@ MODULE_NAME='WeatherUnderground' (
 	char	forecastLoc[],
 	integer TP_COUNT)		// Number of TPs
 
+// Note: This module still needs to be made configurable, like the other modules.
+
 DEFINE_VARIABLE
 
 constant char    DBG_MODULE[]    = 'WeatherUnderground'
@@ -19,6 +21,7 @@ volatile char    gBuf[150000]
 volatile integer gReqNum
 
 DEFINE_START
+setDebugLevel(2)
 if ((currCondLoc = '') || (airportLoc = '') || (forecastLoc = ''))
 {
     debug (DBG_MODULE, 1, 'Not initializing')

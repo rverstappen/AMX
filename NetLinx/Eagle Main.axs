@@ -57,6 +57,16 @@ STUPID_AMX_REQUIREMENT26 = 33046:1:0
 STUPID_AMX_REQUIREMENT27 = 33047:1:0
 STUPID_AMX_REQUIREMENT28 = 33048:1:0
 STUPID_AMX_REQUIREMENT29 = 33049:1:0
+STUPID_AMX_REQUIREMENT30 = 33050:1:0
+STUPID_AMX_REQUIREMENT31 = 33051:1:0
+STUPID_AMX_REQUIREMENT32 = 33052:1:0
+STUPID_AMX_REQUIREMENT33 = 33053:1:0
+STUPID_AMX_REQUIREMENT34 = 33054:1:0
+STUPID_AMX_REQUIREMENT35 = 33055:1:0
+STUPID_AMX_REQUIREMENT36 = 33056:1:0
+STUPID_AMX_REQUIREMENT37 = 33057:1:0
+STUPID_AMX_REQUIREMENT38 = 33058:1:0
+STUPID_AMX_REQUIREMENT39 = 33059:1:0
 
 // Virtual A/V devices
 vdvItunes		= 33022:1:0
@@ -83,7 +93,7 @@ char	plexConfigFile[]    = 'Plex.cfg'
 char	rokuConfigFile[]    = 'Roku.cfg'
 char	dtvConfigFile[]    = 'DirecTV.cfg'
 
-char    gItunesHost[] = '192.168.188.12'
+char    gItunesHost[] = '192.168.188.11'
 integer gItunesPort   = 80
 
 //char	weatherZipCode[] = '89451'
@@ -101,6 +111,7 @@ char	presetConfigFile[] = 'Presets.cfg'
 char	dmxConfigFile[] = 'Dmx.cfg'
 char	netBooterConfigFile[] = 'NetBooter.cfg'
 char	powerManConfigFile[] = 'Power.cfg'
+char	lightingConfigFile[] = 'Lighting.cfg'
 
 integer TP_COUNT = 7
 
@@ -121,6 +132,7 @@ DEFINE_MODULE 'IpControlledDevices_Comm' ipDevices()
 DEFINE_MODULE 'Dmx' dmx(dmxConfigFile, tpConfigFile)
 DEFINE_MODULE 'NetBooterHttp_Comm' netBooter(netBooterConfigFile)
 DEFINE_MODULE 'PowerManagement_UI' powerMan(powerManConfigFile, tpConfigFile)
+DEFINE_MODULE 'Lighting_UI' lighting(lightingConfigFile, tpConfigFile)
 
 
 DEFINE_START

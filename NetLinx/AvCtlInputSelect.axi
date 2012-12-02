@@ -92,6 +92,9 @@ DEFINE_FUNCTION doTpInputSelect (integer tpId, integer inputId, integer forceCon
     }
     gTpInput[tpId] = inputId
 
+    // Force turning on the input device
+    pulse [gAllInputs[inputId].mDev, CHAN_POWER_ON]
+
     // Perform any switches necesary
     if (inputId != prevInputId)
     {
