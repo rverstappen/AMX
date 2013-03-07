@@ -62,6 +62,7 @@ integer CHAN_POWER_SLAVE_TOGGLE	= 29    // Momentary: Toggle power on for slave 
 integer CHAN_POWER_SLAVE_FB	= 29    // Feedback:  Slave TV (connected to AVR) feedback
 integer CHAN_POWER_SLAVE_ON	= 30    // Momentary: Set power on for slave TV (connected to AVR)
 integer CHAN_POWER_SLAVE_OFF	= 31    // Momentary: Set power on for slave TV (connected to AVR)
+integer CHAN_DOT		= 32	// Momentary: Press button dot (.)
 
 integer CHAN_MENU_CANCEL	= 43	// Momentary: Cancel menu
 integer CHAN_MENU_MENU		= 44	// Momentary: Main menu
@@ -115,6 +116,8 @@ integer CHAN_SCENE_1		= 111	// Momentary: Explicit scene-type (usually music)
 integer CHAN_SCENE_2		= 112	// Momentary: Explicit scene-type (usually movies)
 integer CHAN_SCENE_3		= 113	// Momentary: Explicit scene-type (usually general TV)
 integer CHAN_SCENE_4		= 114	// Momentary: Explicit Scene-type (usually sports)
+integer CHAN_SCENE_UP		= 118   // Momentary: next scene
+integer CHAN_SCENE_DOWN		= 119   // Momentary: next scene
 
 integer CHAN_EJECT		= 120	// Momentary: Eject disc
 integer CHAN_PICTURE_MODE_1	= 121	// Momentary: Picture mode (usually standard)

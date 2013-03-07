@@ -150,6 +150,9 @@ structure AvInput
     char	mChannelMask[CHAN_MAX_CHANNELS] // 0/1 array of channels representing buttons
     char	mChannelMap[CHAN_MAX_CHANNELS]	// Map to normalize channels to our standard
     integer	mLocationType		// Is this a switch AV input or local AV input
+    integer     mAlwaysList		// Whether to always list as an input. Normally, video outputs only show
+    					//   video inputs and audio outputs only show audio inputs. This allows
+					//   video ouputs to list specific audio inputs as well.
     integer	mAlwaysOn		// Whether this input is always powered ON
     integer	mVideoSwitchId		// Video switch input ID (0 if not connected to video switch)
     integer	mAudioSwitchId		// Audio switch input ID (0 if not connected to audio switch)
@@ -459,6 +462,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		}
 	    }
 	}
+	case 'always-list':
+	    gAllInputs[gThisItem].mAlwaysList = parseBoolean (propValue)
 	case 'always-on':
 	    gAllInputs[gThisItem].mAlwaysOn = parseBoolean (propValue)
 	case 'location':
@@ -588,7 +593,8 @@ DEFINE_FUNCTION calcInputsForOutputs()
 	{
 	    select
 	    {
-	    active (gAllOutputs[outputId].mOutputType = AVCFG_OUTPUT_TYPE_AUDIO):
+	    active ((gAllOutputs[outputId].mOutputType = AVCFG_OUTPUT_TYPE_AUDIO) ||
+	    	    (gAllInputs[inputId].mAlwaysList)):
 	    {
 		if (gAllInputs[inputId].mAudioSwitchId > 0)
 		{
@@ -598,7 +604,7 @@ DEFINE_FUNCTION calcInputsForOutputs()
 	    } // active
 	    active (gAllOutputs[outputId].mOutputType != AVCFG_OUTPUT_TYPE_TV_SLAVE):
 	    {
-		// We've already processed audio output case; all the remain are
+		// We've already processed audio output case; all that remain are
 		// non-slave-TV video outputs
 		if (gAllInputs[inputId].mVideoSwitchId > 0)
 		{

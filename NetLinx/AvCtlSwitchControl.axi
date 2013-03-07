@@ -59,8 +59,11 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 		debug (DBG_MODULE, 9, "'checking slave TV input channel: ',gAllInputs[inputId].mSlaveInputChannel")
 		if (gAllInputs[inputId].mSlaveInputChannel)
 		{
-		    debug (DBG_MODULE, 5, 'changing slave TV input')
-		    doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+		    wait 5
+		    {
+		        debug (DBG_MODULE, 5, 'changing slave TV input')
+		        doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+		    }
 		}
 	    }
 	}
@@ -78,8 +81,11 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	    doLocalSwitch (outputId, gAllInputs[inputId].mLocalInputChannel)
 	    if (gAllInputs[inputId].mSlaveInputChannel)
 	    {
-		debug (DBG_MODULE, 5, 'changing slave TV input')
-		doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+	        wait 5
+		{
+		    debug (DBG_MODULE, 5, 'changing slave TV input')
+		    doLocalSwitch (gAllOutputs[outputId].mAvrTvId[1], gAllInputs[inputId].mSlaveInputChannel)
+		}
 	    }
 	}
 
@@ -137,8 +143,14 @@ DEFINE_FUNCTION doMainVideoSetAbsoluteVolume (integer outputId, sinteger volume)
 
 DEFINE_FUNCTION doLocalSwitch (integer outputId, integer inputChannel)
 {
-    debug (DBG_MODULE, 1, "'changing input using channel: ',itoa(inputChannel)")
-    pulse [gAllOutputs[outputId].mDev, inputChannel]
+    integer mappedChannel
+    mappedChannel = gAllOutputs[outputId].mChannelMap[inputChannel]
+    if (mappedChannel == 0)
+    {
+	mappedChannel = inputChannel
+    }
+    debug (DBG_MODULE, 1, "'changing input using channel: ',itoa(mappedChannel)")
+    pulse [gAllOutputs[outputId].mDev, mappedChannel]
 }
 
 DEFINE_FUNCTION doLocalSetScene (integer outputId, integer scene)
