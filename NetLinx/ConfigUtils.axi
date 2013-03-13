@@ -35,11 +35,9 @@ DEFINE_FUNCTION integer parseBoolean (char str[])
 
 DEFINE_FUNCTION parseIntegerList (integer result[], char str[])
 {
-    // Parse a list of positive integers (no zeros!)
+    // Parse a list of positive integers
     integer anInt, count
-    for (anInt = atoi(str), count = 0;
-         (anInt > 0) && (str != "");
-	 anInt = atoi(str))
+    for (anInt = atoi(str), count = 0; str != ""; anInt = atoi(str))
     {
 	count++
 	set_length_array (result, count)

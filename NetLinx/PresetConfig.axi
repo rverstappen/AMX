@@ -15,6 +15,7 @@ MAX_PRESETS		= 100
 MAX_AV_ACTIONS		= 10
 MAX_AV_GROUPS		= 15
 MAX_AV_GRID_WIDTH	= 10
+MAX_TP_CHANNELS		= 1000
 
 AV_ACTION_UNKNOWN	= 0
 AV_ACTION_OFF		= 1
@@ -25,6 +26,17 @@ PRESET_TYPE_AV_COMMAND		= 1
 PRESET_TYPE_LUTRON_COMMAND	= 2
 PRESET_TYPE_GENERAL_COMMAND	= 9
 PRESET_TYPE_AV_GRID		= 11
+
+PRESET_STATUS_UNKNOWN	= 0
+PRESET_STATUS_OFF	= 1
+PRESET_STATUS_ON	= 2
+PRESET_STATUS_PARTIAL	= 3
+
+PRESET_BUTTON_STATE_UNKNOWN	= 1
+PRESET_BUTTON_STATE_OFF		= 2
+PRESET_BUTTON_STATE_ON		= 3
+PRESET_BUTTON_STATE_PARTIAL	= 4
+
 
 DEFINE_TYPE
 
@@ -81,15 +93,15 @@ READING_AV_OUTPUT_GROUP		= 4
 
 DEFINE_VARIABLE
 
-volatile PresetGeneral	   gGeneral
-volatile AvAction	   gAvActions[MAX_AV_ACTIONS]
-volatile AvOutputGroup	   gAvGroups[MAX_AV_GROUPS]
-volatile PresetItem	   gPresets[MAX_PRESETS]
-volatile integer	   gPresetByChannel[1000]  // helps to match TP events with presets
-volatile integer	   gThisItem = 0 // presets
-volatile integer	   gThisAvAction = 0
-volatile integer	   gThisAvGroup = 0
-volatile integer	   gReadMode = READING_NONE
+volatile PresetGeneral	gGeneral
+volatile AvAction	gAvActions[MAX_AV_ACTIONS]
+volatile AvOutputGroup	gAvGroups[MAX_AV_GROUPS]
+volatile PresetItem	gPresets[MAX_PRESETS]
+volatile integer	gPresetByChannel[MAX_TP_CHANNELS]  // helps to match TP events with presets
+volatile integer	gThisItem = 0 // presets
+volatile integer	gThisAvAction = 0
+volatile integer	gThisAvGroup = 0
+volatile integer	gReadMode = READING_NONE
 
 DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
 {
@@ -309,17 +321,13 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	}
 	case 'av-actions':
 	{
-	    integer id
-	    integer count
-	    for (id = atoi(propValue); id != 0; id = atoi(propValue))
+	    integer ids[MAX_AV_ACTIONS]
+	    integer i
+	    parseIntegerList (ids, propValue)
+	    set_length_array (gPresets[gThisItem].mAvActionIds, length_array(ids))
+	    for (i = 1; i <= length_array(ids); i++)
 	    {
-		count++
-		set_length_array (gPresets[gThisItem].mAvActionIds, count)
-		gPresets[gThisItem].mAvActionIds[count] = id
-		if (remove_string (propValue, ',', 1) == '')
-		{
-		    propValue = ''
-		}
+		gPresets[gThisItem].mAvActionIds[i] = ids[i]
 	    }
 	    break
 	}
@@ -366,6 +374,17 @@ DEFINE_FUNCTION integer presetTypeFromStr (char str[])
     case 'general-command':	return PRESET_TYPE_GENERAL_COMMAND
     case 'av-grid':		return PRESET_TYPE_AV_GRID
     default:			return PRESET_TYPE_UNKNOWN
+    }
+}
+
+DEFINE_FUNCTION integer presetButtonStateFromStatus (integer status)
+{
+    switch (status)
+    {
+    case PRESET_STATUS_OFF:	return PRESET_BUTTON_STATE_OFF
+    case PRESET_STATUS_ON:	return PRESET_BUTTON_STATE_ON
+    case PRESET_STATUS_PARTIAL:	return PRESET_BUTTON_STATE_PARTIAL
+    default:			return PRESET_BUTTON_STATE_UNKNOWN
     }
 }
 

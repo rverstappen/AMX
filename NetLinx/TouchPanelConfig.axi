@@ -219,4 +219,22 @@ DEFINE_FUNCTION integer tpTypeFromStr (char typeStr[])
     }
 }
 
+DEFINE_FUNCTION tpAllUpdateChan (dev panelDevs[], integer chan, integer status)
+{
+    integer tpId
+    for (tpId = length_array(panelDevs); tpId > 0; tpId--)
+    {
+	[panelDevs[tpId], chan] = status
+    }
+}
+
+DEFINE_FUNCTION tpAllUpdateButtonState (dev panelDevs[], integer chan, integer state)
+{
+    integer tpId
+    for (tpId = length_array(panelDevs); tpId > 0; tpId--)
+    {
+	send_command panelDevs[tpId], "'^ANI-',itoa(chan),',', itoa(state),',',itoa(state)"
+    }
+}
+
 #end_if // __TOUCH_PANEL_CONFIG__
