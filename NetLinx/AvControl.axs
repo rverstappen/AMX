@@ -60,7 +60,7 @@ constant char DBG_MODULE[] = 'AvControl'
 
 // Track online status of each TP so that we don't waste time sending updates to
 // TPs that are offline
-non_volatile integer gTpStatus[TP_MAX_PANELS]
+volatile integer gTpStatus[TP_MAX_PANELS]
 
 // Track input selection for each TP
 non_volatile integer gTpInputSelect[TP_MAX_PANELS]

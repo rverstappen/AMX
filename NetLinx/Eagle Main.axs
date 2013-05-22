@@ -69,10 +69,8 @@ STUPID_AMX_REQUIREMENT38 = 33058:1:0
 STUPID_AMX_REQUIREMENT39 = 33059:1:0
 
 // Virtual A/V devices
-vdvItunes		= 33022:1:0
 vdvWeatherStatus	= 33023:1:0	// various stats sent to NetLinx channels
-dvItunesLocal		= 0:22:0
-dvWeatherLocal		= 0:23:0
+dvWeatherLocal		= 0:51:0
 
 // Virtual devices for inter-module communications
 vdvAvInputSelect	= 33051:TP_PORT_AV_INPUT_SELECT:0
@@ -92,9 +90,7 @@ char    lutronConfigFile2[] = 'LutronAuto.cfg'
 char	plexConfigFile[]    = 'Plex.cfg'
 char	rokuConfigFile[]    = 'Roku.cfg'
 char	dtvConfigFile[]    = 'DirecTV.cfg'
-
-char    gItunesHost[] = '192.168.188.11'
-integer gItunesPort   = 80
+char	itunesConfigFile[]    = 'iTunes.cfg'
 
 //char	weatherZipCode[] = '89451'
 char	gWunderStationId[] = 'MC7350'
@@ -112,15 +108,16 @@ char	dmxConfigFile[] = 'Dmx.cfg'
 char	netBooterConfigFile[] = 'NetBooter.cfg'
 char	powerManConfigFile[] = 'Power.cfg'
 char	lightingConfigFile[] = 'Lighting.cfg'
+char	marantzConfigFile[] = 'Marantz.cfg'
 
 integer TP_COUNT = 7
 
 DEFINE_MODULE 'AvControl' avCtl (avConfigFile,tpConfigFile,vdvAvOutputSelect,vdvZoneSelect)
 DEFINE_MODULE 'Plex_Comm' plex (plexConfigFile)
 DEFINE_MODULE 'Roku_Comm' roku (rokuConfigFile)
-DEFINE_MODULE 'ITunesHttp_Comm' iTunesHttp (vdvItunes,dvItunesLocal,gItunesHost,gItunesPort, TP_COUNT)
+DEFINE_MODULE 'ITunesHttp_Comm' iTunesHttp (itunesConfigFile, tpConfigFile)
 DEFINE_MODULE 'DirecTvHttp_Comm' dtvHttp (dtvConfigFile)
-DEFINE_MODULE 'ZoneControl' zoneConn (zoneConfigFile,TP_COUNT,vdvZoneSelect,vdvAvOutputSelect)
+DEFINE_MODULE 'ZoneControl' zoneConn (zoneConfigFile, tpConfigFile,vdvZoneSelect,vdvAvOutputSelect)
 DEFINE_MODULE 'Lutron_Comm' lutronComm (lutronConfigFile1, lutronConfigFile2)
 DEFINE_MODULE 'RelayControl'  relayConn  (relayConfigFile,  tpConfigFile, dvAllRelays)
 DEFINE_MODULE 'PresetControl' presetConn (presetConfigFile, tpConfigFile)
@@ -133,6 +130,7 @@ DEFINE_MODULE 'Dmx' dmx(dmxConfigFile, tpConfigFile)
 DEFINE_MODULE 'NetBooterHttp_Comm' netBooter(netBooterConfigFile)
 DEFINE_MODULE 'PowerManagement_UI' powerMan(powerManConfigFile, tpConfigFile)
 DEFINE_MODULE 'Lighting_UI' lighting(lightingConfigFile, tpConfigFile)
+DEFINE_MODULE 'MarantzHttp_Comm' marantz(marantzConfigFile)
 
 
 DEFINE_START

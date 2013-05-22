@@ -108,8 +108,7 @@ volatile char    DIRECTV_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''}			// 251-256
 }
 
-// Array of devices for communication
-volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]
+volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]  // Array of devices for HTTP communication
 
 
 DEFINE_FUNCTION initAllDtvImpl()

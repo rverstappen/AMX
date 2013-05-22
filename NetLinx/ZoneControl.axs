@@ -1,11 +1,10 @@
 MODULE_NAME='ZoneControl' (
-    char	configFile[],
-    integer	TP_COUNT,
+    char	configFile[], char tpConfigFile[],
     dev		vdvZoneControl,
     dev		vdvAvControl)
 
 #include 'ZoneConfig.axi'
-#include 'TouchPanel.axi'
+#include 'TouchPanelConfig.axi'
 #include 'TouchPanelPorts.axi'
 
 DEFINE_CONSTANT
@@ -21,50 +20,51 @@ volatile char DBG_MODULE[] = 'ZoneControl'
 persistent integer gTpZoneSelect[TP_MAX_PANELS]
 
 // The TP devices
-volatile dev dvTpZoneSelect[TP_MAX_PANELS]
-volatile dev dvTpZoneControl[TP_MAX_PANELS]
+volatile TouchPanel	gPanels[TP_MAX_PANELS]
+volatile dev		gDvTpZoneSelect[TP_MAX_PANELS]
+volatile dev		gDvTpZoneControl[TP_MAX_PANELS]
 
 
 DEFINE_EVENT
 
-BUTTON_EVENT[dvTpZoneSelect, ZCFG_ZONE_SELECT]  // Zone selection button presses
+BUTTON_EVENT[gDvTpZoneSelect, ZCFG_ZONE_SELECT]  // Zone selection button presses
 {
     PUSH:
     {
 	// all channels map directly to input IDs
-	doTpZoneSelect (get_last(dvTpZoneSelect), button.input.channel, 0)
+	doTpZoneSelect (get_last(gDvTpZoneSelect), button.input.channel, 0)
     }
 }
 
-BUTTON_EVENT[dvTpZoneSelect, ZCFG_ZONE_SELECT_PREV]
+BUTTON_EVENT[gDvTpZoneSelect, ZCFG_ZONE_SELECT_PREV]
 {
     PUSH:
     {
-	doTpZoneSelectPrev (get_last(dvTpZoneSelect))
+	doTpZoneSelectPrev (get_last(gDvTpZoneSelect))
     }
 }
 
-BUTTON_EVENT[dvTpZoneSelect, ZCFG_ZONE_SELECT_NEXT]
+BUTTON_EVENT[gDvTpZoneSelect, ZCFG_ZONE_SELECT_NEXT]
 {
     PUSH:
     {
-	doTpZoneSelectNext (get_last(dvTpZoneSelect))
+	doTpZoneSelectNext (get_last(gDvTpZoneSelect))
     }
 }
 
 
-DATA_EVENT[dvTpZoneSelect]
+DATA_EVENT[gDvTpZoneSelect]
 {
     ONLINE:
     {
 	// Reconnected to TP; update the buttons
 	integer tpId
 	integer zoneId
-	tpId = get_last(dvTpZoneSelect)
+	tpId = get_last(gDvTpZoneSelect)
 	updateTpZoneList (tpId)
 	zoneId = gTpZoneSelect[tpId]
 	doTpZoneSelect (tpId, zoneId, 1)
-	debug (DBG_MODULE, 1, "'Restored TP selections: ',devtoa(dvTpZoneSelect[tpId])")
+	debug (DBG_MODULE, 1, "'Restored TP selections: ',devtoa(gDvTpZoneSelect[tpId])")
     }
     OFFLINE: {}
     STRING: { debug (DBG_MODULE, 8, "'received string from TP (',devtoa(data.device),'): ',data.text") }
@@ -79,17 +79,17 @@ DEFINE_FUNCTION doTpZoneSelect (integer tpId, integer zoneId, integer refresh)
         gTpZoneSelect[tpId] = zoneId
         if (zoneId > 0)
     	{
-	    debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpZoneSelect[tpId]),': selected zone ',itoa(zoneId),
+	    debug (DBG_MODULE, 5, "'TP ',devtoa(gDvTpZoneSelect[tpId]),': selected zone ',itoa(zoneId),
 	    	     		   ' (',gAllZones[zoneId].mName,')'")
-	    send_command dvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_NAME),'-',gAllZones[zoneId].mName"
-	    send_command dvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_SHORT_NAME),'-',gAllZones[zoneId].mShortName"
+	    send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_NAME),'-',gAllZones[zoneId].mName"
+	    send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_SHORT_NAME),'-',gAllZones[zoneId].mShortName"
 	    doZoneSwitch (tpId, zoneId, refresh)
     	}
     	else
     	{
-	    debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpZoneSelect[tpId]),': no selected zone'")
-	    send_command dvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_NAME),'-Press to Select a Zone'"
-	    send_command dvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_SHORT_NAME),'-Select Zone'"
+	    debug (DBG_MODULE, 5, "'TP ',devtoa(gDvTpZoneSelect[tpId]),': no selected zone'")
+	    send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_NAME),'-Press to Select a Zone'"
+	    send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(ZCFG_ADDRESS_ZONE_SHORT_NAME),'-Select Zone'"
     	}
     }
 }
@@ -166,39 +166,39 @@ DEFINE_FUNCTION integer findOutputInZone (zoneId, outputId)
 DEFINE_FUNCTION updateTpZoneList (integer tpId)
 {
     integer i
-    if (tpIsIridium(tpId))
+    if (tpIsIridium(gPanels,tpId))
     {
-	send_command dvTpZoneSelect[tpId],"'IRLB_CLEAR-',itoa(ZCFG_ADDRESS_ZONE_SELECT)"
-	send_command dvTpZoneSelect[tpId],"'IRLB_INDENT-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',3'"
-	send_command dvTpZoneSelect[tpId],"'IRLB_SCROLL_COLOR-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',Grey'"
-	send_command dvTpZoneSelect[tpId],"'IRLB_ADD-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',itoa(length_array(gAllZones)),',1'"
+	send_command gDvTpZoneSelect[tpId],"'IRLB_CLEAR-',itoa(ZCFG_ADDRESS_ZONE_SELECT)"
+	send_command gDvTpZoneSelect[tpId],"'IRLB_INDENT-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',3'"
+	send_command gDvTpZoneSelect[tpId],"'IRLB_SCROLL_COLOR-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',Grey'"
+	send_command gDvTpZoneSelect[tpId],"'IRLB_ADD-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',itoa(length_array(gAllZones)),',1'"
     }
     for (i = 1; i <= length_array(gAllZones); i++)
     {
-	debug (DBG_MODULE, 9, "'sending zone name update to ',devtoa(dvTpZoneSelect[tpId]),': ',gAllZones[i].mName")
-	send_command dvTpZoneSelect[tpId],"'TEXT',itoa(i),'-',gAllZones[i].mName"
-	send_command dvTpZoneSelect[tpId],"'IRLB_TEXT-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',
+	debug (DBG_MODULE, 9, "'sending zone name update to ',devtoa(gDvTpZoneSelect[tpId]),': ',gAllZones[i].mName")
+	send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(i),'-',gAllZones[i].mName"
+	send_command gDvTpZoneSelect[tpId],"'IRLB_TEXT-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',
 				itoa(i),',',gAllZones[i].mName"
-	send_command dvTpZoneSelect[tpId],"'IRLB_CHANNEL-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',
+	send_command gDvTpZoneSelect[tpId],"'IRLB_CHANNEL-',itoa(ZCFG_ADDRESS_ZONE_SELECT),',',
 				itoa(i),',',itoa(TP_PORT_ZONE_SELECT),',',itoa(i)"
     }
     for (; i <= ZCFG_MAX_ZONES; i++)
     {
-	send_command dvTpZoneSelect[tpId],"'TEXT',itoa(i),'-'"
+	send_command gDvTpZoneSelect[tpId],"'TEXT',itoa(i),'-'"
     }
 }
 
 
 DEFINE_EVENT
 
-BUTTON_EVENT[dvTpZoneControl, ZONE_CONTROL_POWER_OFF_AV]
+BUTTON_EVENT[gDvTpZoneControl, ZONE_CONTROL_POWER_OFF_AV]
 {
-    PUSH: { doZonePowerOffAv (gTpZoneSelect[get_last(dvTpZoneControl)]) }
+    PUSH: { doZonePowerOffAv (gTpZoneSelect[get_last(gDvTpZoneControl)]) }
 }
 
-BUTTON_EVENT[dvTpZoneControl, ZONE_CONTROL_POWER_OFF_ALL]
+BUTTON_EVENT[gDvTpZoneControl, ZONE_CONTROL_POWER_OFF_ALL]
 {
-    PUSH: { doZonePowerOffAll (gTpZoneSelect[get_last(dvTpZoneControl)]) }
+    PUSH: { doZonePowerOffAll (gTpZoneSelect[get_last(gDvTpZoneControl)]) }
 }
 
 DEFINE_FUNCTION doZonePowerOffAv (integer zoneId)
@@ -317,19 +317,13 @@ DEFINE_FUNCTION handleZoneControlCommand (char msg[])
 }
 
 DEFINE_START
-
-readConfigFile (DBG_MODULE, configFile)
-
-set_length_array (gTpZoneSelect,	TP_COUNT)
-set_length_array (dvTpZoneSelect,	TP_COUNT)
-set_length_array (dvTpZoneControl,	TP_COUNT)
 {
-    integer i
-    for (i = 1; i <= TP_COUNT; i++)
-    {
-	dvTpZoneSelect[i]	= (TP_DEV_NUMBER_OFFSET+i):TP_PORT_ZONE_SELECT:1
-	dvTpZoneControl[i]	= (TP_DEV_NUMBER_OFFSET+i):TP_PORT_ZONE_CONTROL:1
-    }
+    tpReadConfigFile ('ZoneControl', tpConfigFile, gPanels)
+    readConfigFile (DBG_MODULE, configFile)
+
+    set_length_array (gTpZoneSelect, length_array(gPanels))
+    tpMakeLocalDevArray ('ZoneControl', gDvTpZoneSelect,  gPanels, TP_PORT_ZONE_SELECT) // gGeneral.mTpPortPlaylistSelect)
+    tpMakeLocalDevArray ('ZoneControl', gDvTpZoneControl, gPanels, TP_PORT_ZONE_CONTROL) // gGeneral.mTpPortNowPlaying)
     rebuild_event()
 }
 

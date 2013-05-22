@@ -3,7 +3,7 @@
  * It should be included after certain variables have been declared.
  *)
 
-#include 'TouchPanel.axi'
+#include 'TouchPanelConfig.axi'
 #include 'TouchPanelPorts.axi'
 
 DEFINE_CONSTANT
@@ -403,4 +403,13 @@ wait 6053	// about every 10 minutes
 {
     if (initializedOk())
         connect()
+}
+
+// Temporary, until we make all this stuff configurable
+DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
+{
+}
+
+DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propValue[])
+{    
 }

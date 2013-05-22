@@ -4,6 +4,7 @@ PROGRAM_NAME='TouchPanelConfig'
 #define __TOUCH_PANEL_CONFIG__
 
 #include 'Debug.axi'
+#include 'TouchPanel.axi'
 #include 'ConfigUtils.axi'
 #include 'ConfigServerUtils.axi'
 
@@ -45,6 +46,11 @@ structure TouchPanel
 DEFINE_VARIABLE
 
 volatile integer gTpReadMode = TP_READING_NONE
+
+DEFINE_FUNCTION tpMakeLocalDev (dev result, integer id, integer port)
+{
+    result = (TP_DEV_NUMBER_OFFSET+id):port:0
+}
 
 DEFINE_FUNCTION tpMakeLocalDevArray (char moduleName[], dev result[], TouchPanel panels[], integer port)
 {

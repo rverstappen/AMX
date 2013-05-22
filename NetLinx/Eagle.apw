@@ -239,6 +239,14 @@
 <FilePathName>LutronConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="None" Type="Include"><Identifier>MarantzConfig</Identifier>
+<FilePathName>MarantzConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>MarantzHttp_Comm</Identifier>
+<FilePathName>MarantzHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>NetBooterHttp_COMM</Identifier>
 <FilePathName>NetBooterHttp_COMM.axs</FilePathName>
 <Comments></Comments>

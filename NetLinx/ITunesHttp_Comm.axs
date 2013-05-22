@@ -1,28 +1,45 @@
-MODULE_NAME='ITunesHttp_Comm' (dev     dvHttpControl,
-			       dev     dvHttpLocal,
-			       char    httpIp[],
-			       integer httpPort,
-			       integer TP_COUNT)
+MODULE_NAME='ITunesHttp_Comm' (char configFile[], char tpConfigFile[])
 
 // This iTunes module provides basic control over an iTunes server running
 // the Apache and a very simple PHP module
 
-#include 'Debug.axi'
+// We also have to define local devices somewhere in order to receive data back from
+// HTTP servers. We will use these in order, one per HTTP server.
+DEFINE_CONSTANT
+STUPID_AMX_REQUIREMENT11 = 0:20:0
+STUPID_AMX_REQUIREMENT12 = 0:21:0
+STUPID_AMX_REQUIREMENT13 = 0:22:0
+STUPID_AMX_REQUIREMENT14 = 0:23:0
+STUPID_AMX_REQUIREMENT15 = 0:24:0
+STUPID_AMX_REQUIREMENT16 = 0:25:0
+STUPID_AMX_REQUIREMENT17 = 0:26:0
+STUPID_AMX_REQUIREMENT18 = 0:27:0
+STUPID_AMX_REQUIREMENT19 = 0:28:0
+STUPID_AMX_REQUIREMENT20 = 0:29:0
+
+DEFINE_VARIABLE
+// This needs to be defined before the inclusion of HttpImpl.axi:
+volatile dev gHttpLocalDvPool [] = { 
+    STUPID_AMX_REQUIREMENT11, STUPID_AMX_REQUIREMENT12, STUPID_AMX_REQUIREMENT13,
+    STUPID_AMX_REQUIREMENT14, STUPID_AMX_REQUIREMENT15, STUPID_AMX_REQUIREMENT16,
+    STUPID_AMX_REQUIREMENT17, STUPID_AMX_REQUIREMENT18, STUPID_AMX_REQUIREMENT19,
+    STUPID_AMX_REQUIREMENT20 }
+
+DEFINE_VARIABLE
+volatile char	DBG_MODULE[] = 'ITunes HTTP'
+
+
+#include 'ITunesConfig.axi'
+#include 'TouchPanelConfig.axi'
+#include 'HttpImpl.axi'
 
 DEFINE_CONSTANT
 
 integer ITUNES_MAX_PLAYLISTS = 100
 integer ITUNES_MAX_PLAYLIST_NAME_LEN = 100
 
-DEFINE_DEVICE
-
-DEFINE_TYPE
-
 DEFINE_VARIABLE
 
-volatile char    DBG_MODULE[] = 'iTunes HTTP'
-volatile char    ITUNES_HTML_PREFIX[] = {'GET /iTunes/control.php?q='}
-volatile char    ITUNES_HTML_SUFFIX[1024]
 volatile char    ITUNES_SUPPORTED_CHANNEL_STRS[256][32] = {
     {'play'},				// 1
     {'stop'},				// 2
@@ -63,9 +80,6 @@ volatile char    ITUNES_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''}			// 251-256
 }
 
-volatile char recvBuf[1024]
-volatile char crlf[] = {$0D,$0A}
-
 volatile char	     gAllPlaylists[ITUNES_MAX_PLAYLISTS][ITUNES_MAX_PLAYLIST_NAME_LEN]
 volatile char	     gNpTitle[100]
 volatile char	     gNpAlbumArtist[100]
@@ -77,19 +91,36 @@ volatile integer     gNpYear
 
 #include 'ITunesHttp_UI.axi'
 
-DEFINE_LATCHING
+DEFINE_VARIABLE
 
-DEFINE_MUTUALLY_EXCLUSIVE
+volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]  // Array of devices for HTTP communication
 
-DEFINE_FUNCTION sendToHttpServer (char msg[])
+
+DEFINE_FUNCTION initAllITunesImpl()
 {
-    ip_client_open (dvHttpLocal.PORT, httpIp, httpPort, IP_TCP)
-    debug (DBG_MODULE, 8, "'sending Apache PHP iTunes message:',ITUNES_HTML_PREFIX,msg,ITUNES_HTML_SUFFIX")
-    send_string dvHttpLocal, "ITUNES_HTML_PREFIX,msg,ITUNES_HTML_SUFFIX"
+    integer httpId
+    set_length_array (gHttpImpl, length_array(gITunes))
+    for (httpId = 1; httpId <= length_array(gITunes); httpId++)
+    {
+	initHttpImpl (httpId, gHttpCfgs[httpId], 'GET /iTunes/control.php?q=', '')
+    }
 }
 
-DEFINE_FUNCTION handleHttpResponse (char msg[])
+DEFINE_FUNCTION relayChannel (integer iTunesId, integer chan)
 {
+    char msg[32]
+    msg = ITUNES_SUPPORTED_CHANNEL_STRS[chan]
+    debug (DBG_MODULE, 8, "'button press on channel ',itoa(chan),' (=><',msg,'>)'")
+    if (msg != '')
+    {
+        sendHttp (gHttpCfgs[iTunesId], iTunesId, msg)
+    }
+}
+
+DEFINE_FUNCTION handleHttpResponse (integer httpId, char msg[])
+{
+    // TO DO: handle different iTunes servers. Right now, events from different servers would be handled as
+    // a single server. Need to match TPs to servers.
     select
     {
     active (find_string(msg,'PLAYLISTS:',1)):
@@ -187,57 +218,36 @@ DEFINE_FUNCTION handleHttpResponse (char msg[])
     } // select
 }
 
-DEFINE_FUNCTION getPlaylists()
+DEFINE_FUNCTION getPlaylists (integer iTunesId)
 {
-    sendToHttpServer ('getPlaylists')
+    sendHttp (gHttpCfgs[iTunesId], iTunesId, 'getPlaylists')
 }
 
-DEFINE_FUNCTION playPlaylist (integer id)
+DEFINE_FUNCTION playPlaylist (integer iTunesId, integer playlistId)
 {
-    sendToHttpServer ("'playPlaylist&playlist=',itoa(id)")
+    sendHttp (gHttpCfgs[iTunesId], iTunesId, "'playPlaylist&playlist=',itoa(playlistId)")
 }
 
-DEFINE_FUNCTION getNowPlaying()
+DEFINE_FUNCTION getNowPlaying (integer iTunesId)
 {
-    sendToHttpServer ('nowPlaying')
+    sendHttp (gHttpCfgs[iTunesId], iTunesId, 'nowPlaying')
 }
 
 DEFINE_EVENT
 
-BUTTON_EVENT[dvHttpControl, 0]
+BUTTON_EVENT[gDvHttpControl, 0]
 {
-    PUSH:
-    {
-	stack_var char msg[32]
-	msg = ITUNES_SUPPORTED_CHANNEL_STRS[PUSH_CHANNEL]
-	debug (DBG_MODULE, 8, "'button press on channel ',itoa(PUSH_CHANNEL),' (',msg,')'")
-	if (msg != '')
-	{
-	    sendToHttpServer (msg)
-	}
-    }
-    HOLD[3,REPEAT]:
-    {
-    }
-    RELEASE:
-    {
-    }
+    PUSH:		{ relayChannel (get_last(gDvHttpControl), button.input.channel) }
+    HOLD[3,REPEAT]:	{ relayChannel (get_last(gDvHttpControl), button.input.channel) }
+    RELEASE:		{}
 }
 
-CHANNEL_EVENT[dvHttpControl, 0]
+CHANNEL_EVENT[gDvHttpControl, 0]
 {
-    ON:
-    {
-	stack_var char msg[32]
-	msg = ITUNES_SUPPORTED_CHANNEL_STRS[CHANNEL.CHANNEL]
-	if (msg != '')
-	{
-	    sendToHttpServer (msg)
-	}
-    }
+    ON:			{ relayChannel (get_last(gDvHttpControl), channel.channel) }
 }
 
-DATA_EVENT[dvHttpControl]
+DATA_EVENT[gDvHttpControl]
 {
     ONLINE:  {}
     OFFLINE: {}
@@ -245,26 +255,26 @@ DATA_EVENT[dvHttpControl]
     COMMAND: {debug (DBG_MODULE, 9, "'got command: ',data.text")}
 }
 
-DATA_EVENT[dvHttpLocal]
-{
-    ONLINE: {}
-    STRING:
-    {
-	handleHttpResponse (recvBuf)
-	clear_buffer recvBuf
-    }
-    OFFLINE: {}
-    ONERROR:
-    {
-	debug (DBG_MODULE, 1, "'TCP connection error: ',itoa(data.number)")
-    }
-}
-
 
 DEFINE_START
-
-debug (DBG_MODULE, 0, "'Starting Apache PHP iTunes request interface: ',httpIp,':',itoa(httpPort)")
-ITUNES_HTML_SUFFIX = "' HTTP/1.0',crlf,'Host: ',httpIp,':',itoa(httpPort),crlf,'Connection: Keep-Alive',crlf,crlf"
-recvBuf = ''
-create_buffer dvHttpLocal, recvBuf
+{
+    tpReadConfigFile ('ITunesConfig', tpConfigFile, gPanels)
+    readConfigFile ('ITunesConfig', configFile)
+    debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definition(s)'")
+    debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gITunes)),' iTunes server definition(s)'")
+    if (gGeneral.mEnabled)
+    {
+	debug (DBG_MODULE, 1, "'ITunesHttp_Comm module is enabled.'")
+	setHttpDeviceList (gDvHttpControl, gHttpCfgs)
+	initAllITunesImpl()
+//	tpMakeLocalDevArray ('ITunesHttp_Comm', gDvTps ,             gPanels, gGeneral.mTpPort)
+	tpMakeLocalDevArray ('ITunesHttp_Comm', gDvTpSelectPlaylist, gPanels, gGeneral.mTpPortPlaylistSelect)
+	tpMakeLocalDevArray ('ITunesHttp_Comm', gDvTpNowPlaying,     gPanels, gGeneral.mTpPortNowPlaying)
+    }
+    else
+    {
+	debug (DBG_MODULE, 1, "'ITunesHttp_Comm module is disabled.'")
+    }
+    rebuild_event()
+}
 
