@@ -69,8 +69,8 @@ DEFINE_FUNCTION refreshTpControlButtons (integer tpId)
 	if (gPowerControls[i].mTpChannel > 0)
 	{
 	    // Show button and update text
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',1'")
-	    sendCommand (gDvTps[tpId],"'TEXT',itoa(gPowerControls[i].mTpChannel),'-',
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',1'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gPowerControls[i].mTpChannel),'-',
 					           gPowerControls[i].mName")
 	    // Update the channel status
 	    updatePowerChannel (tpId, i, gControlState[i])
@@ -81,7 +81,7 @@ DEFINE_FUNCTION refreshTpControlButtons (integer tpId)
     {
 	if (!gControlByChannel[i])
 	{
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
 	}
     }
 }
@@ -159,13 +159,7 @@ DEFINE_FUNCTION sendPowerCommand (dev cmdDev, integer onOff)
 {
     debug (DBG_MODULE, 8,
     	   "'sending power control command to ',devtoa(cmdDev),', ',itoa(onOff)")
-    sendCommand (cmdDev, "'POWER=>',itoa(onOff)")
-}
-
-DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
-{
-    debug (DBG_MODULE, 9, "'send_string ',devtoa(cmdDev),', ',cmdStr")
-    send_command cmdDev, cmdStr
+    sendCommand (DBG_MODULE, cmdDev, "'POWER=>',itoa(onOff)")
 }
 
 DEFINE_PROGRAM

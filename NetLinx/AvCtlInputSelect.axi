@@ -82,8 +82,8 @@ DEFINE_FUNCTION doTpInputSelect (integer tpId, integer inputId, integer forceCon
     prevInputId = gTpInput[tpId]
 
     // Hide the popups, if showing
-    send_command dvTpInputSelect[tpId],"'@PPF-',AV_INPUT_SELECTOR_FULL_POPUP"
-    send_command dvTpInputSelect[tpId],"'@PPF-',AV_INPUT_SELECTOR_MINI_POPUP"
+    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'@PPF-',AV_INPUT_SELECTOR_FULL_POPUP")
+    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'@PPF-',AV_INPUT_SELECTOR_MINI_POPUP")
 
     if (!forceControlResync && (inputId = prevInputId))
     {
@@ -109,20 +109,20 @@ DEFINE_FUNCTION updateTpInputName (integer tpId, inputId)
 {
     if (inputId > 0)
     {
-   	send_command dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME,      '-',gAllInputs[inputId].mName"
-   	send_command dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_SHORT_NAME,'-',gAllInputs[inputId].mShortName"
+   	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME,      '-',gAllInputs[inputId].mName")
+   	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_SHORT_NAME,'-',gAllInputs[inputId].mShortName")
     }
     else
     {
 	if (gTpOutputSelect[tpId] > 0)
 	{
-	    send_command dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME, '-Press to Select Input'"
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME, '-Press to Select Input'")
 	}
 	else
 	{
-	    send_command dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME, '-Select Input (After Output)'"
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_NAME, '-Select Input (After Output)'")
 	}
-   	send_command dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_SHORT_NAME,'-Select Input'"
+   	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',AVCFG_ADDRESS_INPUT_SHORT_NAME,'-Select Input'")
     }
 }
 
@@ -138,11 +138,11 @@ DEFINE_FUNCTION updateTpInputs (integer tpId)
 	updateTpInputName (tpId, currInputId)
 	if (iRidium)
     	{
-	    send_command dvTpInputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_INPUT_SELECT"
-	    send_command dvTpInputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_INPUT_SELECT,',3'"
-	    send_command dvTpInputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_INPUT_SELECT,',Grey'"
-	    send_command dvTpInputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_INPUT_SELECT,',',
-			itoa(length_array(gAllOutputs[outputId].mAllInputIds)),',1'"
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_INPUT_SELECT")
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_INPUT_SELECT,',3'")
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_INPUT_SELECT,',Grey'")
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_INPUT_SELECT,',',
+			itoa(length_array(gAllOutputs[outputId].mAllInputIds)),',1'")
         }
 	for (i = 1; i <= length_array(gAllOutputs[outputId].mAllInputIds); i++)
 	{
@@ -151,21 +151,21 @@ DEFINE_FUNCTION updateTpInputs (integer tpId)
 	    	  	       gAllInputs[inputId].mName")
 	    if (iRidium)
 	    {
-		send_command dvTpInputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_INPUT_SELECT,',',
-			itoa(i),',',gAllInputs[inputId].mName"
-	    	send_command dvTpInputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_INPUT_SELECT,',',
-			itoa(i),',',itoa(TP_PORT_AV_INPUT_SELECT),',',itoa(gAllInputs[inputId].mId)"
+		sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_INPUT_SELECT,',',
+			     itoa(i),',',gAllInputs[inputId].mName")
+	    	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_INPUT_SELECT,',',
+			     itoa(i),',',itoa(TP_PORT_AV_INPUT_SELECT),',',itoa(gAllInputs[inputId].mId)")
 	    }
 	    else
 	    {
-	   	send_command dvTpInputSelect[tpId],"'TEXT',itoa(i),'-',gAllInputs[inputId].mName"
+	   	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',itoa(i),'-',gAllInputs[inputId].mName")
 	    }
 	}
 	if (!iRidium)
 	{
 	    for (; i<= AVCFG_MAX_INPUTS; i++)
 	    {
-	   	send_command dvTpInputSelect[tpId],"'TEXT',itoa(i),'-'"
+	   	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'TEXT',itoa(i),'-'")
 	    }
 	}
     }

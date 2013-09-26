@@ -28,5 +28,11 @@ DEFINE_FUNCTION char[17] devchantoa (devchan dvc)
     return "itoa(dvc.device.number),':',itoa(dvc.device.port),':',itoa(dvc.device.system),', ',itoa(dvc.channel)"
 }
 
+DEFINE_FUNCTION sendCommand (char dbgModule[], dev cmdDev, char cmdStr[])
+{
+    debug (dbgModule, 9, "'send_command ',devtoa(cmdDev),', ',cmdStr")
+    send_command cmdDev, cmdStr
+}
+
 
 #end_if // __DEBUG_FUNC__

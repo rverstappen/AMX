@@ -120,7 +120,7 @@ DEFINE_FUNCTION refreshTpDmxButtons (integer tpId)
 	if (gDmxRgbs[i].mTpChannel > 0)
 	{
 	    // Simple button
-	    sendCommand (gDvTps[tpId],"'TEXT',itoa(gDmxRgbs[i].mTpChannel),'-',gDmxRgbs[i].mName")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gDmxRgbs[i].mTpChannel),'-',gDmxRgbs[i].mName")
 	}
     }
     // Blank out unused buttons
@@ -128,7 +128,7 @@ DEFINE_FUNCTION refreshTpDmxButtons (integer tpId)
     {
 	if (!gDmxByChannel[i])
 	{
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
 	}
     }
 }
@@ -142,9 +142,9 @@ DEFINE_FUNCTION refreshTpPresetButtons (integer tpId)
 	if (gDmxRgbPresets[i].mTpChannel > 0)
 	{
 	    // Simple button
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(gDmxRgbPresets[i].mTpChannel),',1'")
-	    sendCommand (gDvTps[tpId],"'TEXT', itoa(gDmxRgbPresets[i].mTpChannel),'-',gDmxRgbPresets[i].mName")
-	    sendCommand (gDvTps[tpId],"'^BCF-',itoa(gDmxRgbPresets[i].mTpChannel),',0,#',
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(gDmxRgbPresets[i].mTpChannel),',1'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT', itoa(gDmxRgbPresets[i].mTpChannel),'-',gDmxRgbPresets[i].mName")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^BCF-',itoa(gDmxRgbPresets[i].mTpChannel),',0,#',
 	    		 format('%02X',gDmxRgbPresets[i].mLevelRed),
 	    		 format('%02X',gDmxRgbPresets[i].mLevelGreen),
 	    		 format('%02X',gDmxRgbPresets[i].mLevelBlue)")
@@ -154,7 +154,7 @@ DEFINE_FUNCTION refreshTpPresetButtons (integer tpId)
     {
 	if (!gPresetByChannel[i])
 	{
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
 	}
     }
 }
@@ -346,12 +346,6 @@ DEFINE_FUNCTION sendDmxCommand (dev dv, char cmd[])
 {
     debug (DBG_MODULE, 8, "'sending DMX command to ',devtoa(dv),': ',cmd")
     send_string dv, cmd
-}
-
-DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
-{
-    debug (DBG_MODULE, 9, "'send_string ',devtoa(cmdDev),', ',cmdStr")
-    send_command cmdDev, cmdStr
 }
 
 DEFINE_PROGRAM

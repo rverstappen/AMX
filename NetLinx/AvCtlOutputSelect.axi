@@ -36,8 +36,8 @@ BUTTON_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT]
     PUSH:
     {
 	// Force the hiding of the output selection popups
-     	send_command dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP"
-     	send_command dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_MINI_POPUP"
+     	sendCommand (DBG_MODULE, dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
+     	sendCommand (DBG_MODULE, dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_MINI_POPUP")
 	doTpOutputSelect (get_last(dvTpOutputSelect), button.input.channel, 0)
     }
 }
@@ -51,6 +51,14 @@ BUTTON_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_NEXT]
 {
     PUSH: { doTpOutputSelectNext (get_last(dvTpOutputSelect)) }
 }
+
+LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT]
+{
+    integer tpId
+    tpId = get_last(dvTpOutputSelect)
+    debug (DBG_MODULE,9,"'received level event for output ID (level): ',itoa(level.input.level)")
+}
+
 
 DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 {
@@ -74,17 +82,17 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 	    if (outputId = AVCFG_OUTPUT_SELECT_ALL)
 	    {
 		debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpOutputSelect[tpId]),': selected output ',itoa(outputId),' (ALL)'")
-		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-ALL'"
-		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-ALL'"
+		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-ALL'")
+		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-ALL'")
 	    }
 	    else
 	    {
 		debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpOutputSelect[tpId]),': selected output ',itoa(outputId),
 				       ' (',gAllOutputs[outputId].mName,')'")
-		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-',gAllOutputs[outputId].mName"
-		send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-',gAllOutputs[outputId].mShortName"
-		send_command dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',',
-					itoa(length_array(gAllOutputs[outputId].mAvrTvId)>0)"
+		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-',gAllOutputs[outputId].mName")
+		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-',gAllOutputs[outputId].mShortName")
+		sendCommand (DBG_MODULE, dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',',
+					itoa(length_array(gAllOutputs[outputId].mAvrTvId)>0)")
 	    }
 
 	    // Check the power button status(es)
@@ -100,17 +108,17 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
     	else
     	{
 	    debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpOutputSelect[tpId]),': no selected Output'")
-	    send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-Press to Select Output'"
-	    send_command dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-Select Output'"
-		send_command dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',0'"
+	    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-Press to Select Output'")
+	    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-Select Output'")
+	    sendCommand (DBG_MODULE, dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',0'")
     	}
 	// Enable or disable the output selection popup and the prev/next buttons
 (*
 	multipleOutputs = (length_array(gTpOutputSelectList[tpId]) > 1)
-//	send_command dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_NAME,',',itoa(multipleOutputs)"
-//	send_command dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,',',itoa(multipleOutputs)"
-	send_command dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SELECT_NEXT,',',itoa(multipleOutputs)"
-	send_command dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SELECT_PREV,',',itoa(multipleOutputs)"
+//	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_NAME,',',itoa(multipleOutputs)")
+//	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,',',itoa(multipleOutputs)")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SELECT_NEXT,',',itoa(multipleOutputs)")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'^ENA-',AVCFG_ADDRESS_OUTPUT_SELECT_PREV,',',itoa(multipleOutputs)")
 *)
 
 	// Update the inputs for this TP/output
@@ -227,31 +235,34 @@ DEFINE_FUNCTION updateTpOutputListMini (integer tpId)
 DEFINE_FUNCTION updateTpOutputListFull_Iridium (integer tpId, AvTpInfo tpInfo)
 {
     integer outputId, i
-    send_command dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO"
-    send_command dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',3'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',Grey'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		    itoa(length_array(tpInfo.mAudioOutputListOrder)),',1'"
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',3'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',Grey'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
+		    itoa(length_array(tpInfo.mAudioOutputListOrder)),',1'")
     for (i = 1; i <= length_array(tpInfo.mAudioOutputListOrder); i++)
     {
 	outputId = tpInfo.mAudioOutputListOrder[i]
-	send_command dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		itoa(i),',',gAllOutputs[outputId].mName"
-	send_command dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
+		itoa(i),',',gAllOutputs[outputId].mName")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
+		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
     }
-    send_command dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO"
-    send_command dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',3'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',Grey'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		    itoa(length_array(tpInfo.mVideoOutputListOrder)),',1'"
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',3'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',Grey'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
+		    itoa(length_array(tpInfo.mVideoOutputListOrder)),',1'")
     for (i = 1; i <= length_array(tpInfo.mVideoOutputListOrder); i++)
     {
 	outputId = tpInfo.mVideoOutputListOrder[i]
-	send_command dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		itoa(i),',',gAllOutputs[outputId].mName"
-	send_command dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
+		itoa(i),',',gAllOutputs[outputId].mName")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
+		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
+	// Iridium 2.0:
+//	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
+//		itoa(i),',',gAllOutputs[outputId].mName")
     }
 }
 
@@ -261,34 +272,34 @@ DEFINE_FUNCTION updateTpOutputListFull_Standard (integer tpId, AvTpInfo tpInfo)
     for (i = 1; i <= length_array(tpInfo.mVideoOutputListOrder); i++)
     {
 	outputId = tpInfo.mVideoOutputListOrder[i]
-	send_command dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[i].mName"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[i].mName")
     }
     for (; i <= length_array(tpInfo.mAudioOutputListOrder); i++)
     {
 	outputId = tpInfo.mAudioOutputListOrder[i]
-	send_command dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[i].mName"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[i].mName")
     }
     for (; i <= AVCFG_MAX_OUTPUTS; i++)
     {
-	send_command dvTpOutputSelect[tpId],"'TEXT-',itoa(i),','"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT-',itoa(i),','")
     }
 }
 
 DEFINE_FUNCTION updateTpOutputListMini_Iridium (integer tpId, AvTpInfo tpInfo)
 {
     integer outputId, i
-    send_command dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_MINI"
-    send_command dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',3'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',Grey'"
-    send_command dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(length_array(gTpOutputSelectList[tpId])),',1'"
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_MINI")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',3'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',Grey'")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
+		    itoa(length_array(gTpOutputSelectList[tpId])),',1'")
     for (i = 1; i <= length_array(gTpOutputSelectList[tpId]); i++)
     {
 	outputId = gTpOutputSelectList[tpId][i]
-	send_command dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(i),',',gAllOutputs[outputId].mName"
-	send_command dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
+		    itoa(i),',',gAllOutputs[outputId].mName")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
+		    itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
     }
 }
 
@@ -298,11 +309,11 @@ DEFINE_FUNCTION updateTpOutputListMini_Standard (integer tpId, AvTpInfo tpInfo)
     for (i = 1; i <= length_array(gTpOutputSelectList[tpId]); i++)
     {
 	outputId = gTpOutputSelectList[tpId][i]
-	send_command dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[outputId].mName"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT-',itoa(i),',',gAllOutputs[outputId].mName")
     }
     for (; i <= AVCFG_MAX_OUTPUTS; i++)
     {
-	send_command dvTpOutputSelect[tpId],"'TEXT-',itoa(i),','"
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT-',itoa(i),','")
     }
 }
 

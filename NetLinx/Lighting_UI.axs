@@ -71,8 +71,8 @@ DEFINE_FUNCTION refreshTpControlButtons (integer tpId)
 	    if (gLightingButtons[controlId][i].mTpChannel > 0)
 	    {
 		// Show button and update text
-		sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',1'")
-		sendCommand (gDvTps[tpId],"'TEXT',itoa(i),'-',gLightingButtons[controlId][i].mName")
+		sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',1'")
+		sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(i),'-',gLightingButtons[controlId][i].mName")
 		// Update the channel status
 		updateButtonChannel (tpId, i, gButtonState[controlId][i])
 	    }
@@ -86,7 +86,7 @@ DEFINE_FUNCTION refreshTpControlButtons (integer tpId)
     // Blank out unused buttons
     for (; i <= gGeneral.mTpChannelHigh; i++)
     {
-	sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
     }
 }
 
@@ -159,7 +159,7 @@ DEFINE_FUNCTION sendConfigRequestCommand ()
 {
     debug (DBG_MODULE, 8,
     	   "'sending lighting config request command to ',devtoa(gGeneral.mCommDev)")
-    sendCommand (gGeneral.mCommDev, "'?GET-ALL-INPUTS'")
+    sendCommand (DBG_MODULE, gGeneral.mCommDev, "'?GET-ALL-INPUTS'")
 }
 
 DEFINE_FUNCTION sendButtonClickCommand (integer controlId, integer buttonId)
@@ -170,13 +170,7 @@ DEFINE_FUNCTION sendButtonClickCommand (integer controlId, integer buttonId)
     debug (DBG_MODULE, 8,
     	   "'sending lighting control command to ',devtoa(cmdDev),
 	    ', controlId=',itoa(controlId),', buttonId=',itoa(buttonId)")
-    sendCommand (cmdDev, "'CLICK=>',itoa(controlId),':',itoa(buttonId)")
-}
-
-DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
-{
-    debug (DBG_MODULE, 9, "'send_string ',devtoa(cmdDev),', ',cmdStr")
-    send_command cmdDev, cmdStr
+    sendCommand (DBG_MODULE, cmdDev, "'CLICK=>',itoa(controlId),':',itoa(buttonId)")
 }
 
 DEFINE_PROGRAM

@@ -195,12 +195,12 @@ DEFINE_FUNCTION sendField (char addressPort[], char value[], integer checkColor)
     local_var char cmdStr[600]
     integer i
     cmdStr = "'TEXT',addressPort,'-',value"
-    sendCommand (dvStatus, cmdStr)
+    sendCommand (DBG_MODULE, dvStatus, cmdStr)
     for (i = 1; i <= TP_COUNT; i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
 	}
     }
 }
@@ -210,12 +210,12 @@ DEFINE_FUNCTION sendAppendField (char addressPort[], char value[])
     local_var char cmdStr[600]
     integer i
     cmdStr = "'^BAT-',addressPort,',0,',value"
-    sendCommand (dvStatus, cmdStr)
+    sendCommand (DBG_MODULE, dvStatus, cmdStr)
     for (i = 1; i <= TP_COUNT; i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
 	}
     }
 }
@@ -225,19 +225,19 @@ DEFINE_FUNCTION sendIconField (char addressPort[], char value[])
     local_var char cmdStr[100]
     integer i
     cmdStr = "'^BMP-',addressPort,',0,',value,'.png'"
-    sendCommand (dvStatus, cmdStr)
+    sendCommand (DBG_MODULE, dvStatus, cmdStr)
     for (i = 1; i <= TP_COUNT; i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
 	}
     }
 }
 
 DEFINE_FUNCTION sendFieldTp (integer tpId, char addressPort[], char value[], integer checkColor)
 {
-    sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',value")
+    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',value")
 }
 
 DEFINE_FUNCTION sendTempIntFieldTp (integer tpId, char addressPort[], sinteger temp, char scale)
@@ -245,7 +245,7 @@ DEFINE_FUNCTION sendTempIntFieldTp (integer tpId, char addressPort[], sinteger t
     // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
     char str[8]
     str = "itoa(temp),$B0,scale"
-    sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',str")
+    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',str")
 }
 
 DEFINE_FUNCTION sendTempFloatFieldTp (integer tpId, char addressPort[], float temp, char scale)
@@ -253,17 +253,17 @@ DEFINE_FUNCTION sendTempFloatFieldTp (integer tpId, char addressPort[], float te
     // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
     char str[8]
     str = "ftoa(temp),$B0,scale"
-    sendCommand (dvTp[tpId], "'TEXT',addressPort,'-',str")
+    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',str")
 }
 
 DEFINE_FUNCTION sendAppendFieldTp (integer tpId, char addressPort[], char value[])
 {
-    sendCommand (dvTp[tpId], "'^BAT-',addressPort,',0,',value")
+    sendCommand (DBG_MODULE, dvTp[tpId], "'^BAT-',addressPort,',0,',value")
 }
 
 DEFINE_FUNCTION sendIconFieldTp (integer tpId, char addressPort[], char value[])
 {
-    sendCommand (dvTp[tpId], "'^BMP-',addressPort,',0,',value,'.png'")
+    sendCommand (DBG_MODULE, dvTp[tpId], "'^BMP-',addressPort,',0,',value,'.png'")
 }
 
 DEFINE_FUNCTION refreshTp (integer tpId)
@@ -342,12 +342,6 @@ DEFINE_FUNCTION sinteger calcWindChillC (float temp, float wind)
     return 13.12 + 0.6215*temp - 11.37*power_value(wind,0.16) + 0.3965*power_value(temp,0.16)
 }
 *)
-
-DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
-{
-    debug (DBG_MODULE, 9, "'send_command ',devtoa(cmdDev),', ',cmdStr")
-    send_command cmdDev, cmdStr
-}
 
 DEFINE_FUNCTION integer initializedOk()
 {

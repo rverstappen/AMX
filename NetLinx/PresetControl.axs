@@ -42,11 +42,11 @@ DEFINE_FUNCTION handleTpPresetEvent (integer tpId, integer chan)
     switch (gPresets[presetId].mType)
     {
 	case PRESET_TYPE_AV_COMMAND:
-	     sendCommand(gGeneral.mDevControlAv,	gPresets[presetId].mCommandStr)
+	     sendCommand(DBG_MODULE, gGeneral.mDevControlAv,	gPresets[presetId].mCommandStr)
 	case PRESET_TYPE_LUTRON_COMMAND:
-	     sendCommand(gGeneral.mDevControlLutron,	gPresets[presetId].mCommandStr)
+	     sendCommand(DBG_MODULE, gGeneral.mDevControlLutron,	gPresets[presetId].mCommandStr)
 	case PRESET_TYPE_GENERAL_COMMAND:
-	     sendCommand(gPresets[presetId].mCommandDev,gPresets[presetId].mCommandStr)
+	     sendCommand(DBG_MODULE, gPresets[presetId].mCommandDev,gPresets[presetId].mCommandStr)
         case PRESET_TYPE_AV_GRID:
 	     handleTpAvGridEvent(tpId, presetId, chan)
     }
@@ -89,7 +89,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 	if (gPresets[i].mChannel > 0)
 	{
 	    // Simple preset button
-	    sendCommand (gDvTps[tpId],"'TEXT',itoa(gPresets[i].mChannel),'-',gPresets[i].mName")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gPresets[i].mChannel),'-',gPresets[i].mName")
 	}
 	else if (gPresets[i].mType = PRESET_TYPE_AV_GRID)
 	{
@@ -104,7 +104,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		    {
 			chan = gPresets[i].mTpGridChannelsBegin + col
 			actionId = gPresets[i].mAvActionIds[col]
-			sendCommand (gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mName")
+			sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mName")
 		    }
 		}
 		else
@@ -112,7 +112,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		    // Set the row-heading
 		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr
 		    groupId = gPresets[i].mAvGroupIds[row]
-		    sendCommand (gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvGroups[groupId].mName")
+		    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvGroups[groupId].mName")
 		    // Set the button status for the row
 		    for (col = 1, chan++; col <= length_array(gPresets[i].mAvActionIds); col++,chan++)
 		    {
@@ -126,7 +126,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		{
 		    // Blank out the remaining column headings
 		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr + col
-		    sendCommand (gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
+		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
 		}
 	    }
 	    // Blank out all of the remaining rows
@@ -136,7 +136,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		{
 		    // Blank out the remaining column headings
 		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr + col
-		    sendCommand (gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
+		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
 		}
 	    }	    
 	}
@@ -146,7 +146,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
     {
 	if (!gPresetByChannel[i])
 	{
-	    sendCommand (gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
 	}
     }
 }
@@ -171,7 +171,7 @@ DEFINE_FUNCTION doPresetAvPowerOff (integer outputIds[])
     }
     debug (DBG_MODULE, 4, "'Powering OFF some A/V outputs'")
     debug (DBG_MODULE, 9, "'send_command ',devtoa(gGeneral.mDevControlAv),', ',cmdStr")
-    sendCommand (gGeneral.mDevControlAv, cmdStr)
+    sendCommand (DBG_MODULE, gGeneral.mDevControlAv, cmdStr)
 }
 
 DEFINE_FUNCTION doPresetAvSwitchGroup (integer inputId, integer outputIds[])
@@ -184,7 +184,7 @@ DEFINE_FUNCTION doPresetAvSwitchGroup (integer inputId, integer outputIds[])
 	switchCmdStr = "switchCmdStr,'O',itoa(outputIds[i])"
     }
     debug (DBG_MODULE, 4, "'Switching input ',itoa(inputId),' to output groups'")
-    sendCommand (gGeneral.mDevControlAv, switchCmdStr)
+    sendCommand (DBG_MODULE, gGeneral.mDevControlAv, switchCmdStr)
 }
 
 DEFINE_FUNCTION doPresetLightsOffAll ()
@@ -192,7 +192,7 @@ DEFINE_FUNCTION doPresetLightsOffAll ()
     char cmdStr[128]
     cmdStr = "'PUSH-1'"
     debug (DBG_MODULE, 4, "'Turning OFF all lights'")
-    sendCommand (gGeneral.mDevControlLutron, cmdStr)
+    sendCommand (DBG_MODULE, gGeneral.mDevControlLutron, cmdStr)
 }
 
 DEFINE_FUNCTION setupPresets ()
@@ -262,12 +262,6 @@ DEFINE_FUNCTION integer rowCol2Channel (integer presetId, integer row, integer c
     return gPresets[presetId].mTpGridChannelsBegin + row*gPresets[presetId].mTpGridChannelsRowIncr + col
 }
 
-DEFINE_FUNCTION sendCommand (dev cmdDev, char cmdStr[])
-{
-    debug (DBG_MODULE, 9, "'send_command ',devtoa(cmdDev),', ',cmdStr")
-    send_command cmdDev, cmdStr
-}
-
 DEFINE_FUNCTION sendButtonState (dev cmdDev, integer chan, integer status)
 {
     char params[32]
@@ -278,7 +272,7 @@ DEFINE_FUNCTION sendButtonState (dev cmdDev, integer chan, integer status)
 	case PRESET_STATUS_ON:		params = ',3,3'
 	case PRESET_STATUS_PARTIAL:	params = ',4,4'
     }
-    sendCommand (cmdDev, "'^ANI-',itoa(chan),',',params")
+    sendCommand (DBG_MODULE, cmdDev, "'^ANI-',itoa(chan),',',params")
 }
 
 DEFINE_START
