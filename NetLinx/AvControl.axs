@@ -1403,17 +1403,23 @@ DATA_EVENT[dvTpInputControl]
     {
 	// Either the Master just restarted or the TP was just turned on again
 	integer tpId
-	integer outputIdId
+	integer outputId
 	tpId = get_last(dvTpInputControl)
+	outputId = gTpOutputSelect[tpId]
 	debug (DBG_MODULE, 1, "'TP ',itoa(tpId),' (',devtoa(dvTpInputControl[tpId]),') is online; playerId=',
-	      		      itoa(gTpInput[tpId])")
+	      		      itoa(gTpInput[tpId]), '; last output ID=',itoa(outputId)")
 	updateTpOutputListFull (tpId)
-	outputIdId = gTpOutputSelect[tpId]
-	doTpOutputSelect (tpId, outputIdId, 1)
+	doTpOutputSelect (tpId, outputId, 1)
 	debug (DBG_MODULE, 1, "'Restored TP output selections: ',devtoa(dvTpOutputSelect[tpId])")
 	doTpInputSelect (tpId, gTpInput[tpId], 1)
     }
-    OFFLINE: {}
+    OFFLINE:
+    {
+	integer tpId
+	tpId = get_last(dvTpInputControl)
+	debug (DBG_MODULE, 3, "'TP ',itoa(tpId),' (',devtoa(dvTpInputControl[tpId]),') is offline; playerId=',
+	      		      itoa(gTpInput[tpId]), '; last output ID=',itoa(gTpOutputSelect[tpId])")
+    }
     STRING: { debug (DBG_MODULE, 8, "'received string from TP (',devtoa(data.device),'): ',data.text") }
 }
 

@@ -62,26 +62,18 @@ DEFINE_FUNCTION handleTpOfflineEvent (integer tpId)
 
 DEFINE_FUNCTION refreshTpControlButtons (integer tpId)
 {
-    // Refresh the TP's button labels
     integer i
+    // Refresh the TP's button labels
+    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-1-',itoa(MAX_POWER_CONTROLS),',0'")   // All off
     for (i = 1; i <= length_array(gPowerControls); i++)
     {
 	if (gPowerControls[i].mTpChannel > 0)
 	{
 	    // Show button and update text
-	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',1'")
-	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gPowerControls[i].mTpChannel),'-',
-					           gPowerControls[i].mName")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(gPowerControls[i].mTpChannel),',1'")
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gPowerControls[i].mTpChannel),'-', gPowerControls[i].mName")
 	    // Update the channel status
 	    updatePowerChannel (tpId, i, gControlState[i])
-	}
-    }
-    // Blank out unused buttons
-    for (i = gGeneral.mTpChannelLow; i <= gGeneral.mTpChannelHigh; i++)
-    {
-	if (!gControlByChannel[i])
-	{
-	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
 	}
     }
 }

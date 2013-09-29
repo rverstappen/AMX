@@ -84,11 +84,14 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 {
     // Refresh the TP's preset button labels
     integer i
+    // First, blank out everything
+    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(gGeneral.mTpChannelBlankLow),'.',itoa(gGeneral.mTpChannelBlankHigh),',0'")
     for (i = 1; i <= length_array(gPresets); i++)
     {
 	if (gPresets[i].mChannel > 0)
 	{
 	    // Simple preset button
+	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(gPresets[i].mChannel),',1'")
 	    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(gPresets[i].mChannel),'-',gPresets[i].mName")
 	}
 	else if (gPresets[i].mType = PRESET_TYPE_AV_GRID)
@@ -104,7 +107,14 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		    {
 			chan = gPresets[i].mTpGridChannelsBegin + col
 			actionId = gPresets[i].mAvActionIds[col]
-			sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mName")
+			if (actionId)
+			{
+			    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mName")
+			}
+			else
+			{
+			    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
+			}
 		    }
 		}
 		else
@@ -129,24 +139,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
 		}
 	    }
-	    // Blank out all of the remaining rows
-	    for (; row <= MAX_AV_GROUPS; row++)
-	    {
-		for (col = 0; col <= gPresets[i].mTpGridChannelsRowIncr-1; col++)
-		{
-		    // Blank out the remaining column headings
-		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr + col
-		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
-		}
-	    }	    
-	}
-    }
-    // Blank out unused buttons
-    for (i = gGeneral.mTpChannelBlankLow; i <= gGeneral.mTpChannelBlankHigh; i++)
-    {
-	if (!gPresetByChannel[i])
-	{
-	    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(i),',0'")
+	    // Remaining rows should be blank already
 	}
     }
 }

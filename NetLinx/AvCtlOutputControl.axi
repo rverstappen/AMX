@@ -263,9 +263,10 @@ DEFINE_FUNCTION checkTpOutputPower (integer tpId, integer outputId)
 {
     integer onOff
     onOff = (gOutputPowerStatus[outputId] = POWER_STATUS_ON)
+    debug (DBG_MODULE, 6, "'TP ',devtoa(dvTpOutputSelect[tpId]),': checking TP output power for ',
+			   gAllOutputs[outputId].mName,' (',itoa(outputId),')'")
 
-    // If this TP is handling the same output (or the output's slave TV),
-    // then update that TP's output power info
+    // If this TP is handling the same output (or the output's slave TV), then update that TP's output power info
     select
     {
     active (gTpOutputSelect[tpId] = 0):
@@ -546,58 +547,34 @@ DEFINE_FUNCTION updateTpOutputControls (integer tpId)
     integer i, outputId
     outputId = gTpOutputSelect[tpId]
     debug (DBG_MODULE,9,"'updateTpOutputControls(',devtoa(dvTpOutputControl[tpId]),'): outputId=',itoa(outputId)")
+    sendCommand (DBG_MODULE, dvTpOutputControl[tpId], "'^SHO-1.500,0'")
     if (outputId > 0)
     {
-//	// Use Slave TV, if it exists
-//	if (gAllOutputs[outputId].mAvrTvId)
-//	{
-//	    outputId = gAllOutputs[outputId].mAvrTvId
-//	    debug (DBG_MODULE,9,"'...using slave TV: outputId=',itoa(outputId)")
-//	}
-
 	// Show only the buttons supported by this output
 	if (tpIsIridium(gPanels,tpId))
 	{
-	    // iRidium doesn't support channel lists yet
-	    integer maskVal
+	    // iRidium doesn't support complex channel lists yet
+	    integer buttonOn
 	    for (i = 1; i <= CHAN_MAX_CHANNELS; i++)
 	    {
-		maskVal = gAllOutputs[outputId].mChannelMask[i]
-		if (gTpOutputControls[tpId][i] != maskVal)
+		buttonOn = gAllOutputs[outputId].mChannelMask[i]
+		if (buttonOn)
 		{
-		    debug (DBG_MODULE, 9, "'send_command ',devtoa(dvTpOutputControl[tpId]),', ^SHO-',itoa(i),',',itoa(maskVal)")
-		    send_command dvTpOutputControl[tpId], "'^SHO-',itoa(i),',',itoa(maskVal)"
-		    gTpOutputControls[tpId][i] = maskVal
+		    sendCommand (DBG_MODULE, dvTpOutputControl[tpId], "'^SHO-',itoa(i),',1'")
 		}
 	    }
 	}
 	else
 	{
-	    debug (DBG_MODULE, 5, "'send_command ',devtoa(dvTpOutputControl[tpId]),', ^SHO-1.500,0'")
-	    debug (DBG_MODULE, 5, "'send_command ',devtoa(dvTpOutputControl[tpId]),', ^SHO-',gAllOutputs[outputId].mSupportedChannels,',1'")
-	    send_command dvTpOutputControl[tpId], "'^SHO-1.500,0'"
-	    send_command dvTpOutputControl[tpId], "'^SHO-',gAllOutputs[outputId].mSupportedChannels,',1'"
+	    sendCommand (DBG_MODULE, dvTpOutputControl[tpId], "'^SHO-',gAllOutputs[outputId].mSupportedChannels,',1'")
+	}
+
+	// Enabled Slave TV power button, if it exists
+	if (length_array(gAllOutputs[outputId].mAvrTvId) > 0)
+	{
+	    sendCommand (DBG_MODULE, dvTpOutputControl[tpId], "'^SHO-',itoa(CHAN_POWER_SLAVE_FB),',1'")
 	}
     }
-    else
-    {
-	if (tpIsIridium(gPanels,tpId))
-	{
-	    for (i = 1; i <= CHAN_MAX_CHANNELS; i++)
-	    {
-		if (gTpOutputControls[tpId][i] != 0)
-		{
-		    debug (DBG_MODULE, 9, "'send_command ',devtoa(dvTpOutputControl[tpId]),', ^SHO-',itoa(i),',0'")
-	    	    send_command dvTpOutputControl[tpId], "'^SHO-',itoa(i),',0'"
-	    	    gTpOutputControls[tpId][i] = 0
-		}
-	    }
-	}
-	else
-	{
-	    send_command dvTpOutputControl[tpId], "'^SHO-1.500,0'"
-	}
-    }    
 }
 
 DEFINE_FUNCTION checkPowerUp()

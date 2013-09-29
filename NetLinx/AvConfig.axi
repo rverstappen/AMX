@@ -108,6 +108,10 @@ volatile integer AVCFG_OUTPUT_SELECT[] = {
 constant integer AVCFG_OUTPUT_SELECT_ALL		= 255
 constant integer AVCFG_OUTPUT_SELECT_PREV		= 202
 constant integer AVCFG_OUTPUT_SELECT_NEXT		= 203
+constant integer AVCFG_OUTPUT_SELECT_LEVEL_AUDIO	= 204
+constant integer AVCFG_OUTPUT_SELECT_LEVEL_VIDEO	= 205
+constant integer AVCFG_OUTPUT_SELECT_LEVEL_ALL		= 206
+constant integer AVCFG_INPUT_SELECT_LEVEL_ALL		= 201
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT[]		= '201'
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT_PREV[]	= '202'
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT_NEXT[]	= '203'
@@ -127,8 +131,8 @@ DEFINE_TYPE
 
 structure AvTpInfo
 {
-    integer	mEnabled
     integer	mPanelId
+    integer	mCustomOutputList  // boolean whether any output lists are overridden at all
     integer	mAudioOutputListOrder[AVCFG_MAX_OUTPUTS]
     integer	mVideoOutputListOrder[AVCFG_MAX_OUTPUTS]
 }
@@ -201,7 +205,7 @@ structure AvOutput
 DEFINE_CONSTANT
 READING_NONE			= 0
 READING_GENERAL			= 1
-READING_TOUCH_PANEL		= 2
+READING_TOUCH_PANEL_CUSTOM	= 2
 READING_SUPPORTED_CHANNELS	= 3
 READING_INPUT			= 4
 READING_OUTPUT			= 5
@@ -247,7 +251,7 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
     }
     case 'touch-panel':
     {
-	gReadMode = READING_TOUCH_PANEL
+	gReadMode = READING_TOUCH_PANEL_CUSTOM
     }
     case 'channel-support':
     {
@@ -314,7 +318,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	} // switch
     } // case READING_GENERAL
 
-    case READING_TOUCH_PANEL:
+    case READING_TOUCH_PANEL_CUSTOM:    // Certain TouchPanels with AV-specific customizations (to limit functionality)
     {
 	switch (propName)
 	{
@@ -325,16 +329,17 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    if ((0 < id) && (id <= TP_MAX_PANELS))
 	    {
 		gThisItem = id
-		gTpInfo[gThisItem].mEnabled = 1
 		gTpInfo[gThisItem].mPanelId = atoi(propValue)
 	    }
 	}
 	case 'audio-output-list-order':
+	    gTpInfo[gThisItem].mCustomOutputList = 1
 	    parseIntegerList (gTpInfo[gThisItem].mAudioOutputListOrder, propValue)
 	case 'video-output-list-order':
+	    gTpInfo[gThisItem].mCustomOutputList = 1
 	    parseIntegerList (gTpInfo[gThisItem].mVideoOutputListOrder, propValue)
 	} // switch
-    } // case READING_GENERAL
+    } // case READING_TOUCH_PANEL_CUSTOM
 
     case READING_SUPPORTED_CHANNELS:
     {

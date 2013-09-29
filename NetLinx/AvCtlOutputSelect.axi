@@ -20,9 +20,9 @@ DEFINE_CONSTANT
 
 DEFINE_VARIABLE
 
-// gOutputSelectList is the list of outputs currently available on the TP. This
+// gTpOutputSelectList is the list of outputs currently available on the TP. This
 // list can change over time (including by external modules, such as ZoneControl).
-// gOutputSelect is an index into the gOutputSelectList array and represents the
+// gTpOutputSelect is an index into the gTpOutputSelectList array and represents the
 // primary output currently selected on the TP.
 non_volatile integer gTpOutputSelectList[TP_MAX_PANELS][AVCFG_MAX_OUTPUTS]
 non_volatile integer gTpOutputSelect[TP_MAX_PANELS]
@@ -52,11 +52,56 @@ BUTTON_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_NEXT]
     PUSH: { doTpOutputSelectNext (get_last(dvTpOutputSelect)) }
 }
 
-LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT]
+// Handle iRidium scrolling list events:
+LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_AUDIO]
+{
+    integer tpId, outputId
+    tpId = get_last(dvTpOutputSelect)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
+    debug (DBG_MODULE,9,"'XXX Audio: received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+    if (level.value > 0)  // 0 is sent when the TP goes offline
+    {
+	if (gTpInfo[tpId].mCustomOutputList)
+	{
+	    doTpOutputSelect (tpId, gTpInfo[tpId].mAudioOutputListOrder[level.value], 0)
+	}
+	else
+	{
+	    doTpOutputSelect (tpId, gGeneral.mTpDefaults.mAudioOutputListOrder[level.value], 0)
+	}
+    }
+}
+
+LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_VIDEO]
 {
     integer tpId
     tpId = get_last(dvTpOutputSelect)
-    debug (DBG_MODULE,9,"'received level event for output ID (level): ',itoa(level.input.level)")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
+    debug (DBG_MODULE,9,"'XXX Video (tpId=',itoa(tpId),'): received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+    debug (DBG_MODULE,9,"'XXX Video: enabled? ',itoa(gTpInfo[tpId].mCustomOutputList)")
+    if (level.value > 0)  // 0 is sent when the TP goes offline
+    {
+	if (gTpInfo[tpId].mCustomOutputList)
+	{
+	    doTpOutputSelect (tpId, gTpInfo[tpId].mVideoOutputListOrder[level.value], 0)
+	}
+	else
+	{
+	    doTpOutputSelect (tpId, gGeneral.mTpDefaults.mVideoOutputListOrder[level.value], 0)
+	}
+    }
+}
+
+LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_ALL]
+{
+    integer tpId
+    tpId = get_last(dvTpOutputSelect)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_MINI_POPUP")
+    debug (DBG_MODULE,9,"'received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+    if (level.value > 0)  // 0 is sent when the TP goes offline
+    {
+	doTpOutputSelect (tpId, level.value, 0)
+    }
 }
 
 
@@ -78,7 +123,6 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 	setTpZoneOutput (tpId, outputId)
         if (outputId > 0)
     	{
-//	    outputId = gTpOutputSelectList[tpId][outputIdId]
 	    if (outputId = AVCFG_OUTPUT_SELECT_ALL)
 	    {
 		debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpOutputSelect[tpId]),': selected output ',itoa(outputId),' (ALL)'")
@@ -91,7 +135,7 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 				       ' (',gAllOutputs[outputId].mName,')'")
 		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_NAME,'-',gAllOutputs[outputId].mName")
 		sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'TEXT',AVCFG_ADDRESS_OUTPUT_SHORT_NAME,'-',gAllOutputs[outputId].mShortName")
-		sendCommand (DBG_MODULE, dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_TOGGLE),',',
+		sendCommand (DBG_MODULE, dvTpOutputControl[tpId],"'^SHO-',itoa(CHAN_POWER_SLAVE_FB),',',
 					itoa(length_array(gAllOutputs[outputId].mAvrTvId)>0)")
 	    }
 
@@ -101,7 +145,6 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 	    {
 		checkTpOutputPower (tpId, gAllOutputs[outputId].mAvrTvId[i])
 	    }
-
 	    // Make sure the current zone contains this output ID
 	    checkTpOutputZone (tpId, outputId)
 	}
@@ -125,9 +168,10 @@ DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 	updateTpInputs (tpId)
 
 	// Reset the controls for the input connected to this output
-	updateTpInputControls (tpId, 0)
+	updateTpInputControls (tpId, 1)
 	updateTpOutputControls (tpId)
     }
+    debug (DBG_MODULE,9,"'Output Channel Selection Handler (END) -- ',itoa(gTpOutputSelect[tpId])")
 }
 
 DEFINE_FUNCTION doTpOutputSelectPrev (integer tpId)
@@ -204,65 +248,52 @@ DEFINE_FUNCTION doTpSetZone (integer tpId, integer zoneId, integer updateSelecti
 
 DEFINE_FUNCTION updateTpOutputListFull (integer tpId)
 {
+    debug (DBG_MODULE,9,"'updateTpOutputListFull(',itoa(tpId),'): mCustomOutputList=',itoa(gTpInfo[tpId].mCustomOutputList)")
     select
     {
-    active (tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mEnabled):
+    active (tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mCustomOutputList):
 	updateTpOutputListFull_Iridium (tpId, gTpInfo[tpId])
-    active (tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mEnabled):
+    active (tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mCustomOutputList):
 	updateTpOutputListFull_Iridium (tpId, gGeneral.mTpDefaults)
-    active (!tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mEnabled):
+    active (!tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mCustomOutputList):
 	updateTpOutputListFull_Standard (tpId, gTpInfo[tpId])
-    active (!tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mEnabled):
+    active (!tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mCustomOutputList):
 	updateTpOutputListFull_Standard (tpId, gGeneral.mTpDefaults)
     }
 }
 
 DEFINE_FUNCTION updateTpOutputListMini (integer tpId)
 {
-    select
+    if (tpIsIridium(gPanels,tpId))
     {
-    active (tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mEnabled):
-	updateTpOutputListMini_Iridium (tpId, gTpInfo[tpId])
-    active (tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mEnabled):
-	updateTpOutputListMini_Iridium (tpId, gGeneral.mTpDefaults)
-    active (!tpIsIridium(gPanels,tpId) && gTpInfo[tpId].mEnabled):
-	updateTpOutputListMini_Standard (tpId, gTpInfo[tpId])
-    active (!tpIsIridium(gPanels,tpId) && !gTpInfo[tpId].mEnabled):
-	updateTpOutputListMini_Standard (tpId, gGeneral.mTpDefaults)
+	updateTpOutputListMini_Iridium (tpId)
+    }
+    else
+    {
+	updateTpOutputListMini_Standard (tpId)
     }
 }
 
 DEFINE_FUNCTION updateTpOutputListFull_Iridium (integer tpId, AvTpInfo tpInfo)
 {
-    integer outputId, i
+    integer outputId, audioCount, videoCount, i
+    audioCount = length_array(tpInfo.mAudioOutputListOrder)
+    videoCount = length_array(tpInfo.mVideoOutputListOrder)
     sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',3'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',Grey'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		    itoa(length_array(tpInfo.mAudioOutputListOrder)),',1'")
-    for (i = 1; i <= length_array(tpInfo.mAudioOutputListOrder); i++)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',', itoa(audioCount),',1'")
+    for (i = 1; i <= audioCount; i++)
     {
 	outputId = tpInfo.mAudioOutputListOrder[i]
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		itoa(i),',',gAllOutputs[outputId].mName")
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
-		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',	AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO,',',
+		     itoa(i),',1,',gAllOutputs[outputId].mName")
     }
     sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',3'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',Grey'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		    itoa(length_array(tpInfo.mVideoOutputListOrder)),',1'")
-    for (i = 1; i <= length_array(tpInfo.mVideoOutputListOrder); i++)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',', itoa(videoCount),',1'")
+    for (i = 1; i <= videoCount; i++)
     {
 	outputId = tpInfo.mVideoOutputListOrder[i]
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		itoa(i),',',gAllOutputs[outputId].mName")
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-		itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
-	// Iridium 2.0:
-//	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
-//		itoa(i),',',gAllOutputs[outputId].mName")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',	AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
+		     itoa(i),',1,',gAllOutputs[outputId].mName")
     }
 }
 
@@ -285,25 +316,21 @@ DEFINE_FUNCTION updateTpOutputListFull_Standard (integer tpId, AvTpInfo tpInfo)
     }
 }
 
-DEFINE_FUNCTION updateTpOutputListMini_Iridium (integer tpId, AvTpInfo tpInfo)
+DEFINE_FUNCTION updateTpOutputListMini_Iridium (integer tpId)
 {
-    integer outputId, i
+    integer outputId, count, i
+    count = length_array(gTpOutputSelectList[tpId])
     sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_OUTPUT_SELECT_MINI")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',3'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',Grey'")
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(length_array(gTpOutputSelectList[tpId])),',1'")
-    for (i = 1; i <= length_array(gTpOutputSelectList[tpId]); i++)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',', itoa(count),',1'")
+    for (i = 1; i <= count; i++)
     {
 	outputId = gTpOutputSelectList[tpId][i]
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(i),',',gAllOutputs[outputId].mName")
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
-		    itoa(i),',',itoa(TP_PORT_AV_OUTPUT_SELECT),',',itoa(outputId)")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
+		    itoa(i),',1,',gAllOutputs[outputId].mName")
     }
 }
 
-DEFINE_FUNCTION updateTpOutputListMini_Standard (integer tpId, AvTpInfo tpInfo)
+DEFINE_FUNCTION updateTpOutputListMini_Standard (integer tpId)
 {
     integer outputId, i
     for (i = 1; i <= length_array(gTpOutputSelectList[tpId]); i++)

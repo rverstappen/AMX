@@ -19,64 +19,51 @@ persistent sinteger gInputGain[AVCFG_MAX_INPUTS]
 
 DEFINE_FUNCTION updateTpInputControls (integer tpId, integer forceControlResync)
 {
-    integer i, inputId, outputId
+    integer i, prevInputId, inputId, outputId, update
     outputId = gTpOutputSelect[tpId]
-    inputId = gTpInput[tpId]
+    prevInputId = gTpInput[tpId]
     if (outputId > 0)
     {
         inputId = gInputByOutput[outputId]
     }
-    gTpInput[tpId] = inputId
-    if (inputId > 0)
-    {
-	// Update any titles
-	updateTpInputName (tpId, inputId)
-	debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpInputSelect[tpId]),': selected input ',itoa(inputId),
-				       ' (',gAllInputs[inputId].mName,')'")
-
-	// Show only the buttons supported by this input
-	if (tpIsIridium(gPanels,tpId))
-	{
-	    // iRidium doesn't support channel lists yet
-	    integer maskVal
-	    for (i = 1; i <= CHAN_MAX_CHANNELS; i++)
-	    {
-		maskVal = gAllInputs[inputId].mChannelMask[i]
-		if (forceControlResync || (gTpInputControls[tpId][i] != maskVal))
-		{
-		    debug (DBG_MODULE, 9, "'send_command ',devtoa(dvTpInputControl[tpId]),', ^SHO-',itoa(i),',',itoa(maskVal)")
-		    send_command dvTpInputControl[tpId], "'^SHO-',itoa(i),',',itoa(maskVal)"
-		    gTpInputControls[tpId][i] = maskVal
-		}
-	    }
-	}
-	else
-	{
-	    debug (DBG_MODULE, 5, "'send_command ',devtoa(dvTpInputControl[tpId]),', ^SHO-1.500,0'")
-	    debug (DBG_MODULE, 5, "'send_command ',devtoa(dvTpInputControl[tpId]),', ^SHO-',gAllInputs[inputId].mSupportedChannels,',1'")
-	    send_command dvTpInputControl[tpId], "'^SHO-1.500,0'"
-	    send_command dvTpInputControl[tpId], "'^SHO-',gAllInputs[inputId].mSupportedChannels,',1'"
-	}
-    }
     else
     {
-	if (tpIsIridium(gPanels,tpId))
+	inputId = 0
+    }
+    gTpInput[tpId] = inputId
+    update = ((prevInputId = inputId) || forceControlResync)
+    if (update)
+    {
+	sendCommand (DBG_MODULE, dvTpInputControl[tpId], "'^SHO-1.500,0'")
+	if (inputId > 0)
 	{
-	    for (i = 1; i <= CHAN_MAX_CHANNELS; i++)
+	    // Update any titles
+	    updateTpInputName (tpId, inputId)
+	    debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpInputSelect[tpId]),': selected input ',itoa(inputId),' (',gAllInputs[inputId].mName,')'")
+
+	    // Show only the buttons supported by this input
+	    if (tpIsIridium(gPanels,tpId))
 	    {
-		if (forceControlResync || (gTpInputControls[tpId][i] != 0))
+		// iRidium doesn't support long complex channel lists yet. Example:
+		//   send_command 10005:7:0, ^SHO-1.3&6.19&21.23&27&28&42&43.50&61&62&81&82&96&101&104&105&108&151.154&201,1
+		// only hits the first few addresses; perhaps a problem with not specifying a range
+		integer buttonOn
+		for (i = 1; i <= CHAN_MAX_CHANNELS; i++)
 		{
-		    debug (DBG_MODULE, 9, "'send_command ',devtoa(dvTpInputControl[tpId]),', ^SHO-',itoa(i),',0'")
-	    	    send_command dvTpInputControl[tpId], "'^SHO-',itoa(i),',0'"
-	    	    gTpInputControls[tpId][i] = 0
+		    buttonOn = gAllInputs[inputId].mChannelMask[i]
+		    if (buttonOn)
+		    {
+			sendCommand (DBG_MODULE, dvTpInputControl[tpId], "'^SHO-',itoa(i),',1'")
+		    }
 		}
 	    }
+	    else
+	    {
+		sendCommand (DBG_MODULE, dvTpInputControl[tpId], "'^SHO-',gAllInputs[inputId].mSupportedChannels,',1'")
+	    }
 	}
-	else
-	{
-	    send_command dvTpInputControl[tpId], "'^SHO-1.500,0'"
-	}
-    }    
+    }
+    debug (DBG_MODULE, 5, "'TP ',devtoa(dvTpInputSelect[tpId]),': no update of buttons necessary'")
 }
 
 DEFINE_FUNCTION stopAllAvInputs()

@@ -34,6 +34,17 @@ BUTTON_EVENT[dvTpInputSelect, AVCFG_INPUT_SELECT]
     PUSH: { doTpInputSelect (get_last(dvTpInputSelect), button.input.channel, 0) }
 }
 
+// Handle iRidium scrolling list events:
+LEVEL_EVENT[dvTpInputSelect, AVCFG_INPUT_SELECT_LEVEL_ALL]
+{
+    debug (DBG_MODULE,9,"'received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+    if (level.value > 0)  // 0 is sent when the TP goes offline
+    {
+	doTpInputSelect (get_last(dvTpInputSelect), level.value, 0)
+    }
+}
+
+
 // Handle input selection commands
 DATA_EVENT[vdvAvControl]
 {
@@ -133,28 +144,22 @@ DEFINE_FUNCTION updateTpInputs (integer tpId)
     outputId = getTpOutputId (tpId)
     if (outputId > 0)
     {
-	integer currInputId, i, inputId
+	integer currInputId, count, i, inputId
 	currInputId = gInputByOutput[outputId]
 	updateTpInputName (tpId, currInputId)
+	count = length_array(gAllOutputs[outputId].mAllInputIds)
 	if (iRidium)
     	{
 	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_CLEAR-',       AVCFG_ADDRESS_INPUT_SELECT")
-	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_INDENT-',      AVCFG_ADDRESS_INPUT_SELECT,',3'")
-	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_SCROLL_COLOR-',AVCFG_ADDRESS_INPUT_SELECT,',Grey'")
-	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_INPUT_SELECT,',',
-			itoa(length_array(gAllOutputs[outputId].mAllInputIds)),',1'")
+	    sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_ADD-',         AVCFG_ADDRESS_INPUT_SELECT,',',itoa(count),',1'")
         }
-	for (i = 1; i <= length_array(gAllOutputs[outputId].mAllInputIds); i++)
+	for (i = 1; i <= count; i++)
 	{
 	    inputId = gAllOutputs[outputId].mAllInputIds[i]
-	    debug (DBG_MODULE, 9, "'sending input name update to ',devtoa(dvTpInputSelect[tpId]),': ',
-	    	  	       gAllInputs[inputId].mName")
 	    if (iRidium)
 	    {
-		sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_TEXT-',    AVCFG_ADDRESS_INPUT_SELECT,',',
-			     itoa(i),',',gAllInputs[inputId].mName")
-	    	sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_CHANNEL-', AVCFG_ADDRESS_INPUT_SELECT,',',
-			     itoa(i),',',itoa(TP_PORT_AV_INPUT_SELECT),',',itoa(gAllInputs[inputId].mId)")
+		sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_INPUT_SELECT,',',
+			     itoa(i),',1,',gAllInputs[inputId].mName")
 	    }
 	    else
 	    {
