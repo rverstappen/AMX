@@ -97,15 +97,20 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 	else if (gPresets[i].mType = PRESET_TYPE_AV_GRID)
 	{
 	    // Draw up the A/V grid preset
-	    integer row, col, chan, actionId, groupId
-	    for (row = 0; row <= length_array(gPresets[i].mAvGroupIds); row++)
+	    integer numRows, numCols, row, col, rowIncr, firstChan, rowChan, chan, actionId, groupId
+	    numRows = length_array(gPresets[i].mAvGroupIds)
+	    firstChan = gPresets[i].mTpGridChannelsBegin
+	    rowIncr   = gPresets[i].mTpGridChannelsRowIncr
+	    for (row = 0; row <= numRows; row++)
 	    {
+		rowChan = firstChan + row*rowIncr
+		numCols = length_array(gPresets[i].mAvActionIds)
 		if (row = 0)
 		{
 		    // First the column headings
-		    for (col = 1; col <= length_array(gPresets[i].mAvActionIds); col++)
+		    for (col = 1; col <= numCols; col++)
 		    {
-			chan = gPresets[i].mTpGridChannelsBegin + col
+			chan = rowChan + col
 			actionId = gPresets[i].mAvActionIds[col]
 			if (actionId)
 			{
@@ -120,26 +125,27 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		else
 		{
 		    // Set the row-heading
-		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr
+		    chan = rowChan
 		    groupId = gPresets[i].mAvGroupIds[row]
 		    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvGroups[groupId].mName")
 		    // Set the button status for the row
-		    for (col = 1, chan++; col <= length_array(gPresets[i].mAvActionIds); col++,chan++)
+		    for (col = 1, chan++; col <= numCols; col++,chan++)
 		    {
 			sendButtonState (gDvTps[tpId], chan, gGridStatus[row][col])
 		    }
 		}
 		// Hide the remaining column buttons/headers
-		for (col = length_array(gPresets[i].mAvActionIds) + 1;
-		     col <= gPresets[i].mTpGridChannelsRowIncr - 1;
-		     col++)
+		if (col < rowIncr-1)
 		{
-		    // Blank out the remaining column headings
-		    chan = gPresets[i].mTpGridChannelsBegin + row*gPresets[i].mTpGridChannelsRowIncr + col
-		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(chan),',0'")
+		    sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(rowChan+col+1),'.',itoa(rowChan+rowIncr-1),',0'")
 		}
 	    }
-	    // Remaining rows should be blank already
+	    // Blank out remaining rows
+	    if (numRows < MAX_AV_GROUPS)
+	    {
+		sendCommand (DBG_MODULE, gDvTps[tpId],"'^SHO-',itoa(firstChan+((numRows+1)*rowIncr)),'.',
+							       itoa(firstChan+(MAX_AV_GROUPS*rowIncr)),',0'")
+	    }
 	}
     }
 }

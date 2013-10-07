@@ -74,6 +74,7 @@ char AVCFG_DEFAULT_CHANNEL_MASK[CHAN_MAX_CHANNELS] =
      0,0,0,0,0
 }
 
+AVCFG_MAX_AMX_COMMAND_LENGTH		= 2048
 AVCFG_MAX_SUPPORTED_CHANNEL_STRLEN	= 1024
 AVCFG_MAX_GLOBAL_POWER_DEVS		= 16
 
@@ -153,6 +154,7 @@ structure AvInput
     char	mSupportedChannels[AVCFG_MAX_SUPPORTED_CHANNEL_STRLEN] // List of channels representing buttons
     char	mChannelMask[CHAN_MAX_CHANNELS] // 0/1 array of channels representing buttons
     char	mChannelMap[CHAN_MAX_CHANNELS]	// Map to normalize channels to our standard
+    char	mChannelCommand[AVCFG_MAX_AMX_COMMAND_LENGTH] // Single AMX ^SHO command for show/hide of all buttons
     integer	mLocationType		// Is this a switch AV input or local AV input
     integer     mAlwaysList		// Whether to always list as an input. Normally, video outputs only show
     					//   video inputs and audio outputs only show audio inputs. This allows
@@ -188,6 +190,7 @@ structure AvOutput
     char	mSupportedChannels[AVCFG_MAX_SUPPORTED_CHANNEL_STRLEN] // List of channels representing buttons
     char	mChannelMask[CHAN_MAX_CHANNELS] // 0/1 array of channels representing buttons
     char	mChannelMap[CHAN_MAX_CHANNELS]	// Map to normalize channels to our standard
+    char	mChannelCommand[AVCFG_MAX_AMX_COMMAND_LENGTH] // Single AMX ^SHO command for show/hide of all buttons
     // The following fields are only relevant to master output devices, such as Master TVs and AVRs
     integer	mSwitchedInputChannel   // AMX channel for switched input sources (0 = none)
     integer	mSwitchedInputChannelAnalogAudio // channel for analog audio only inputs (0 = none)
@@ -220,6 +223,7 @@ structure SupportedChannels
     char	mChannels[AVCFG_MAX_SUPPORTED_CHANNEL_STRLEN]
     char	mChannelMask[CHAN_MAX_CHANNELS]
     char	mChannelMap[CHAN_MAX_CHANNELS]
+    char	mAmxShowCmd[AVCFG_MAX_AMX_COMMAND_LENGTH]
 }
 
 DEFINE_VARIABLE
@@ -255,11 +259,14 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
     }
     case 'channel-support':
     {
+	integer newSize
 	gReadMode = READING_SUPPORTED_CHANNELS
 	// Grow the 'suppChannels' array and add this pair
-	set_length_array(suppChannels,length_array(suppChannels)+1)
-	set_length_array(suppChannels[length_array(suppChannels)].mChannelMap, CHAN_MAX_CHANNELS)
-	set_length_array(suppChannels[length_array(suppChannels)].mChannelMask, CHAN_MAX_CHANNELS)
+	newSize = length_array(suppChannels)+1
+	set_length_array(suppChannels,newSize)
+	set_length_array(suppChannels[newSize].mChannelMap,  CHAN_MAX_CHANNELS)
+	set_length_array(suppChannels[newSize].mChannelMask, CHAN_MAX_CHANNELS)
+	set_length_array(suppChannels[newSize].mAmxShowCmd,  AVCFG_MAX_AMX_COMMAND_LENGTH)
     }
     case 'input':
     {
@@ -355,6 +362,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    integer chan
 	    integer locAmp
 	    integer locDot
+	    char    amxCmdOn[AVCFG_MAX_AMX_COMMAND_LENGTH]
+
 	    // Swap all - to . and , to &
 	    for (i = 1; i <= length_string(propValue); i++)
 	    {
@@ -364,7 +373,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		    propValue[i] = '&'
 	    }
 	    suppChannels[thisDevice].mChannels = propValue
-	    // Fill in the supported buttons 0/1 array
+	    amxCmdOn = "'^SHO-'"
+	    // Fill in the supported buttons 0/1 array and build the AMX command string
 	    for (chan = atoi(propValue);
 		 chan > 0;
 		 chan = atoi(propValue))
@@ -378,6 +388,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 		    // Ampersand occurred before Dot
 		    remove_string(propValue,'&',1)
 		    suppChannels[thisDevice].mChannelMask[chan] = 1
+		    amxCmdOn = "amxCmdOn,''"
 		}
 		active (locDot > 0):
 		{
