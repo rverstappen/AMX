@@ -40,7 +40,11 @@ LEVEL_EVENT[dvTpInputSelect, AVCFG_INPUT_SELECT_LEVEL_ALL]
     debug (DBG_MODULE,9,"'received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
     if (level.value > 0)  // 0 is sent when the TP goes offline
     {
-	doTpInputSelect (get_last(dvTpInputSelect), level.value, 0)
+	integer tpId, outputId, inputId
+	tpId = get_last(dvTpInputSelect)
+	outputId = gTpOutputSelect[tpId]
+	inputId = gAllOutputs[outputId].mAllInputIds[level.value]
+	doTpInputSelect (tpId, inputId, 0)
     }
 }
 
@@ -156,6 +160,11 @@ DEFINE_FUNCTION updateTpInputs (integer tpId)
 	for (i = 1; i <= count; i++)
 	{
 	    inputId = gAllOutputs[outputId].mAllInputIds[i]
+	    if (length_array(gAllInputs[inputId].mName) = 0)
+	    {
+		debug (DBG_MODULE,9,"'adding list item for input: ',itoa(inputId),': ',gAllInputs[inputId].mName")
+		continue
+	    }
 	    if (iRidium)
 	    {
 		sendCommand (DBG_MODULE, dvTpInputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_INPUT_SELECT,',',

@@ -110,7 +110,7 @@ char	powerManConfigFile[] = 'Power.cfg'
 char	lightingConfigFile[] = 'Lighting.cfg'
 char	marantzConfigFile[] = 'Marantz.cfg'
 
-integer TP_COUNT = 7
+integer TP_COUNT = 21
 
 DEFINE_MODULE 'AvControl' avCtl (avConfigFile,tpConfigFile,vdvAvOutputSelect,vdvZoneSelect)
 DEFINE_MODULE 'Plex_Comm' plex (plexConfigFile)

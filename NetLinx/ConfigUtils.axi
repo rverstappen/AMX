@@ -21,9 +21,10 @@ DEFINE_FUNCTION integer parseDev (dev result, char str[])
     return 0
 }
 
-DEFINE_FUNCTION integer parseBoolean (char str[])
+DEFINE_FUNCTION integer parseBoolean (char str0[])
 {
-    lower_string(str)
+    char str[10]
+    str = lower_string(str0)
     switch (str)
     {
     case 'true':	return 1

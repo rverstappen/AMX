@@ -37,16 +37,10 @@ AVCFG_AUDIO_FORMAT_UNKNOWN	= 0
 AVCFG_AUDIO_FORMAT_HDMI		= 1
 AVCFG_AUDIO_FORMAT_ANALOG	= 2
 
-AVCFG_SCENE_TYPE_UNKNOWN	= 0
-AVCFG_SCENE_TYPE_NONE		= 1
-AVCFG_SCENE_TYPE_MENU		= 2
-AVCFG_SCENE_TYPE_EXPLICIT	= 3
-
-AVCFG_SCENE_UNKNOWN		= 0
-AVCFG_SCENE_MUSIC		= 1
-AVCFG_SCENE_MOVIES		= 2
-AVCFG_SCENE_TV			= 3
-AVCFG_SCENE_SPORTS		= 4
+AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN		= 0
+AVCFG_OUTPUT_SCENE_TYPE_NONE		= 1
+AVCFG_OUTPUT_SCENE_TYPE_MENU		= 2
+AVCFG_OUTPUT_SCENE_TYPE_EXPLICIT	= 3
 
 AVCFG_IR_TYPE_NORMAL		= 0
 AVCFG_IR_TYPE_SEND_COMMAND	= 1
@@ -110,15 +104,15 @@ constant integer AVCFG_OUTPUT_SELECT_ALL		= 255
 constant integer AVCFG_OUTPUT_SELECT_PREV		= 202
 constant integer AVCFG_OUTPUT_SELECT_NEXT		= 203
 constant integer AVCFG_OUTPUT_SELECT_LEVEL_AUDIO	= 204
-constant integer AVCFG_OUTPUT_SELECT_LEVEL_VIDEO	= 205
-constant integer AVCFG_OUTPUT_SELECT_LEVEL_ALL		= 206
+constant integer AVCFG_OUTPUT_SELECT_LEVEL_VIDEO	= 206
+constant integer AVCFG_OUTPUT_SELECT_LEVEL_ALL		= 208
 constant integer AVCFG_INPUT_SELECT_LEVEL_ALL		= 201
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT[]		= '201'
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT_PREV[]	= '202'
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT_NEXT[]	= '203'
 constant char    AVCFG_ADDRESS_OUTPUT_SELECT_AUDIO[]	= '204'
-constant char    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO[]	= '205'
-constant char    AVCFG_ADDRESS_OUTPUT_SELECT_MINI[]	= '206'
+constant char    AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO[]	= '206'
+constant char    AVCFG_ADDRESS_OUTPUT_SELECT_MINI[]	= '208'
 constant char    AVCFG_ADDRESS_OUTPUT_NAME[]		= '211'
 constant char    AVCFG_ADDRESS_OUTPUT_SHORT_NAME[]	= '212'
 constant char    AVCFG_ADDRESS_INPUT_SELECT[]		= '201'
@@ -126,7 +120,7 @@ constant char    AVCFG_ADDRESS_INPUT_SELECT_PREV[]	= '202'
 constant char    AVCFG_ADDRESS_INPUT_SELECT_NEXT[]	= '203'
 constant char    AVCFG_ADDRESS_INPUT_NAME[]		= '211'
 constant char    AVCFG_ADDRESS_INPUT_SHORT_NAME[]	= '212'
-
+constant char    AVCFG_ADDRESS_WELCOME[]		= '11'
 
 DEFINE_TYPE
 
@@ -168,7 +162,7 @@ structure AvInput
     					// input (e.g., maybe set to false for music inputs)
     integer     mSlaveInputChannel	// Which input on the slave TV to use (0 if input never changes)
     integer	mPrefAudioFormat	// Preferred audio format (can help with HDMI echo problems in rooms with mixed output devices)
-    integer	mScene			// Type of input (to help displays select an appropriate scene)
+    integer	mSceneChannel		// Suggested scene, if supported by AVR/TV
 }
 
 
@@ -182,7 +176,7 @@ structure AvOutput
     integer	mVideoSwitchId		// Video switch output ID
     integer	mOutputType		// Audio, Master TV, Slave TV, or AV Receiver
     integer	mVolType		// Relative or discrete volume.
-//    integer	mSceneType		// How scenes are supported, if at all.
+    integer	mSceneType		// How scenes are supported, if at all.
     // The following fields are only relevant to controllable output devices, such as TVs and AVRs
     dev		mDev			// Device for this output (AVRs only; not TVs and speakers)
     // The following fields are only relevant to devices that are controlled by IR
@@ -242,6 +236,7 @@ volatile integer gMaxInput	= 0
 volatile integer gMaxOutput	= 0
 volatile integer gReadMode	= READING_NONE
 volatile integer gOutputType	= AVCFG_OUTPUT_TYPE_UNKNOWN
+volatile integer gSceneType	= AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN
 volatile integer gVolType	= AVCFG_OUTPUT_VOL_UNKNOWN
 
 DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
@@ -275,24 +270,27 @@ DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
     }
     case 'output':
     {
-	gReadMode = READING_OUTPUT
-	gOutputType   = AVCFG_OUTPUT_TYPE_UNKNOWN
-	gVolType  = AVCFG_OUTPUT_VOL_UNKNOWN
-	gThisItem = 0
+	gReadMode   = READING_OUTPUT
+	gOutputType = AVCFG_OUTPUT_TYPE_UNKNOWN
+	gSceneType  = AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN
+	gVolType    = AVCFG_OUTPUT_VOL_UNKNOWN
+	gThisItem   = 0
     }
     case 'audio-output':
     {
-	gReadMode = READING_OUTPUT
-	gOutputType   = AVCFG_OUTPUT_TYPE_AUDIO
-	gVolType  = AVCFG_OUTPUT_VOL_DISCRETE
-	gThisItem = 0
+	gReadMode   = READING_OUTPUT
+	gOutputType = AVCFG_OUTPUT_TYPE_AUDIO
+	gSceneType  = AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN
+	gVolType    = AVCFG_OUTPUT_VOL_DISCRETE
+	gThisItem   = 0
     }
     case 'video-output':
     {
-	gReadMode = READING_OUTPUT
-	gOutputType   = AVCFG_OUTPUT_TYPE_UNKNOWN
-	gVolType  = AVCFG_OUTPUT_VOL_UNKNOWN
-	gThisItem = 0
+	gReadMode   = READING_OUTPUT
+	gOutputType = AVCFG_OUTPUT_TYPE_UNKNOWN
+	gSceneType  = AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN
+	gVolType    = AVCFG_OUTPUT_VOL_UNKNOWN
+	gThisItem   = 0
     }
     default:
     {
@@ -448,7 +446,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllInputs[gThisItem].mId = gThisItem
 	    gAllInputs[gThisItem].mSupportedChannels	= AVCFG_DEFAULT_SUPPORTED_CHANNELS
 	    gAllInputs[gThisItem].mChannelMask		= AVCFG_DEFAULT_CHANNEL_MASK
-	    gAllInputs[gThisItem].mScene		= AVCFG_SCENE_UNKNOWN
+	    gAllInputs[gThisItem].mSceneChannel		= 0
 	    if (gMaxInput < gThisItem)
 		gMaxInput = gThisItem
 	}
@@ -499,7 +497,10 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	case 'pref-audio-format':
 	    gAllInputs[gThisItem].mPrefAudioFormat = avcfgGetAudioFormat (propValue)
 	case 'scene':
-	    gAllInputs[gThisItem].mScene = avcfgGetScene (propValue)
+	{
+	    gAllInputs[gThisItem].mSceneChannel = avcfgGetSceneChannel (propValue)
+	    debug (moduleName, 6, "'INPUT SCENE CHANNEL IS: ', itoa(gAllInputs[gThisItem].mSceneChannel)")
+	}
 	default:
 	    debug (moduleName, 0, "'Unhandled input property: ',propName")
 	} // inner switch
@@ -514,6 +515,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gThisItem = atoi(propValue)
 	    gAllOutputs[gThisItem].mId                = gThisItem
 	    gAllOutputs[gThisItem].mOutputType        = gOutputType
+	    gAllOutputs[gThisItem].mSceneType         = gSceneType
 	    gAllOutputs[gThisItem].mVolType           = gVolType
 	    gAllOutputs[gThisItem].mVolumeMin         = AVCFG_DEFAULT_VOL_MIN
 	    gAllOutputs[gThisItem].mVolumeMax         = AVCFG_DEFAULT_VOL_MAX
@@ -521,7 +523,7 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllOutputs[gThisItem].mVolumeIncrement   = AVCFG_DEFAULT_VOL_INCREMENT
 	    gAllOutputs[gThisItem].mSupportedChannels = AVCFG_DEFAULT_SUPPORTED_CHANNELS
 	    gAllOutputs[gThisItem].mChannelMask       = AVCFG_DEFAULT_CHANNEL_MASK
-	    gAllOutputs[gThisItem].mIrType	       = AVCFG_IR_TYPE_NORMAL
+	    gAllOutputs[gThisItem].mIrType	      = AVCFG_IR_TYPE_NORMAL
 	    if (gMaxOutput < gThisItem)
 		gMaxOutput = gThisItem
 	}
@@ -542,6 +544,8 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	    gAllOutputs[gThisItem].mVideoSwitchId = atoi(propValue)
 	case 'av-type':
 	    gAllOutputs[gThisItem].mOutputType = avcfgGetOutputType (propValue)
+	case 'av-scene-type':
+	    gAllOutputs[gThisItem].mSceneType = avcfgGetSceneType (propValue)
 	case 'av-vol-type':
 	    gAllOutputs[gThisItem].mVolType = avcfgGetVolumeType (propValue)
 	case 'dev':
@@ -667,6 +671,18 @@ DEFINE_FUNCTION integer avcfgGetOutputType (char str[])
     }
 }
 
+DEFINE_FUNCTION integer avcfgGetSceneType (char str[])
+{
+    lower_string (str)
+    switch (str)
+    {
+    case 'explicit':	return AVCFG_OUTPUT_SCENE_TYPE_EXPLICIT
+    case 'menu':	return AVCFG_OUTPUT_SCENE_TYPE_MENU
+    case 'none':	return AVCFG_OUTPUT_SCENE_TYPE_NONE
+    default:		return AVCFG_OUTPUT_SCENE_TYPE_UNKNOWN
+    }
+}
+
 DEFINE_FUNCTION integer avcfgGetVolumeType (char str[])
 {
     lower_string (str)
@@ -693,16 +709,18 @@ DEFINE_FUNCTION integer avcfgGetIrType (char str[])
     } // switch
 }
 
-DEFINE_FUNCTION integer avcfgGetScene (char str[])
+DEFINE_FUNCTION integer avcfgGetSceneChannel (char str[])
 {
-    lower_string (str)
+//    char str[10]
+    str = lower_string(str)
+    send_string 0, "'CHECKING SCENE CHANNEL: ', str"
     switch (str)
     {
-    case 'music':	return AVCFG_SCENE_MUSIC
-    case 'movies':	return AVCFG_SCENE_MOVIES
-    case 'tv':		return AVCFG_SCENE_TV
-    case 'sports':	return AVCFG_SCENE_SPORTS
-    default:		return AVCFG_SCENE_UNKNOWN
+    case 'music':	return CHAN_SCENE_MUSIC
+    case 'movies':	return CHAN_SCENE_MOVIES
+    case 'tv':		return CHAN_SCENE_TV
+    case 'sports':	return CHAN_SCENE_SPORTS
+    default:		return 0
     }
 }
 

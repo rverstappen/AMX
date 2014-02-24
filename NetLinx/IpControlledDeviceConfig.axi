@@ -110,16 +110,9 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
 	switch (propName)
 	{
 	case 'enabled':
-	{
-	    lower_string (propValue)
-	    gGeneral.mEnabled = (propValue = 'true' || propValue = 't' || propValue = 1)
-	    break
-	}
+	    gGeneral.mEnabled = getBooleanProp(propValue)
 	default:
-	{
-	    debug (moduleName, 0, "'Unhandled property: ',propName")
-	    break
-	}
+	    debug (moduleName, 3, "'Unknown general config property: ',propName,' (=',propValue,')'")
 	} // switch
     }
 

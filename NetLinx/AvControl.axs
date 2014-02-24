@@ -934,6 +934,24 @@ DEFINE_FUNCTION updateTpMasterPowerState (integer tpId, integer status)
 }
 *)
 
+DEFINE_FUNCTION updateTpTitle (integer tpId)
+{
+    if (length_array(gPanels[tpId].mWelcome) > 0)
+    {
+	debug (DBG_MODULE, 3, "'No welcome message: ', gPanels[tpId].mWelcome")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'TEXT',AVCFG_ADDRESS_WELCOME,gPanels[tpId].mWelcome")
+    }
+    else
+    {
+	debug (DBG_MODULE, 3, "'No welcome message for this device'")
+    }
+}
+
+DEFINE_FUNCTION updateTpMenus (integer tpId)
+{
+//    sendLevel (DBG_MODULE, dvTpOutputSelect[tpId], AVCFG_OUTPUT_SELECT_LEVEL_ALL, gTpOutputSelect[tpId])
+}
+
 DEFINE_FUNCTION updateTpInputs (integer tpId)
 {
     integer i
@@ -1141,6 +1159,8 @@ DEFINE_FUNCTION checkDevicePower (integer outputId, integer onOrOff)
 DEFINE_FUNCTION reconnectTp (integer tpId)
 {
     gTpStatus[tpId] = 1
+    updateTpTitle (tpId)
+    updateTpMenus (tpId)
     updateTpInputs (tpId)
     updateTpOutputs (tpId)
     debug (DBG_MODULE,9,"'Restored TP selections: ',
@@ -1411,7 +1431,7 @@ DATA_EVENT[dvTpInputControl]
 	updateTpOutputListFull (tpId)
 	doTpOutputSelect (tpId, outputId, 1)
 	debug (DBG_MODULE, 1, "'Restored TP output selections: ',devtoa(dvTpOutputSelect[tpId])")
-	doTpInputSelect (tpId, gTpInput[tpId], 1)
+//	doTpInputSelect (tpId, gTpInput[tpId], 1)
     }
     OFFLINE:
     {
@@ -1556,6 +1576,7 @@ wait 11
 {
     set_length_array (gAllOutputs, AVCFG_MAX_OUTPUTS)
     readConfigFile (DBG_MODULE, configFile)
+    debug (DBG_MODULE, 6, "'MUSIC INPUT SCENE CHANNEL IS: ', itoa(gAllInputs[4].mSceneChannel)")
     set_length_array (gAllInputs,  gMaxInput)
     set_length_array (gAllOutputs, gMaxOutput)
     set_length_array (gOutputPowerStatus, gMaxOutput)

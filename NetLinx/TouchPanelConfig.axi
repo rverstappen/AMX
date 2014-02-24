@@ -41,6 +41,7 @@ structure TouchPanel
     integer	mType		// Type of device (iPad, iPhone, MVP9000i, etc.)
     integer	mSize		// Size of device
     integer	mIsIridium	// Whether the TP is an Iridium app running on iPhone/iPod/iPad
+    char	mWelcome[32]	// Welcome message
 }
 
 DEFINE_VARIABLE
@@ -177,6 +178,9 @@ DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propV
 	    break
 	case 'iridium':
 	    panels[length_array(panels)].mIsIridium = parseBoolean(propValue)
+	    break
+	case 'welcome':
+	    panels[length_array(panels)].mWelcome = propValue
 	    break
 	default:
 	    debug (moduleName, 0, "'Unhandled property: ',propName")

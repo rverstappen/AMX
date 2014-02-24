@@ -112,10 +112,10 @@ integer CHAN_PAGE_DOWN		= 107   // Momentary: Scroll page down
 integer CHAN_WIDE_FORMAT	= 108	// Momentary: Wide screen format
 integer CHAN_3D			= 109	// Momentary: 3D mode
 integer CHAN_SCENE_MENU		= 110	// Momentary: Scene-type selector (eg., music, movie, sports, etc.)
-integer CHAN_SCENE_1		= 111	// Momentary: Explicit scene-type (usually music)
-integer CHAN_SCENE_2		= 112	// Momentary: Explicit scene-type (usually movies)
-integer CHAN_SCENE_3		= 113	// Momentary: Explicit scene-type (usually general TV)
-integer CHAN_SCENE_4		= 114	// Momentary: Explicit Scene-type (usually sports)
+integer CHAN_SCENE_MUSIC	= 111	// Momentary: Explicit scene-type (usually music)
+integer CHAN_SCENE_MOVIES	= 112	// Momentary: Explicit scene-type (usually movies)
+integer CHAN_SCENE_TV		= 113	// Momentary: Explicit scene-type (usually general TV)
+integer CHAN_SCENE_SPORTS	= 114	// Momentary: Explicit Scene-type (usually sports)
 integer CHAN_SCENE_UP		= 118   // Momentary: next scene
 integer CHAN_SCENE_DOWN		= 119   // Momentary: next scene
 
@@ -150,8 +150,16 @@ integer CHAN_MISC_BLUE		= 152	// Momentary: Blue misc button
 integer CHAN_MISC_RED		= 153	// Momentary: Red misc button
 integer CHAN_MISC_GREEN		= 154	// Momentary: Green misc button
 
-integer CHAN_DSP_EFFECT_NEXT	= 180	// Momentary: Next DSP effect
-integer CHAN_DSP_EFFECT_PREV	= 181	// Momentary: Prev DSP effect
+integer CHAN_SOUND_PROGRAM_MISC		= 161	// Momentary: cycle through sound programs
+integer CHAN_SOUND_PROGRAM_NEXT		= 162	// Momentary: Next DSP effect
+integer CHAN_SOUND_PROGRAM_PREV		= 163	// Momentary: Prev DSP effect
+integer CHAN_SOUND_PROGRAM_MOVIE	= 164	// Momentary: cycle through movie sound programs
+integer CHAN_SOUND_PROGRAM_MUSIC	= 165	// Momentary: cycle through music sound programs
+
+integer CHAN_SOUND_BOOST		= 171
+integer CHAN_SOUND_SURROUND_DECODE	= 172
+integer CHAN_SOUND_STRAIGHT		= 173
+integer CHAN_SOUND_PURE_DIRECT		= 174
 
 integer CHAN_FRAME_FWD          = 185   // Momentary: Frame forward
 integer CHAN_FRAME_REV          = 186   // Momentary: Frame reverse
@@ -189,7 +197,7 @@ integer CHAN_VOLUME_CHANNELS[] = {
 integer CHAN_POWER_CHANNELS[] = {
     CHAN_POWER, CHAN_POWER_ON, CHAN_POWER_OFF, CHAN_POWER_SLAVE_TOGGLE, CHAN_POWER_SLAVE_ON, CHAN_POWER_SLAVE_OFF}
 
-integer CHAN_TV_ADVANCED[] = {
+integer CHAN_AVR_ADVANCED[] = {
     CHAN_MENU_MENU,
     CHAN_MENU_UP,
     CHAN_MENU_DOWN,
@@ -215,14 +223,23 @@ integer CHAN_TV_ADVANCED[] = {
     CHAN_WIDE_FORMAT, 
     CHAN_3D,
     CHAN_SCENE_MENU,
-    CHAN_SCENE_1,
-    CHAN_SCENE_2,
-    CHAN_SCENE_3,
-    CHAN_SCENE_4,
+    CHAN_SCENE_MUSIC,
+    CHAN_SCENE_MOVIES,
+    CHAN_SCENE_SPORTS,
+    CHAN_SCENE_TV,
     CHAN_MISC_YELLOW,
     CHAN_MISC_BLUE,
     CHAN_MISC_RED,
-    CHAN_MISC_GREEN
+    CHAN_MISC_GREEN,
+    CHAN_SOUND_PROGRAM_MISC,
+    CHAN_SOUND_PROGRAM_NEXT,
+    CHAN_SOUND_PROGRAM_PREV,
+    CHAN_SOUND_PROGRAM_MOVIE,
+    CHAN_SOUND_PROGRAM_MUSIC,
+    CHAN_SOUND_BOOST,
+    CHAN_SOUND_SURROUND_DECODE,
+    CHAN_SOUND_STRAIGHT,
+    CHAN_SOUND_PURE_DIRECT
 }
 
 DEFINE_TYPE

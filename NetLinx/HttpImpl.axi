@@ -13,7 +13,7 @@
 
 DEFINE_CONSTANT
 integer	MAX_HTTP_LOCAL_PORTS = 20
-integer	MAX_HTTP_MSG_LEN = 500
+integer	MAX_HTTP_MSG_LEN = 1024
 char	crlf[] = {$0D,$0A}
 
 
@@ -28,7 +28,7 @@ structure HttpImpl
 structure HttpRequest
 {
     integer	mHttpId
-    char	mServer[50]
+    char	mServer[128]
     integer	mPort
     char	mMsg[MAX_HTTP_MSG_LEN]
 }
@@ -48,6 +48,8 @@ DEFINE_FUNCTION sendHttp (HttpConfig http, integer httpId, char enclMsg[])
 {
     char msg[MAX_HTTP_MSG_LEN]
     msg = "gHttpImpl[httpId].mHtmlPrefix,enclMsg,gHttpImpl[httpId].mHtmlSuffix"
+    debug (DBG_MODULE, 9, "msg")
+    debug (DBG_MODULE, 9, "'Check HTTP message length: ',itoa(length_array(msg))")
     if (USE_HTTP_QUEUE)
     {
 	enqueueHttp (httpId, http.mServerIpAddress, http.mServerPort, msg)
@@ -60,7 +62,7 @@ DEFINE_FUNCTION sendHttp (HttpConfig http, integer httpId, char enclMsg[])
 
 DEFINE_FUNCTION initHttpImpl (integer httpId, HttpConfig http, char prefix[], char innerSuffix[])
 {
-    char authStr[100]
+    char authStr[256]
     debug (DBG_MODULE, 1, 
     	   "'Initializing HTTP interface: ',http.mServerIpAddress,':',itoa(http.mServerPort)")
     if (http.mServerUsername)

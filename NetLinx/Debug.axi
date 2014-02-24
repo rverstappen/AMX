@@ -14,7 +14,17 @@ DEFINE_FUNCTION debug (char pkgName[], integer dbgLevel, char msg[])
 {
     if ((dbgLevel = 0) || ((gDebugLevel > 0) && (dbgLevel <= gDebugLevel)))
     {
-        send_string 0, "pkgName,'[',itoa(dbgLevel),']: ',msg"
+	char subMsg[256]
+	integer len, subMsgLen
+	len = length_array(msg)
+        while (len > 0)
+	{
+	    subMsg = left_string(msg,256)
+	    subMsgLen = length_array(subMsg)
+	    len = len - subMsgLen
+	    msg = right_string(msg,len)
+	    send_string 0, "pkgName,'[',itoa(dbgLevel),']: ',subMsg"
+     	}
     }
 }
 
@@ -32,6 +42,18 @@ DEFINE_FUNCTION sendCommand (char dbgModule[], dev cmdDev, char cmdStr[])
 {
     debug (dbgModule, 9, "'send_command ',devtoa(cmdDev),', ',cmdStr")
     send_command cmdDev, cmdStr
+}
+
+DEFINE_FUNCTION sendLevel (char dbgModule[], dev cmdDev, integer lev, integer value)
+{
+    debug (dbgModule, 9, "'send_level ',devtoa(cmdDev),', ',itoa(lev),', ',itoa(value)")
+    send_level cmdDev, lev, value
+}
+
+DEFINE_FUNCTION sendPulse (char dbgModule[], dev cmdDev, integer chan)
+{
+    debug (dbgModule, 9, "'pulse[',devtoa(cmdDev),', ',itoa(chan),']'")
+    pulse[cmdDev, chan]
 }
 
 

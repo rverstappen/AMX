@@ -36,6 +36,7 @@ BUTTON_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT]
     PUSH:
     {
 	// Force the hiding of the output selection popups
+	debug (DBG_MODULE,9,"'XXX output select: received button event on cannel ',itoa(button.input.channel)")
      	sendCommand (DBG_MODULE, dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
      	sendCommand (DBG_MODULE, dvTpOutputSelect[get_last(dvTpOutputSelect)],"'@PPF-',AV_OUTPUT_SELECTOR_MINI_POPUP")
 	doTpOutputSelect (get_last(dvTpOutputSelect), button.input.channel, 0)
@@ -57,8 +58,8 @@ LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_AUDIO]
 {
     integer tpId, outputId
     tpId = get_last(dvTpOutputSelect)
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
     debug (DBG_MODULE,9,"'XXX Audio: received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
     if (level.value > 0)  // 0 is sent when the TP goes offline
     {
 	if (gTpInfo[tpId].mCustomOutputList)
@@ -76,9 +77,10 @@ LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_VIDEO]
 {
     integer tpId
     tpId = get_last(dvTpOutputSelect)
-    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
     debug (DBG_MODULE,9,"'XXX Video (tpId=',itoa(tpId),'): received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
-    debug (DBG_MODULE,9,"'XXX Video: enabled? ',itoa(gTpInfo[tpId].mCustomOutputList)")
+    debug (DBG_MODULE,9,"'XXX Video: custom output list enabled? ',itoa(gTpInfo[tpId].mCustomOutputList)")
+//    sendLevel (DBG_MODULE, dvTpOutputSelect[tpId], AVCFG_OUTPUT_SELECT_LEVEL_ALL, level.value)
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_FULL_POPUP")
     if (level.value > 0)  // 0 is sent when the TP goes offline
     {
 	if (gTpInfo[tpId].mCustomOutputList)
@@ -96,14 +98,20 @@ LEVEL_EVENT[dvTpOutputSelect, AVCFG_OUTPUT_SELECT_LEVEL_ALL]
 {
     integer tpId
     tpId = get_last(dvTpOutputSelect)
+    debug (DBG_MODULE,9,"'XXX All: (tpId=',itoa(tpId),'): received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
     sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'@PPF-',AV_OUTPUT_SELECTOR_MINI_POPUP")
-    debug (DBG_MODULE,9,"'received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
     if (level.value > 0)  // 0 is sent when the TP goes offline
     {
 	doTpOutputSelect (tpId, level.value, 0)
     }
 }
 
+LEVEL_EVENT[dvTpOutputSelect, 205]
+{
+    integer tpId
+    tpId = get_last(dvTpOutputSelect)
+    debug (DBG_MODULE,9,"'XXX WTF?: (tpId=',itoa(tpId),'): received level event on level ',itoa(level.input.level),': ',itoa(level.value)")
+}
 
 DEFINE_FUNCTION doTpOutputSelect (integer tpId, integer outputId, integer force)
 {
@@ -266,7 +274,7 @@ DEFINE_FUNCTION updateTpOutputListMini (integer tpId)
 {
     if (tpIsIridium(gPanels,tpId))
     {
-	updateTpOutputListMini_Iridium (tpId)
+//	updateTpOutputListMini_Iridium (tpId)
     }
     else
     {
@@ -295,6 +303,9 @@ DEFINE_FUNCTION updateTpOutputListFull_Iridium (integer tpId, AvTpInfo tpInfo)
 	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',	AVCFG_ADDRESS_OUTPUT_SELECT_VIDEO,',',
 		     itoa(i),',1,',gAllOutputs[outputId].mName")
     }
+    // Since iRidium uses levels for the scrolling lists, update the levels to the current selection
+//    send_level dvTpOutputSelect[tpId], AVCFG_OUTPUT_SELECT_LEVEL_AUDIO, gTpOutputSelect[tpId]
+//    send_level dvTpOutputSelect[tpId], AVCFG_OUTPUT_SELECT_LEVEL_VIDEO, 0
 }
 
 DEFINE_FUNCTION updateTpOutputListFull_Standard (integer tpId, AvTpInfo tpInfo)
@@ -328,6 +339,8 @@ DEFINE_FUNCTION updateTpOutputListMini_Iridium (integer tpId)
 	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_ITEM_TEXT-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
 		    itoa(i),',1,',gAllOutputs[outputId].mName")
     }
+    sendCommand (DBG_MODULE, dvTpOutputSelect[tpId],"'IRLB_POSITION-',    AVCFG_ADDRESS_OUTPUT_SELECT_MINI,',',
+		    itoa(gTpOutputSelect[tpId])")
 }
 
 DEFINE_FUNCTION updateTpOutputListMini_Standard (integer tpId)

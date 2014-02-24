@@ -9,7 +9,7 @@ volatile char bRecvBufVideo[1024]
 
 DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 {
-    // Do the A/V switching, including changing local inputs, if necessary, since
+    // Do the A/V switching, including changing scenes and/or local inputs, if necessary, since
     // the input may be either centrally switched or locally connected.
     integer needLocalSwitch
     integer prevInputId
@@ -37,11 +37,21 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	// New output is on a main switch
 	if (gAllOutputs[outputId].mAudioSwitchId > 0)
 	{
+	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': main video switch changing...'")
 	    doMainAudioSwitch (gAllInputs[inputId].mAudioSwitchId, gAllOutputs[outputId].mAudioSwitchId)
+	}
+	else
+	{
+	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': no audio switch config'")
 	}
 	if (gAllOutputs[outputId].mVideoSwitchId > 0)
 	{
+	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': main video switch changing...'")
 	    doMainVideoSwitch (gAllInputs[inputId].mVideoSwitchId, gAllOutputs[outputId].mVideoSwitchId)
+	}
+	else
+	{
+	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': no video switch config'")
 	}
 	if (prevInputId > 0)
 	{
@@ -90,15 +100,19 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	}
 
 	// Make sure the input is turned ON
-	pulse [gAllInputs[inputId].mDev, CHAN_POWER_ON]
+	sendPulse (DBG_MODULE, gAllInputs[inputId].mDev, CHAN_POWER_ON)
     }
 
-    if (gAllInputs[inputId].mScene != gAllInputs[prevInputId].mScene)
+    if (gAllInputs[inputId].mSceneChannel != gAllInputs[prevInputId].mSceneChannel)
     {
-	wait 15 // wait 1.5 seconds, in case the display was powered off
+	wait 35 // wait 3.5 seconds, in case the display was powered off
 	{
-	    doLocalSetScene (outputId, gAllInputs[inputId].mScene)
+	    doLocalSetScene (outputId, gAllInputs[inputId].mSceneChannel)
 	}
+    }
+    else
+    {
+	debug (DBG_MODULE, 7, "'No need to change scenes; scene channel: ',itoa(gAllInputs[inputId].mSceneChannel)")
     }
 }
 
@@ -150,17 +164,23 @@ DEFINE_FUNCTION doLocalSwitch (integer outputId, integer inputChannel)
 	mappedChannel = inputChannel
     }
     debug (DBG_MODULE, 1, "'changing input using channel: ',itoa(mappedChannel)")
-    pulse [gAllOutputs[outputId].mDev, mappedChannel]
+    sendPulse (DBG_MODULE, gAllOutputs[outputId].mDev, mappedChannel)
 }
 
-DEFINE_FUNCTION doLocalSetScene (integer outputId, integer scene)
+DEFINE_FUNCTION doLocalSetScene (integer outputId, integer chan)
 {
-    integer chan
-    chan = sceneChannel (scene)
-    if (gAllOutputs[outputId].mChannelMask[chan])
+    debug (DBG_MODULE, 9, "'Checking whether to send scene channel: ',itoa(chan),' ...'")
+    if (chan &&        
+        gAllOutputs[outputId].mChannelMask[chan] && 
+	(gAllOutputs[outputId].mSceneType = AVCFG_OUTPUT_SCENE_TYPE_EXPLICIT))
     {
-	debug (DBG_MODULE, 1, "'changing scene using channel: ',itoa(chan)")
-	pulse [gAllOutputs[outputId].mDev, chan]
+	debug (DBG_MODULE, 3, "'changing scene using channel: ',itoa(chan),
+	      		      ' (=>',itoa(gAllOutputs[outputId].mChannelMap[chan]),')'")
+	sendPulse (DBG_MODULE, gAllOutputs[outputId].mDev, gAllOutputs[outputId].mChannelMap[chan])
+    }
+    else
+    {
+        debug (DBG_MODULE, 9, "'Scene channel not supported on this output: ',itoa(chan)")
     }
 }
 
@@ -581,11 +601,6 @@ DEFINE_FUNCTION integer selectLocalInputChannel (integer inputId, integer output
     {
 	return gAllOutputs[outputId].mSwitchedInputChannel
     }
-}
-
-DEFINE_FUNCTION integer sceneChannel (integer scene)
-{
-    return scene + CHAN_SCENE_1
 }
 
 

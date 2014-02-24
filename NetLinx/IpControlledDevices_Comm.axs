@@ -104,22 +104,27 @@ DEFINE_FUNCTION integer handleIpDeviceResponse (integer id, char msg[])
 
 DEFINE_START
 {
-    local_var integer id
+    integer id
     readConfigFile ('IpControlledDevicesConfig', 'IpDevices.cfg')
-    for (id = 1; id <= length_array(gIpDevices); id++)
+    if (gGeneral.mEnabled)
     {
-	create_buffer gIpDevices[id].mDevIp, gBuf[id]
-    }
-debug(DBG_MODULE,9,"'num control devices: ',itoa(length_array(gVdvControl))")
-debug(DBG_MODULE,9,"'1. gVdvControl[1]: ',devtoa(gVdvControl[1])")
-    gVdvControl[1] = 33041:1:0
-debug(DBG_MODULE,9,"'2. gVdvControl[1]: ',devtoa(gVdvControl[1])")
-    rebuild_event()
-    wait 43
-    {
+	debug (DBG_MODULE, 1, "'IpControlledDevices module is enabled.'")
 	for (id = 1; id <= length_array(gIpDevices); id++)
 	{
-	    connect(id)
+	    create_buffer gIpDevices[id].mDevIp, gBuf[id]
+	}
+	debug(DBG_MODULE,9,"'num control devices: ',itoa(length_array(gVdvControl))")
+	debug(DBG_MODULE,9,"'1. gVdvControl[1]: ',devtoa(gVdvControl[1])")
+	gVdvControl[1] = 33041:1:0
+	debug(DBG_MODULE,9,"'2. gVdvControl[1]: ',devtoa(gVdvControl[1])")
+	rebuild_event()
+	wait 43
+	{
+	    local_var id2
+	    for (id2 = 1; id2 <= length_array(gIpDevices); id2++)
+	    {
+		connect(id2)
+	    }
 	}
     }
 }

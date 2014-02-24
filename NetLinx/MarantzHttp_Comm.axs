@@ -32,7 +32,7 @@ volatile char	DBG_MODULE[] = 'Marantz'
 
 DEFINE_VARIABLE
 
-volatile char    MARANTZ_SUPPORTED_CHANNEL_STRS[256][32] = {
+volatile char    MARANTZ_SUPPORTED_CHANNEL_STRS[256][64] = {
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''}, // 1-10
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''}, // 11-20
     {''},{''},{''},					// 21-23
@@ -46,7 +46,9 @@ volatile char    MARANTZ_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 41-50
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 51-60
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 61-70
-    {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 71-80
+    {'cmd0=PutZone_InputFunction%2FBD'},		// 71
+    {'cmd0=PutZone_InputFunction%2FSAT'},		// 72
+    {''},{''},{''},{''},{''},{''},{''},{''},		// 73-80
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 81-90
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 91-100
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 101-110
@@ -77,13 +79,13 @@ DEFINE_FUNCTION initAllMarantzImpl()
     set_length_array (gHttpImpl, length_array(gMarantzs))
     for (httpId = 1; httpId <= length_array(gMarantzs); httpId++)
     {
-	initHttpImpl (httpId, gHttpCfgs[httpId], 'POST /MainZone/index.put.asp?cmd0=', '')
+	initHttpImpl (httpId, gHttpCfgs[httpId], 'GET /MainZone/index.put.asp?cmd0=', '')
     }
 }
 
 DEFINE_FUNCTION marantzRelayChannel (integer marantzId, integer chan)
 {
-    char msg[32]
+    char msg[64]
     msg = MARANTZ_SUPPORTED_CHANNEL_STRS[chan]
     debug (DBG_MODULE, 8, "'button press on channel ',itoa(chan),' (=><',msg,'>)'")
     if (msg != '')

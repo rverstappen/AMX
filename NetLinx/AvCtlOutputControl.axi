@@ -502,8 +502,8 @@ DEFINE_FUNCTION updateTpVolumeState (integer tpId, integer tpUiId, sinteger lev,
 
 DEFINE_EVENT
 
-// Handle power buttons for selected output
-BUTTON_EVENT[dvTpOutputControl, CHAN_TV_ADVANCED]
+// Handle advanced buttons for selected output
+BUTTON_EVENT[dvTpOutputControl, CHAN_AVR_ADVANCED]
 {
     PUSH:
     {
@@ -512,11 +512,11 @@ BUTTON_EVENT[dvTpOutputControl, CHAN_TV_ADVANCED]
 	tpId = get_last(dvTpOutputControl)
 	outputId = gTpOutputSelect[tpId]
 	debug (DBG_MODULE, 8, "'handling output button press on channel ',itoa(button.input.channel)")
-	if (length_array(gAllOutputs[outputId].mAvrTvId) > 0)
-	{
-	    debug (DBG_MODULE, 9, "'passing to slave: ',itoa(gAllOutputs[outputId].mAvrTvId[1])")
-	    outputId = gAllOutputs[outputId].mAvrTvId[1]
-	}
+//	if (length_array(gAllOutputs[outputId].mAvrTvId) > 0)
+//	{
+//	    debug (DBG_MODULE, 9, "'passing to slave: ',itoa(gAllOutputs[outputId].mAvrTvId[1])")
+//	    outputId = gAllOutputs[outputId].mAvrTvId[1]
+//	}
 	doOutputPulse (outputId, button.input.channel)
     }
 }
