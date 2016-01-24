@@ -12,7 +12,8 @@ MODULE_NAME='AvControl' (
 
 DEFINE_VARIABLE
 
-volatile TouchPanel  gPanels[TP_MAX_PANELS]
+volatile TpCfgGeneral	gTpGeneral
+volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev  dvTpInputSelect[TP_MAX_PANELS]	// TP channels for input selection, switching and titles
 volatile dev  dvTpInputControl[TP_MAX_PANELS]	// TP channels for input control buttons and sliders
 volatile dev  dvTpOutputSelect[TP_MAX_PANELS]	// TP channels for output selection, switching and titles
@@ -938,8 +939,13 @@ DEFINE_FUNCTION updateTpTitle (integer tpId)
 {
     if (length_array(gPanels[tpId].mWelcome) > 0)
     {
-	debug (DBG_MODULE, 3, "'No welcome message: ', gPanels[tpId].mWelcome")
+	debug (DBG_MODULE, 3, "'Found personal welcome message: ', gPanels[tpId].mWelcome")
 	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'TEXT',AVCFG_ADDRESS_WELCOME,gPanels[tpId].mWelcome")
+    }
+    else if (length_array(gTpGeneral.mWelcome) > 0)
+    {
+	debug (DBG_MODULE, 3, "'Found general welcome message: ', gTpGeneral.mWelcome")
+	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'TEXT',AVCFG_ADDRESS_WELCOME,gTpGeneral.mWelcome")
     }
     else
     {
@@ -1563,7 +1569,7 @@ DEFINE_FUNCTION handleAvControlCommand (char msg[])
 DEFINE_START
 {
     integer i
-    tpReadConfigFile ('AvControl', tpConfigFile, gPanels)
+    tpReadConfigFile ('AvControl', tpConfigFile, gTpGeneral, gPanels)
     tpMakeLocalDevArray ('AvControl', dvTpInputSelect,	gPanels, TP_PORT_AV_INPUT_SELECT)
     tpMakeLocalDevArray ('AvControl', dvTpInputControl,	gPanels, TP_PORT_AV_INPUT_CONTROL)
     tpMakeLocalDevArray ('AvControl', dvTpOutputSelect,	gPanels, TP_PORT_AV_OUTPUT_SELECT)

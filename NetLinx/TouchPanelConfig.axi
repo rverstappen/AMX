@@ -29,10 +29,16 @@ TP_SIZE_LARGE		= 3
 // The following are really for the implementation
 TP_CFG_MAX_BUF_LEN	= 1000
 TP_READING_NONE		= 0
-TP_READING_PANEL	= 1
+TP_READING_GENERAL	= 1
+TP_READING_PANEL	= 2
 
 
 DEFINE_TYPE
+
+structure TpCfgGeneral
+{
+    char	mWelcome[32]	// Welcome message
+}
 
 structure TouchPanel
 {
@@ -74,7 +80,7 @@ DEFINE_FUNCTION integer tpType (TouchPanel panels[], integer tpId)
     return panels[tpId].mType
 }
 
-DEFINE_FUNCTION tpReadConfigFile (char moduleName[], char filename[], TouchPanel panels[])
+DEFINE_FUNCTION tpReadConfigFile (char moduleName[], char filename[], TpCfgGeneral general, TouchPanel panels[])
 {
     slong	fd
     slong	bytes
@@ -114,7 +120,7 @@ DEFINE_FUNCTION tpReadConfigFile (char moduleName[], char filename[], TouchPanel
 		propName = right_string (line, length_string(line)-skip+1)
 		set_length_string (propName, pos-skip)
 		propValue = right_string (line, length_string(line)-pos)
-		tpHandleProperty (moduleName, propName, propValue, panels)
+		tpHandleProperty (moduleName, propName, propValue, general, panels)
 	    }
 	    else if ((line[skip] = '[') && (line[length_string(line)] = ']'))
 	    {
@@ -147,6 +153,9 @@ DEFINE_FUNCTION tpHandleHeading (char moduleName[], char heading[], TouchPanel p
     debug (moduleName, 8, "'read config heading: <',heading,'>'")
     switch (heading)
     {
+    case 'general':
+	gTpReadMode = TP_READING_GENERAL
+	break
     case 'touch-panel':
 	gTpReadMode = TP_READING_PANEL
     	set_length_array (panels, length_array(panels)+1)
@@ -157,11 +166,25 @@ DEFINE_FUNCTION tpHandleHeading (char moduleName[], char heading[], TouchPanel p
     }
 }
 
-DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propValue[], TouchPanel panels[])
+DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propValue[], 
+				  TpCfgGeneral general, TouchPanel panels[])
 {    
     debug (moduleName, 8, "'read config property (',propName,'): <',propValue,'>'")
     switch (gTpReadMode)
     {
+    case TP_READING_GENERAL:
+    {
+	switch (propName)
+	{
+	case 'welcome':
+	    general.mWelcome = propValue
+	    break
+	default:
+	    debug (moduleName, 0, "'Unhandled property: ',propName")
+	    break
+	break
+	} // inner switch
+    } // case READING_GENERAL
     case TP_READING_PANEL:
     {
 	switch (propName)

@@ -1,39 +1,36 @@
-MODULE_NAME='WeatherUnderground' (
-	dev	dvStatus,
-	dev	dvLocalTcp,
-	char	currCondLoc[],
-	char    airportLoc[],
-	char	forecastLoc[],
-	integer TP_COUNT)		// Number of TPs
+MODULE_NAME='WeatherUnderground' (char configFile[], char tpConfigFile[])
 
-// Note: This module still needs to be made configurable, like the other modules.
+#include 'WundergroundConfig.axi'
 
 DEFINE_VARIABLE
 
 constant char    DBG_MODULE[]    = 'WeatherUnderground'
-constant char    weatherServer[] = 'api.wunderground.com'
-constant integer weatherPort     = 80
-constant char	 currCondPath[]	 = '/weatherstation/WXCurrentObXML.asp?ID='
-constant char    airportPath[]	 = '/auto/wui/geo/WXCurrentObXML/index.xml?query='
-constant char	 forecastPath[]	 = '/auto/wui/geo/ForecastXML/index.xml?query='
 
-volatile char    gBuf[150000]
-volatile integer gReqNum
+volatile integer	gReqNum
 
 DEFINE_START
-setDebugLevel(2)
-if ((currCondLoc = '') || (airportLoc = '') || (forecastLoc = ''))
 {
-    debug (DBG_MODULE, 1, 'Not initializing')
-    setInitializedOk (0)
-}
-else
-{
-    setInitializedOk (1)
+    readConfigFile ('Wunderground', configFile)
+    if (gGeneral.mEnabled)
+    {
+        if ((gGeneral.mCurrCondLoc == '') || (gGeneral.mAirportLoc == '') || (gGeneral.mForecastLoc == ''))
+    	{
+	    gGeneral.mEnabled = 0
+	    debug (DBG_MODULE, 1, 'not initializing due to misconfiguration.')
+    	}
+	else
+	{
+	    setDebugLevel (gGeneral.mDebugLevel)
+	    debug (DBG_MODULE, 1, "'module is enabled.'")
+	}
+    }
+    else
+    {
+	debug (DBG_MODULE, 1, 'not initializing.')
+    }
 }
 
 #include 'Weather.axi'
-#include 'Debug.axi'
 
 DEFINE_FUNCTION handleConnect()
 {
@@ -42,17 +39,17 @@ DEFINE_FUNCTION handleConnect()
     {
     case 0:
         debug (DBG_MODULE, 2, 'Connected: sending local current conditions request...')
-    	sendRequest ("currCondPath,currCondLoc")
+    	sendRequest ("gGeneral.mCurrCondPath,gGeneral.mCurrCondLoc")
 	gReqNum = 1
     	break
     case 1:
         debug (DBG_MODULE, 2, 'Connected: sending current airport conditions request...')
-        sendRequest ("airportPath,airportLoc")
+        sendRequest ("gGeneral.mAirportPath,gGeneral.mAirportLoc")
 	gReqNum = 2
     	break
     case 2:
         debug (DBG_MODULE, 2, 'Connected: sending forecast request...')
-        sendRequest ("forecastPath,forecastLoc")
+        sendRequest ("gGeneral.mForecastPath,gGeneral.mForecastLoc")
 	gReqNum = 0
     	break
     default:

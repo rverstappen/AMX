@@ -67,10 +67,16 @@ STUPID_AMX_REQUIREMENT36 = 33056:1:0
 STUPID_AMX_REQUIREMENT37 = 33057:1:0
 STUPID_AMX_REQUIREMENT38 = 33058:1:0
 STUPID_AMX_REQUIREMENT39 = 33059:1:0
-
-// Virtual A/V devices
-vdvWeatherStatus	= 33023:1:0	// various stats sent to NetLinx channels
-dvWeatherLocal		= 0:51:0
+STUPID_AMX_REQUIREMENT100 = 33100:1:0
+STUPID_AMX_REQUIREMENT101 = 33101:1:0
+STUPID_AMX_REQUIREMENT102 = 33102:1:0
+STUPID_AMX_REQUIREMENT103 = 33103:1:0
+STUPID_AMX_REQUIREMENT104 = 33104:1:0
+STUPID_AMX_REQUIREMENT105 = 33105:1:0
+STUPID_AMX_REQUIREMENT106 = 33106:1:0
+STUPID_AMX_REQUIREMENT107 = 33107:1:0
+STUPID_AMX_REQUIREMENT108 = 33108:1:0
+STUPID_AMX_REQUIREMENT109 = 33109:1:0
 
 // Virtual devices for inter-module communications
 vdvAvInputSelect	= 33051:TP_PORT_AV_INPUT_SELECT:0
@@ -91,11 +97,9 @@ char	plexConfigFile[]    = 'Plex.cfg'
 char	rokuConfigFile[]    = 'Roku.cfg'
 char	dtvConfigFile[]    = 'DirecTV.cfg'
 char	itunesConfigFile[]    = 'iTunes.cfg'
+char	itachConfigFile[]    = 'iTach.cfg'
 
 //char	weatherZipCode[] = '89451'
-char	gWunderStationId[] = 'MC7350'
-char	gWunderAirportId[] = 'KTRK'
-char	gWunderForecastId[] = 'KTRK'
 
 char    hvacConfigFile[] = 'Hvac.cfg'
 char    automationConfigFile[] = 'Automation.cfg'
@@ -109,20 +113,20 @@ char	netBooterConfigFile[] = 'NetBooter.cfg'
 char	powerManConfigFile[] = 'Power.cfg'
 char	lightingConfigFile[] = 'Lighting.cfg'
 char	marantzConfigFile[] = 'Marantz.cfg'
-
-integer TP_COUNT = 21
+char    wunderConfigFile[]  = 'Wunderground.cfg'
 
 DEFINE_MODULE 'AvControl' avCtl (avConfigFile,tpConfigFile,vdvAvOutputSelect,vdvZoneSelect)
 DEFINE_MODULE 'Plex_Comm' plex (plexConfigFile)
 DEFINE_MODULE 'Roku_Comm' roku (rokuConfigFile)
 DEFINE_MODULE 'ITunesHttp_Comm' iTunesHttp (itunesConfigFile, tpConfigFile)
 DEFINE_MODULE 'DirecTvHttp_Comm' dtvHttp (dtvConfigFile)
+DEFINE_MODULE 'ITachHttp_Comm' dtvHttp (itachConfigFile)
 DEFINE_MODULE 'ZoneControl' zoneConn (zoneConfigFile, tpConfigFile,vdvZoneSelect,vdvAvOutputSelect)
 DEFINE_MODULE 'Lutron_Comm' lutronComm (lutronConfigFile1, lutronConfigFile2)
 DEFINE_MODULE 'RelayControl'  relayConn  (relayConfigFile,  tpConfigFile, dvAllRelays)
 DEFINE_MODULE 'PresetControl' presetConn (presetConfigFile, tpConfigFile)
 //DEFINE_MODULE 'WeatherDotCom_Comm' weatherCom (vdvWeatherStatus,dvWeatherLocal,weatherZipCode)
-DEFINE_MODULE 'WeatherUnderground' wunder (vdvWeatherStatus,dvWeatherLocal,gWunderStationId,gWunderAirportId,gWunderForecastId,TP_COUNT)
+DEFINE_MODULE 'WeatherUnderground' wunder (wunderConfigFile, tpConfigFile)
 DEFINE_MODULE 'Hvac_ViewStat' hvacVst (hvacConfigFile, tpConfigFile)
 //DEFINE_MODULE 'Automation' automat (automationConfigFile)
 DEFINE_MODULE 'IpControlledDevices_Comm' ipDevices()

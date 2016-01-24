@@ -12,6 +12,7 @@ DEFINE_VARIABLE
 
 volatile char DBG_MODULE[] = 'Hvac'
 
+volatile   TpCfgGeneral     gTpGeneral
 volatile   TouchPanel	    gPanels[TP_MAX_PANELS]
 volatile   dev		    gDvTpControl[TP_MAX_PANELS]	// Individual HVAC display/control
 volatile   dev		    gDvTpSummary[TP_MAX_PANELS]	// Summary of all HVAC thermostats
@@ -380,7 +381,7 @@ DEFINE_FUNCTION handleControlCommand (char cmd[])
 
 DEFINE_FUNCTION readConfigs (char configFile[], char tpConfigFile[])
 {
-    tpReadConfigFile ('HvacConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('HvacConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('HvacConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definitions'")
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gHvacs)),' hvac definitions'")

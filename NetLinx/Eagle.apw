@@ -223,6 +223,14 @@
 <DeviceMap DevAddr="dvVideoPlayerCable"><DevName>dvVideoPlayerCable</DevName>
 </DeviceMap>
 </File>
+<File CompileType="None" Type="Include"><Identifier>ITachConfig</Identifier>
+<FilePathName>ITachConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ITachHttp_Comm</Identifier>
+<FilePathName>ITachHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>ITunesHttp_Comm</Identifier>
 <FilePathName>ITunesHttp_Comm.axs</FilePathName>
 <Comments></Comments>

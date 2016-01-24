@@ -9,6 +9,7 @@ DEFINE_CONSTANT
 DEFINE_VARIABLE
 
 volatile char		DBG_MODULE[] = 'PresetControl'
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTps[TP_MAX_PANELS]
 volatile integer	gTpStatus[TP_MAX_PANELS]
@@ -114,7 +115,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 			actionId = gPresets[i].mAvActionIds[col]
 			if (actionId)
 			{
-			    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mName")
+			    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvActions[actionId].mShortName")
 			}
 			else
 			{
@@ -127,7 +128,7 @@ DEFINE_FUNCTION handleTpOnlineEvent (integer tpId)
 		    // Set the row-heading
 		    chan = rowChan
 		    groupId = gPresets[i].mAvGroupIds[row]
-		    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvGroups[groupId].mName")
+		    sendCommand (DBG_MODULE, gDvTps[tpId],"'TEXT',itoa(chan),'-',gAvGroups[groupId].mShortName")
 		    // Set the button status for the row
 		    for (col = 1, chan++; col <= numCols; col++,chan++)
 		    {
@@ -276,7 +277,7 @@ DEFINE_FUNCTION sendButtonState (dev cmdDev, integer chan, integer status)
 
 DEFINE_START
 {
-    tpReadConfigFile ('PresetConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('PresetConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('PresetConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definitions'")
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPresets)),' preset definitions'")

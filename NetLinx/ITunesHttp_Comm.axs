@@ -258,7 +258,7 @@ DATA_EVENT[gDvHttpControl]
 
 DEFINE_START
 {
-    tpReadConfigFile ('ITunesConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('ITunesConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('ITunesConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definition(s)'")
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gITunes)),' iTunes server definition(s)'")

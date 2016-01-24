@@ -12,6 +12,7 @@ LIGHTING_ON  = 1
 DEFINE_VARIABLE
 
 volatile char		DBG_MODULE[] = 'Lighting'
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTps[TP_MAX_PANELS]
 volatile dev		gDvControls[MAX_LIGHTING_CONTROLS]
@@ -125,7 +126,7 @@ DEFINE_FUNCTION updateButtonChannel (integer tpId, integer buttonId, integer ltS
 
 DEFINE_START
 {
-    tpReadConfigFile ('LightingConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('LightingConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('LightingConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definitions'")
 //    debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gLightingControls)),' lighting definitions'")

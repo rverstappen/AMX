@@ -16,6 +16,7 @@ integer ITUNES_ADDRESS_NOW_PLAYING_ALBUM_ARTWORK= 31
 
 DEFINE_VARIABLE
 
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTpSelectPlaylist[TP_MAX_PANELS]
 volatile dev		gDvTpNowPlaying[TP_MAX_PANELS]

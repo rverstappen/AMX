@@ -237,14 +237,19 @@ DEFINE_FUNCTION setOutputPowerStatusExec (integer outputId, integer status)
         (gAllOutputs[outputId].mOutputType = AVCFG_OUTPUT_TYPE_TV_MASTER) ||
         (gAllOutputs[outputId].mOutputType = AVCFG_OUTPUT_TYPE_TV_SLAVE))
     {
-	if (status = POWER_STATUS_ON)
+	integer powerChan
+	powerChan = CHAN_POWER     // Toggle popwer unless device supports discrete on/off
+	if (status == POWER_STATUS_ON)
 	{
-	    doOutputPulse (outputId, CHAN_POWER_ON)
+	    if (gAllOutputs[outputId].mChannelMask[CHAN_POWER_ON])
+	        powerChan = CHAN_POWER_ON
 	}
 	else
 	{
-	    doOutputPulse (outputId, CHAN_POWER_OFF)
+	    if (gAllOutputs[outputId].mChannelMask[CHAN_POWER_OFF])
+	        powerChan = CHAN_POWER_OFF
 	}
+	doOutputPulse (outputId, powerChan)
     }
 }
 
@@ -526,7 +531,9 @@ DEFINE_FUNCTION doOutputPulse (integer outputId, integer chan)
     integer mappedChannel
     mappedChannel = gAllOutputs[outputId].mChannelMap[chan]
     if (mappedChannel = 0)
+    {
         mappedChannel = chan
+    }
     if (gAllOutputs[outputId].mIrType = AVCFG_IR_TYPE_SEND_COMMAND)
     {
 	debug (DBG_MODULE, 9, "'AvCtlOutputControl::doOutputPulse(',itoa(outputId),',',itoa(chan),

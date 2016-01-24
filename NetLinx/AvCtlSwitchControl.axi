@@ -480,12 +480,19 @@ DEFINE_FUNCTION checkInputToOutput (integer inputId, integer outputId)
 	prevInputId = gInputByOutput[outputId]
         if (prevInputId != inputId)
     	{
-	    // The switch thinks the input is wrong, but maybe the output device isn't using the switch right now.
+	    // Check possibility that the switch is inconsistent with the real world:
 	    if (prevInputId > 0)
 	    {
 	        if (gAllInputs[prevInputId].mLocationType = AVCFG_INPUT_TYPE_LOCAL)
 		{
 		    // False alarm; output is using a local input
+		    return
+		}
+		else if (gAllInputs[prevInputId].mVideoSwitchId == gAllInputs[inputId].mVideoSwitchId)
+		{
+		    // False alarm; switch input is actually the same and we sometimes overload them 
+		    // for multiple purposes (e.g. computer screens delivering music from different 
+		    // apps or movies).
 		    return
 		}
 	    }

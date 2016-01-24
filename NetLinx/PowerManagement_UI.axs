@@ -12,6 +12,7 @@ POWER_MAN_ON  = 1
 DEFINE_VARIABLE
 
 volatile char		DBG_MODULE[] = 'PowerMan'
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTps[TP_MAX_PANELS]
 volatile dev		gDvControls[MAX_POWER_CONTROLS]
@@ -119,7 +120,7 @@ DEFINE_FUNCTION updatePowerChannel (integer tpId, integer controlId, integer pmS
 
 DEFINE_START
 {
-    tpReadConfigFile ('PowerManagementConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('PowerManagementConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('PowerManagementConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definitions'")
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPowerControls)),' power device definitions'")

@@ -8,6 +8,7 @@ DEFINE_CONSTANT
 DEFINE_VARIABLE
 
 volatile char		DBG_MODULE[] = 'RelayControl'
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTps[TP_MAX_PANELS]
 
@@ -109,7 +110,7 @@ DEFINE_FUNCTION handleRelayOff (integer id)
 
 DEFINE_START
 {
-    tpReadConfigFile ('RelayConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('RelayConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('RelayConfig', configFile)
     if (gGeneral.mEnabled)
     {

@@ -19,6 +19,7 @@ DEFINE_VARIABLE
 volatile char		DBG_MODULE[] = 'DMX'
 volatile integer	DMX_RGB_LEVEL_CHANNELS[] = { DMX_CHAN_RED, DMX_CHAN_GREEN, DMX_CHAN_BLUE }
 
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTps[TP_MAX_PANELS]
 volatile dev		gDvRgbs[DMX_MAX_DMXS]
@@ -227,7 +228,7 @@ DATA_EVENT[gDvRgbs]
 
 DEFINE_START
 {
-    tpReadConfigFile ('DmxConfig', tpConfigFile, gPanels)
+    tpReadConfigFile ('DmxConfig', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile ('DmxConfig', configFile)
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gPanels)),' panel definitions'")
     debug (DBG_MODULE, 1, "'Read ',itoa(length_array(gDmxRgbs)),' DMX RGB device definitions'")

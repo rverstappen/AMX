@@ -47,7 +47,14 @@ volatile char		gHttpMsgSpool[MAX_HTTP_LOCAL_PORTS][MAX_HTTP_MSG_LEN]
 DEFINE_FUNCTION sendHttp (HttpConfig http, integer httpId, char enclMsg[])
 {
     char msg[MAX_HTTP_MSG_LEN]
-    msg = "gHttpImpl[httpId].mHtmlPrefix,enclMsg,gHttpImpl[httpId].mHtmlSuffix"
+    msg = "gHttpImpl[httpId].mHtmlPrefix,enclMsg"
+    sendHttpWithoutPrefix (http, httpId, msg)
+}
+
+DEFINE_FUNCTION sendHttpWithoutPrefix (HttpConfig http, integer httpId, char enclMsg[])
+{
+    char msg[MAX_HTTP_MSG_LEN]
+    msg = "enclMsg,gHttpImpl[httpId].mHtmlSuffix"
     debug (DBG_MODULE, 9, "msg")
     debug (DBG_MODULE, 9, "'Check HTTP message length: ',itoa(length_array(msg))")
     if (USE_HTTP_QUEUE)
@@ -95,7 +102,8 @@ DATA_EVENT[gHttpLocalDvPool]
 	integer poolId
 	poolId = get_last(gHttpLocalDvPool)
 	debug (DBG_MODULE, 9, "'HTTP connection poolId=',itoa(poolId),' OK'")
-	debug (DBG_MODULE, 8, "'sending HTTP message: ', gHttpMsgSpool[poolId]")
+	debug (DBG_MODULE, 8, "'sending HTTP message:'")
+	debug (DBG_MODULE, 8, "gHttpMsgSpool[poolId]")
 	send_string gHttpLocalDvPool[poolId], gHttpMsgSpool[poolId]
     }
     STRING:

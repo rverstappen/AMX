@@ -20,6 +20,7 @@ volatile char DBG_MODULE[] = 'ZoneControl'
 persistent integer gTpZoneSelect[TP_MAX_PANELS]
 
 // The TP devices
+volatile TpCfgGeneral	gTpGeneral
 volatile TouchPanel	gPanels[TP_MAX_PANELS]
 volatile dev		gDvTpZoneSelect[TP_MAX_PANELS]
 volatile dev		gDvTpZoneControl[TP_MAX_PANELS]
@@ -318,7 +319,7 @@ DEFINE_FUNCTION handleZoneControlCommand (char msg[])
 
 DEFINE_START
 {
-    tpReadConfigFile ('ZoneControl', tpConfigFile, gPanels)
+    tpReadConfigFile ('ZoneControl', tpConfigFile, gTpGeneral, gPanels)
     readConfigFile (DBG_MODULE, configFile)
 
     set_length_array (gTpZoneSelect, length_array(gPanels))

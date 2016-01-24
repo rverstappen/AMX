@@ -7,6 +7,7 @@
 #include 'TouchPanelPorts.axi'
 
 DEFINE_CONSTANT
+dvLocalTcp = 0:51:0
 
 // These channel ports are sent text strings and can be used in Touch Panel screens
 char WEATHER_CHAN_CURR_TEMP_F[]		= '11'
@@ -63,9 +64,11 @@ volatile char WEATHER_CHAN_FORECAST_SIMPLE_COND	[MAX_FORECAST_PERIODS][3] =
 volatile char WEATHER_CHAN_FORECAST_SIMPLE_ICON	[MAX_FORECAST_PERIODS][3] =
 	 { '318','328','338','348','358','368','378','388','398' }
 
-volatile integer	gInitialized = 0
-volatile dev		dvTp[TP_MAX_PANELS]
+volatile TpCfgGeneral	gTpGeneral
+volatile TouchPanel	gPanels[TP_MAX_PANELS]
+volatile dev		gDvTps[TP_MAX_PANELS]
 volatile integer 	gTpStatus[TP_MAX_PANELS]
+volatile char		gBuf[150000]
 
 DEFINE_TYPE
 
@@ -165,7 +168,7 @@ DATA_EVENT[dvLocalTcp]
 DEFINE_FUNCTION connect()
 {
     debug (DBG_MODULE, 2, 'Opening connection')
-    ip_client_open (dvLocalTcp.port, weatherServer, weatherPort, IP_TCP)
+    ip_client_open (dvLocalTcp.port, gGeneral.mServerName, gGeneral.mServerPort, IP_TCP)
 }
 
 DEFINE_FUNCTION disconnect()
@@ -176,8 +179,8 @@ DEFINE_FUNCTION disconnect()
 
 DEFINE_FUNCTION sendRequest(char req[])
 {
-    debug (DBG_MODULE, 1, "'Sending request: GET ',req,' HTTP/1.0',crlf,'Host: ',weatherServer")
-    send_string dvLocalTcp,"'GET ',req,' HTTP/1.0',crlf,'Host: ',weatherServer,crlf,crlf"
+    debug (DBG_MODULE, 1, "'Sending request: GET ',req,' HTTP/1.0',crlf,'Host: ',gGeneral.mServerName")
+    send_string dvLocalTcp,"'GET ',req,' HTTP/1.0',crlf,'Host: ',gGeneral.mServerName,crlf,crlf"
 }
 
 DEFINE_FUNCTION integer getStringField (char result[], char msg[], char tag[])
@@ -195,12 +198,12 @@ DEFINE_FUNCTION sendField (char addressPort[], char value[], integer checkColor)
     local_var char cmdStr[600]
     integer i
     cmdStr = "'TEXT',addressPort,'-',value"
-    sendCommand (DBG_MODULE, dvStatus, cmdStr)
-    for (i = 1; i <= TP_COUNT; i++)
+    sendCommand (DBG_MODULE, gGeneral.mDevStatus, cmdStr)
+    for (i = 1; i <= length_array(gPanels); i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, gDvTps[i], cmdStr)
 	}
     }
 }
@@ -210,12 +213,12 @@ DEFINE_FUNCTION sendAppendField (char addressPort[], char value[])
     local_var char cmdStr[600]
     integer i
     cmdStr = "'^BAT-',addressPort,',0,',value"
-    sendCommand (DBG_MODULE, dvStatus, cmdStr)
-    for (i = 1; i <= TP_COUNT; i++)
+    sendCommand (DBG_MODULE, gGeneral.mDevStatus, cmdStr)
+    for (i = 1; i <= length_array(gPanels); i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, gDvTps[i], cmdStr)
 	}
     }
 }
@@ -225,19 +228,19 @@ DEFINE_FUNCTION sendIconField (char addressPort[], char value[])
     local_var char cmdStr[100]
     integer i
     cmdStr = "'^BMP-',addressPort,',0,',value,'.png'"
-    sendCommand (DBG_MODULE, dvStatus, cmdStr)
-    for (i = 1; i <= TP_COUNT; i++)
+    sendCommand (DBG_MODULE, gGeneral.mDevStatus, cmdStr)
+    for (i = 1; i <= length_array(gPanels); i++)
     {
 	if (gTpStatus[i])
 	{
-	    sendCommand (DBG_MODULE, dvTp[i], cmdStr)
+	    sendCommand (DBG_MODULE, gDvTps[i], cmdStr)
 	}
     }
 }
 
 DEFINE_FUNCTION sendFieldTp (integer tpId, char addressPort[], char value[], integer checkColor)
 {
-    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',value")
+    sendCommand (DBG_MODULE, gDvTps[tpId], "'TEXT',addressPort,'-',value")
 }
 
 DEFINE_FUNCTION sendTempIntFieldTp (integer tpId, char addressPort[], sinteger temp, char scale)
@@ -245,7 +248,7 @@ DEFINE_FUNCTION sendTempIntFieldTp (integer tpId, char addressPort[], sinteger t
     // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
     char str[8]
     str = "itoa(temp),$B0,scale"
-    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',str")
+    sendCommand (DBG_MODULE, gDvTps[tpId], "'TEXT',addressPort,'-',str")
 }
 
 DEFINE_FUNCTION sendTempFloatFieldTp (integer tpId, char addressPort[], float temp, char scale)
@@ -253,17 +256,17 @@ DEFINE_FUNCTION sendTempFloatFieldTp (integer tpId, char addressPort[], float te
     // AMX bug? Need to create a new string rather than pass a constructed string to send_command.
     char str[8]
     str = "ftoa(temp),$B0,scale"
-    sendCommand (DBG_MODULE, dvTp[tpId], "'TEXT',addressPort,'-',str")
+    sendCommand (DBG_MODULE, gDvTps[tpId], "'TEXT',addressPort,'-',str")
 }
 
 DEFINE_FUNCTION sendAppendFieldTp (integer tpId, char addressPort[], char value[])
 {
-    sendCommand (DBG_MODULE, dvTp[tpId], "'^BAT-',addressPort,',0,',value")
+    sendCommand (DBG_MODULE, gDvTps[tpId], "'^BAT-',addressPort,',0,',value")
 }
 
 DEFINE_FUNCTION sendIconFieldTp (integer tpId, char addressPort[], char value[])
 {
-    sendCommand (DBG_MODULE, dvTp[tpId], "'^BMP-',addressPort,',0,',value,'.png'")
+    sendCommand (DBG_MODULE, gDvTps[tpId], "'^BMP-',addressPort,',0,',value,'.png'")
 }
 
 DEFINE_FUNCTION refreshTp (integer tpId)
@@ -271,7 +274,7 @@ DEFINE_FUNCTION refreshTp (integer tpId)
     integer i
     char    dateStr[32]
     char    subTextStr[500]
-    debug (DBG_MODULE, 4, "'Refreshing weather for TP ',devtoa(dvTp[tpId])")
+    debug (DBG_MODULE, 4, "'Refreshing weather for TP ',devtoa(gDvTps[tpId])")
     sendTempFloatFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_F,	gCurrTempF,	'F')
     sendTempFloatFieldTp (tpId, WEATHER_CHAN_CURR_TEMP_C,	gCurrTempC,	'C')
 //    sendFieldTp (tpId, WEATHER_CHAN_FEELS_LIKE_F,	"ftoa(gFeelsLikeF),$0B,'F'",	0)
@@ -343,28 +346,18 @@ DEFINE_FUNCTION sinteger calcWindChillC (float temp, float wind)
 }
 *)
 
-DEFINE_FUNCTION integer initializedOk()
-{
-    return gInitialized;
-}
-
-DEFINE_FUNCTION setInitializedOk (integer initOk)
-{
-    gInitialized = initOk;
-}
-
 DEFINE_EVENT
-DATA_EVENT[dvTp]
+DATA_EVENT[gDvTps]
 {
     ONLINE:
     { 
 	// Either the Master just restarted or the TP was just turned on again
         integer tpId
-      	tpId = get_last(dvTp)
+      	tpId = get_last(gDvTps)
      	gTpStatus[tpId] = 1
       	refreshTp(tpId)
     }
-    OFFLINE: { gTpStatus[get_last(dvTp)] = 0 }
+    OFFLINE: { gTpStatus[get_last(gDvTps)] = 0 }
     STRING: { debug (DBG_MODULE, 8, "'received string from TP (',devtoa(data.device),'): ',data.text") }
 }
 
@@ -374,36 +367,29 @@ DEFINE_START
     integer i
     create_buffer dvLocalTcp, gBuf
 
-    if (initializedOk())
+    // Specific weather config file should already be read by now. Just read the TP config:
+    tpReadConfigFile ('DmxConfig', tpConfigFile, gTpGeneral, gPanels)
+
+    if (gGeneral.mEnabled)
     {
+	debug (DBG_MODULE, 1, "'Weather module is enabled.'")
+	tpMakeLocalDevArray ('DmxConfig', gDvTps, gPanels, gGeneral.mTpPort)
+	rebuild_event()
+
 	//wait 1232	// 123.2 seconds (no real hurry to start this!)
     	wait 123	// 12.3 seconds (no real hurry to start this!)
     	{
 	    connect()
 	}
     }
-    // Initialize the TP device array
-    set_length_array (dvTp, TP_COUNT)
-    for (i = 1; i <= TP_COUNT; i++)
-    {
-	tpMakeLocalDev (dvTp[i],    i, TP_PORT_WEATHER)
-    }
-    rebuild_event()
 }
 
 
 DEFINE_PROGRAM
 wait 6053	// about every 10 minutes
 {
-    if (initializedOk())
+    if (gGeneral.mEnabled)
+    {
         connect()
-}
-
-// Temporary, until we make all this stuff configurable
-DEFINE_FUNCTION handleHeading (char moduleName[], char heading[])
-{
-}
-
-DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propValue[])
-{    
+    }
 }

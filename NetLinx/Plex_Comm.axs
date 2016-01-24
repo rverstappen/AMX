@@ -3,6 +3,7 @@ MODULE_NAME='Plex_Comm' (char configFile[])
 // We also have to define local devices somewhere in order to receive data back from
 // HTTP servers. We will use these in order, one per HTTP server.
 DEFINE_CONSTANT
+MAX_PLAYLISTS = 128
 STUPID_AMX_REQUIREMENT11 = 0:70:0
 STUPID_AMX_REQUIREMENT12 = 0:71:0
 STUPID_AMX_REQUIREMENT13 = 0:72:0
@@ -61,7 +62,8 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
     {''},{''},{''},{''},{''},{''},			// 85-90
     {''},{''},{''},{''},{''},{''},{''},{''},{''},{''},	// 91-100
     {'navigation/toggleOSD'},				// 101
-    {''},{''},{''},{''},				// 102-105
+    {'#favorite'},					// 102
+    {''},{''},{''},					// 103-105
     {'navigation/pageUp'},				// 106
     {'navigation/pageDown'},				// 107
     {''},{''},{''},					// 108-110
@@ -88,6 +90,9 @@ volatile char    	PLEX_SUPPORTED_CHANNEL_STRS[256][32] = {
 // Array of devices for communication
 volatile dev	gDvHttpControl[MAX_HTTP_SERVERS]
 
+// Array of playlists
+volatile int    gPlaylists[MAX_HTTP_SERVERS][MAX_PLAYLISTS]
+
 
 DEFINE_FUNCTION initAllPlexImpl()
 {
@@ -106,9 +111,38 @@ DEFINE_FUNCTION plexRelayChannel (integer plexId, integer chan)
     debug (DBG_MODULE, 8, "'button press on channel ',itoa(chan),' (=><',msg,'>)'")
     if (msg != '')
     {
-        sendHttp (gHttpCfgs[plexId], plexId, msg)
+	if (msg[1] = '#')
+	{
+	    switch (msg)
+	    {
+	    case '#favorite':
+	        plexStartFavoritePlaylist(plexId)
+	    default:
+	        debug (DBG_MODULE, 1, "'unknown plex channel command: ', msg")
+	    }
+	}
+	else
+	{
+	    sendHttp (gHttpCfgs[plexId], plexId, msg)
+	}
     }
 }
+
+DEFINE_FUNCTION plexRequestPlaylists ()
+{
+    integer plexId
+    for (plexId = 1; plexId <= length_array(gPlexs); plexId++)
+    {
+        sendHttpWithoutPrefix (gHttpCfgs[plexId], plexId, 
+    	          "'GET /playlists/all?type=15&X-Plex-Container-Start=0&X-Plex-Container-Size=300'")
+    }
+}
+
+DEFINE_FUNCTION plexStartFavoritePlaylist (integer plexId)
+{
+    
+}
+
 
 DEFINE_FUNCTION handleHttpResponse (integer httpId, char msg[])
 {
@@ -152,5 +186,17 @@ DEFINE_START
 	debug (DBG_MODULE, 1, "'Plex module is disabled.'")
     }
     rebuild_event()
+//    wait 491
+    wait 211
+    {
+	plexRequestPlaylists()
+    }
+}
+
+DEFINE_PROGRAM
+//wait 6211	// about every 10 minutes
+wait 621	// about every 1 minutes
+{
+    plexRequestPlaylists()
 }
 
