@@ -28,6 +28,7 @@ char WEATHER_CHAN_WIND_DIR[]		= '28'
 char WEATHER_CHAN_WIND_DEGREES[]	= '29'
 char WEATHER_CHAN_WIND_MPH[]		= '30'
 char WEATHER_CHAN_WIND_GUST_MPH[]	= '31'
+char WEATHER_CHAN_WIND_GUST_STR[]	= '32'
 
 char WEATHER_CHAN_SUNRISE[]		= '51'
 char WEATHER_CHAN_SUNSET[]		= '52'
@@ -119,6 +120,7 @@ volatile sinteger	gFeelsLikeC
 volatile char		gRelHumidityStr[3]
 volatile integer	gRelHumidity
 volatile char		gWindStr[32]
+volatile char		gWindGustStr[32]
 volatile char		gWindDir[12]
 volatile char		gWindDegreesStr[12]
 volatile integer	gWindDegrees
@@ -288,6 +290,7 @@ DEFINE_FUNCTION refreshTp (integer tpId)
     sendFieldTp (tpId, WEATHER_CHAN_OBS_TIME_LONG_STR,	gObserveTimeLongStr,  		0)
     sendFieldTp (tpId, WEATHER_CHAN_REL_HUMIDITY,	itoa(gRelHumidity),		0)
     sendFieldTp (tpId, WEATHER_CHAN_WIND_STR,		gWindStr,			0)
+    sendFieldTp (tpId, WEATHER_CHAN_WIND_GUST_STR,	gWindGustStr,			0)
     sendFieldTp (tpId, WEATHER_CHAN_SUNRISE,		gSunrise,			0)
     sendFieldTp (tpId, WEATHER_CHAN_SUNSET,		gSunset,			0)
     for (i = 1; i <= MAX_FORECAST_PERIODS; i++)

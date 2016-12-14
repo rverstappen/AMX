@@ -1,4 +1,4 @@
-MODULE_NAME='NetBooterHttp_Comm' (char configFile[])
+MODULE_NAME='NetBooterTelnet_Comm' (char configFile[])
 
 // We have to define the actual virtual devices somewhere, not just in config 
 // files. This is a stupid AMX requirement. At least by declaring a virtual
@@ -46,7 +46,7 @@ volatile dev gHttpLocalDvPool [] = {
     STUPID_AMX_REQUIREMENT20 }
 
 DEFINE_VARIABLE
-volatile char	DBG_MODULE[] = 'netBooter[HTTP]'
+volatile char	DBG_MODULE[] = 'netBooter[Telnet]'
 
 #include 'NetBooterConfig.axi'
 #include 'HttpImpl.axi'

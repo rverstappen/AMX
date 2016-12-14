@@ -38,6 +38,7 @@ DEFINE_TYPE
 structure TpCfgGeneral
 {
     char	mWelcome[32]	// Welcome message
+    integer	mTpPort		// AMX port for general TP updates
 }
 
 structure TouchPanel
@@ -178,6 +179,9 @@ DEFINE_FUNCTION tpHandleProperty (char moduleName[], char propName[], char propV
 	{
 	case 'welcome':
 	    general.mWelcome = propValue
+	    break
+	case 'tp-port':
+	    general.mTpPort = atoi(propValue)
 	    break
 	default:
 	    debug (moduleName, 0, "'Unhandled property: ',propName")

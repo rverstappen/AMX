@@ -2,9 +2,10 @@
  * Various controls for the audio and video switchers.
  *)
 
+#include 'AvMatrixUtil.axi'
+
 DEFINE_VARIABLE
 
-volatile char bRecvBufAudio[1024]
 volatile char bRecvBufVideo[1024]
 
 DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
@@ -15,6 +16,7 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
     integer prevInputId
 
     // Ensure that the power to the output is ON
+    debug (DBG_MODULE, 9, "'doInputOutputSwitch (inputId=',itoa(inputId),', outputId=',itoa(outputId),')'")
     setOutputPowerStatus (outputId, POWER_STATUS_ON, 1, gAllInputs[inputId].mSlaveAutoOn)
     prevInputId = gInputByOutput[outputId]
     if (prevInputId = inputId)
@@ -37,7 +39,7 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	// New output is on a main switch
 	if (gAllOutputs[outputId].mAudioSwitchId > 0)
 	{
-	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': main video switch changing...'")
+	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': main audio switch changing...'")
 	    doMainAudioSwitch (gAllInputs[inputId].mAudioSwitchId, gAllOutputs[outputId].mAudioSwitchId)
 	}
 	else
@@ -53,6 +55,7 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	{
 	    debug (DBG_MODULE, 9, "gAllInputs[inputId].mName,': no video switch config'")
 	}
+debug (DBG_MODULE, 9, "'prevInputId: ', itoa(prevInputId)")
 	if (prevInputId > 0)
 	{
 	    if (gAllInputs[prevInputId].mLocationType != AVCFG_INPUT_TYPE_SWITCH)
@@ -100,14 +103,18 @@ DEFINE_FUNCTION doInputOutputSwitch (integer inputId, integer outputId)
 	}
 
 	// Make sure the input is turned ON
+debug (DBG_MODULE, 9, "'Sending pulse to turn on input power: ', inputId")
 	sendPulse (DBG_MODULE, gAllInputs[inputId].mDev, CHAN_POWER_ON)
     }
 
-    if (gAllInputs[inputId].mSceneChannel != gAllInputs[prevInputId].mSceneChannel)
+    if (prevInputId > 0)
     {
-	wait 35 // wait 3.5 seconds, in case the display was powered off
+	if (gAllInputs[inputId].mSceneChannel != gAllInputs[prevInputId].mSceneChannel)
 	{
-	    doLocalSetScene (outputId, gAllInputs[inputId].mSceneChannel)
+	    wait 35 // wait 3.5 seconds, in case the display was powered off
+	    {
+		doLocalSetScene (outputId, gAllInputs[inputId].mSceneChannel)
+	    }
 	}
     }
     else
@@ -127,26 +134,48 @@ DEFINE_FUNCTION doMultiInputOutputSwitch (integer inputId, integer outputIds[])
 
 DEFINE_FUNCTION doMainAudioSwitch (integer input, integer output)
 {
-    debug (DBG_MODULE, 1, "'switching audio input source ',itoa(input),' to output ',itoa(output)")
-    sendAudioCommand ("'CI',itoa(input),'O',itoa(output),'T'")
+    char msg[1000]
+    if (input > 0)
+    {
+	debug (DBG_MODULE, 1, "'switching audio input source ',itoa(input),' to output ',itoa(output)")
+	encodeMatrixMappingSingle(msg, input, output)
+	sendCommand (DBG_MODULE, gGeneral.mDevAudioControl, "'SWITCH:1:',msg")
+    }
 }
 
 DEFINE_FUNCTION doMainAudioSwitchOff (integer output)
 {
-    debug (DBG_MODULE, 1, "'switching OFF audio output source ',itoa(output)")
-    sendAudioCommand ("'DO',itoa(output),'T'")
+    char msg[1000]
+    debug (DBG_MODULE, 1, "'switching OFF audio output ',itoa(output)")
+    encodeOutputOffSingle(msg, output)
+    sendCommand (DBG_MODULE, gGeneral.mDevAudioControl, msg)
 }
 
 DEFINE_FUNCTION doMainAudioSetAbsoluteVolume (integer output, sinteger volume)
 {
-    debug (DBG_MODULE, 1, "'setting audio output ',itoa(output),' volume to ',itoa(volume)")
-    sendAudioCommand ("'CO',itoa(output),'VA',itoa(volume),'T'")
+    char msg[1000]
+    debug (DBG_MODULE, 1, "'setting absolute volume for audio output source ',itoa(output)")
+    encodeOutputAbsoluteVolume(msg, output, volume)
+    sendCommand (DBG_MODULE, gGeneral.mDevAudioControl, msg)
+}
+
+DEFINE_FUNCTION doMainAudioSetRelativeVolume (integer output, sinteger volume)
+{
+    char msg[1000]
+    debug (DBG_MODULE, 1, "'setting relative volume for audio output source ',itoa(output)")
+    encodeOutputRelativeVolume(msg, output, volume)
+    sendCommand (DBG_MODULE, gGeneral.mDevAudioControl, msg)
 }
 
 DEFINE_FUNCTION doMainVideoSwitch (integer input, integer output)
 {
-    debug (DBG_MODULE, 1, "'switching video input source ',itoa(input),' to output ',itoa(output)")
-    sendVideoCommand ("'CI',itoa(input),'O',itoa(output)")
+    char msg[1000]
+    if (input > 0)
+    {
+	debug (DBG_MODULE, 1, "'switching video input source ',itoa(input),' to output ',itoa(output)")
+	encodeMatrixMappingSingle(msg, input, output)
+	sendCommand (DBG_MODULE, gGeneral.mDevVideoControl, "'SWITCH:1:',msg")
+    }
 }
 
 DEFINE_FUNCTION doMainVideoSetAbsoluteVolume (integer outputId, sinteger volume)
@@ -184,250 +213,25 @@ DEFINE_FUNCTION doLocalSetScene (integer outputId, integer chan)
     }
 }
 
-DEFINE_FUNCTION sendAudioCommand (char cmdStr[])
+DEFINE_FUNCTION checkMatrix (dev matrix)
 {
-    debug (DBG_MODULE, 4, "'sending audio command: send_string ',devtoa(gGeneral.mAudioSwitcher),', ',cmdStr")
-    send_string gGeneral.mAudioSwitcher, cmdStr
+    sendCommand (DBG_MODULE, matrix, 'STATUS?')
 }
 
-DEFINE_FUNCTION sendVideoCommand (char cmdStr[])
+DEFINE_FUNCTION checkAudioVolumeLevels ()
 {
-    debug (DBG_MODULE, 4, "'sending video command: send_command ',devtoa(gGeneral.mVideoSwitcher),', ',cmdStr")
-    send_command gGeneral.mVideoSwitcher, cmdStr
-}
-
-DEFINE_FUNCTION checkAudioSwitchMatrix ()
-{
-    integer inputId
-    for (inputId = 1; inputId <= length_array(gAllInputs); inputId++)
-    {
-	if (gAllInputs[inputId].mAudioSwitchId > 0)
-	{
-	    sendAudioCommand ("'SL0I',itoa(gAllInputs[inputId].mAudioSwitchId),'T'")
-	}
-    }
-}
-
-DEFINE_FUNCTION checkAudioSwitchVolumeLevels ()
-{
-    integer outputId
-    for (outputId = 1; outputId <= length_array(gAllOutputs); outputId++)
-    {
-	if (gAllOutputs[outputId].mAudioSwitchId > 0)
-	{
-	    sendAudioCommand ("'SL0O',itoa(gAllOutputs[outputId].mAudioSwitchId),'VT'")
-	}
-    }
-}
-
-DEFINE_FUNCTION setAudioSwitchGainLevels ()
-{
-    integer inputId
-    for (inputId = 1; inputId <= length_array(gAllInputs); inputId++)
-    {
-	if (gAllInputs[inputId].mAudioSwitchId > 0)
-	{
-	    sendAudioCommand ("'CL0I',itoa(gAllInputs[inputId].mAudioSwitchId),'VA',itoa(gAllInputs[inputId].mAudioGain),'T'")
-	}
-    }
-}
-
-DEFINE_FUNCTION checkVideoSwitchMatrix ()
-{
-    sendVideoCommand ("'?C'")
+    sendCommand (DBG_MODULE, gGeneral.mDevAudioControl, 'VOLUMES?')
 }
 
 DEFINE_EVENT
 
-DATA_EVENT[gGeneral.mAudioSwitcher]
+DATA_EVENT[gGeneral.mDevAudioStatus]
 {
-    ONLINE:
-    {
-	send_string gGeneral.mAudioSwitcher,"'SET BAUD 9600,N,8,1 485 DISABLE'"
-	send_string gGeneral.mAudioSwitcher,"'HSOFF'"
-	send_string gGeneral.mAudioSwitcher,"'XOFF'"
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') is online'")
-        wait 39 // 3.9 seconds after online event
-	{
-	    checkAudioSwitchMatrix()
-	    wait 39 { checkAudioSwitchVolumeLevels() }
-	}
-    }
-    OFFLINE:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') is offline'")
-    }
-    COMMAND:
-    {
-	debug (DBG_MODULE,2,"'Received command from Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),'): ',data.text")
-    }
     STRING:
     {
-	debug (DBG_MODULE,2,"'Received string from Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),'): ',data.text")
-	handleAudioSwitchResponse (bRecvBufAudio)
+	debug (DBG_MODULE,2,"'Received string from Audio Switcher (',devtoa(gGeneral.mDevAudioStatus),'): ',data.text")
+//	handleAudioStatus (bRecvBufAudio)
     }
-    ONERROR:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') has an error: ', data.text")
-    }
-    STANDBY:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') is standby'")
-    }
-    AWAKE:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGeneral.mAudioSwitcher),') is awake'")
-    }
-}
-
-DATA_EVENT[gGeneral.mVideoSwitcher]
-{
-    ONLINE:
-    {
-	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') is online'")
-        wait 29 // 2.9 seconds after online event
-	{
-	    checkVideoSwitchMatrix()
-	}
-    }
-    OFFLINE:
-    {
-	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') is offline'")
-    }
-    COMMAND:
-    {
-	debug (DBG_MODULE,2,"'Received command from Video Switcher (',devtoa(gGeneral.mVideoSwitcher),'): ',data.text")
-	handleVideoSwitchResponse (data.text)
-    }
-    STRING:
-    {
-	debug (DBG_MODULE,2,"'Received string from Video Switcher (',devtoa(gGeneral.mVideoSwitcher),'): ',data.text")
-	handleVideoSwitchResponse (bRecvBufVideo)
-    }
-    ONERROR:
-    {
-	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') has an error: ', data.text")
-    }
-    STANDBY:
-    {
-	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') is standby'")
-    }
-    AWAKE:
-    {
-	debug (DBG_MODULE,1,"'Video Switcher (',devtoa(gGeneral.mVideoSwitcher),') is awake'")
-    }
-}
-
-DEFINE_FUNCTION handleAudioSwitchResponse (char msg[])
-{
-    debug (DBG_MODULE,9,"'handleAudioSwitchResponse: buffer contains: ',msg")
-    while (length_array(msg) > 0)
-    {
-	select
-	{
-	active (find_string(msg,'S',1)):
-	{
-	    // Status message
-	    integer levelId
-	    if (!find_string(msg,')',1))
-	    {
-		// We don't have the end of the status message yet, so let the 
-		// buffer do its job
-		debug (DBG_MODULE,7,"'handleSwitchResponse: incomplete buffer: ',msg")
-		return
-	    }
-	    remove_string(msg,'S',1)
-	    if (find_string(msg,'L',1))
-	    {
-		remove_string(msg,'L',1)
-		levelId = atoi(msg)
-	    }
-	    select
-	    {
-	    active (find_string(msg,'O',1)):
-	    {
-		// 'O' for Output
-		integer output
-		remove_string(msg,'O',1)
-		output = atoi(msg)
-		select
-		{
-		active (find_string(msg,'VT( ',1)):
-		{
-		    remove_string(msg,'VT( ',1)
-		    if (msg[1] = 'M')
-		    {
-			checkAudioMuteStatus (output)
-		    }
-		    else
-		    {
-		        checkAudioVolume (output, atoi(msg))
-		    }
-		    remove_string(msg,')',1)
-		} // active 'VT('
-
-		active (find_string(msg,'T( ',1)):
-		{
-		    integer input
-		    remove_string(msg,'T( ',1)
-		    input = atoi(msg)
-		    if (input > 0)
-		    {
-		        checkInputToOutput (getInputIdByAudioSwitchId(input),getOutputIdByAudioSwitchId(output))
-		    }
-		    remove_string(msg,')',1)
-		} // active 'T('
-		} // select
-	    } // active 'O'
-
-	    active (find_string(msg,'I',1)):
-	    {
-		// 'I' for Output
-		integer input
-		remove_string(msg,'I',1)
-		input = atoi(msg)
-		select
-		{
-		active (find_string(msg,'VT( ',1)):
-		{
-		    remove_string(msg,'VT( ',1)
-		    if (msg[1] = 'M')
-		    {
-			// We don't handle input mutes right now
-			debug (DBG_MODULE,6,"'ignoring gain mute: input=',itoa(input)")
-		    }
-		    else
-		    {
-			checkAudioGain (input, atoi(msg))
-		    }
-		    remove_string(msg,')',1)
-		} // active 'VT('
-		active (find_string(msg,'T( ',1)):
-		{
-		    // The list of outputs for this input.
-		    integer output
-		    remove_string(msg,'T( ',1)
-		    for (output = atoi(msg);
-			 output > 0;
-			 output = atoi(msg))
-		    {
-		        checkInputToOutput (getInputIdByAudioSwitchId(input),getOutputIdByAudioSwitchId(output))
-			remove_string(msg,' ',1)
-		    }
-		    remove_string(msg,')',1)
-		} // active 'T('
-		} // select
-	    } // active 'I'
-	    } // select
-	} // active 'S'
-
-	active (1):
-	{
-	    debug (DBG_MODULE,2,"'ignoring switch msg: ',msg")
-	    set_length_array(msg,0)
-	} // active 1
-	} // select
-    } // while
 }
 
 DEFINE_FUNCTION checkAudioMuteStatus (integer switchId)
@@ -586,14 +390,14 @@ DEFINE_FUNCTION integer getInputIdByVideoSwitchId (integer switchId)
 
 DEFINE_FUNCTION checkSwitches()
 {
-    checkAudioSwitchMatrix()
+    checkMatrix(gGeneral.mDevAudioControl)
     wait 10
     {
-        checkVideoSwitchMatrix()
+        checkMatrix(gGeneral.mDevVideoControl)
     }
     wait 20
     {
-	checkAudioSwitchVolumeLevels()
+	checkAudioVolumeLevels()
     }
 }
 

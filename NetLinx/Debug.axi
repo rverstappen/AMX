@@ -44,6 +44,12 @@ DEFINE_FUNCTION sendCommand (char dbgModule[], dev cmdDev, char cmdStr[])
     send_command cmdDev, cmdStr
 }
 
+DEFINE_FUNCTION sendString (char dbgModule[], dev strDev, char str[])
+{
+    debug (dbgModule, 9, "'send_string ',devtoa(strDev),', ',str")
+    send_string strDev, str
+}
+
 DEFINE_FUNCTION sendLevel (char dbgModule[], dev cmdDev, integer lev, integer value)
 {
     debug (dbgModule, 9, "'send_level ',devtoa(cmdDev),', ',itoa(lev),', ',itoa(value)")

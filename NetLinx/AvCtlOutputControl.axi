@@ -219,13 +219,17 @@ debug (DBG_MODULE,9,"'Slave Auto On 2: ',itoa(slaveAutoOn)")
 
 DEFINE_FUNCTION setOutputPowerStatusExec (integer outputId, integer status)
 {
+    debug (DBG_MODULE, 9, "'setOutputPowerStatusExec(',itoa(outputId),',',itoa(status),')'")
     if (gAllOutputs[outputId].mAudioSwitchId > 0)
     {
 	if (status = POWER_STATUS_ON)
 	{
 	    integer inputId
 	    inputId = getInputIdForOutputId(outputId)
-	    doMainAudioSwitch (gAllInputs[inputId].mAudioSwitchId, gAllOutputs[outputId].mAudioSwitchId)
+	    if (inputId > 0)
+	    {
+		doMainAudioSwitch (gAllInputs[inputId].mAudioSwitchId, gAllOutputs[outputId].mAudioSwitchId)
+	    }
 	}
 	else
 	{

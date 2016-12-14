@@ -120,7 +120,7 @@ constant char    AVCFG_ADDRESS_INPUT_SELECT_PREV[]	= '202'
 constant char    AVCFG_ADDRESS_INPUT_SELECT_NEXT[]	= '203'
 constant char    AVCFG_ADDRESS_INPUT_NAME[]		= '211'
 constant char    AVCFG_ADDRESS_INPUT_SHORT_NAME[]	= '212'
-constant char    AVCFG_ADDRESS_WELCOME[]		= '11'
+constant char    AVCFG_ADDRESS_WELCOME[]		= '230'
 
 DEFINE_TYPE
 
@@ -134,8 +134,10 @@ structure AvTpInfo
 
 structure AvGeneral
 {
-    dev		mAudioSwitcher
-    dev		mVideoSwitcher
+    dev		mDevAudioControl
+    dev		mDevAudioStatus
+    dev		mDevVideoControl
+    dev		mDevVideoStatus
     AvTpInfo	mTpDefaults
 }
 
@@ -308,10 +310,14 @@ DEFINE_FUNCTION handleProperty (char moduleName[], char propName[], char propVal
     {
 	switch (propName)
 	{
-	case 'audio-switcher':
-	    parseDev (gGeneral.mAudioSwitcher, propValue)
-	case 'video-switcher':
-	    parseDev (gGeneral.mVideoSwitcher, propValue)
+	case 'audio-control':
+	    parseDev (gGeneral.mDevAudioControl, propValue)
+	case 'audio-status':
+	    parseDev (gGeneral.mDevAudioStatus, propValue)
+	case 'video-control':
+	    parseDev (gGeneral.mDevVideoControl, propValue)
+	case 'video-status':
+	    parseDev (gGeneral.mDevVideoStatus, propValue)
 	case 'audio-output-list-order':
 	    parseIntegerList (gGeneral.mTpDefaults.mAudioOutputListOrder, propValue)
 	case 'video-output-list-order':

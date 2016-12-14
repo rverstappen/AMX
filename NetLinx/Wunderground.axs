@@ -1,4 +1,4 @@
-MODULE_NAME='WeatherUnderground' (char configFile[], char tpConfigFile[])
+MODULE_NAME='Wunderground' (char configFile[], char tpConfigFile[])
 
 #include 'WundergroundConfig.axi'
 
@@ -144,7 +144,8 @@ DEFINE_FUNCTION handleLocalConditions (char msg[])
 	if (getStringField (gWindGustMphStr,	msg, 'wind_gust_mph'))
 	{
 	    gWindGustMph = atof(gWindGustMphStr)
-	    gWindStr = "gWindDir,' at ',ftoa(gWindMph),' mph, gusts to ',ftoa(gWindGustMph)"
+	    gWindStr = "gWindDir,' at ',ftoa(gWindMph),' mph'"
+	    gWindGustStr = "'Gusts to ',ftoa(gWindGustMph),' mph'"
 	}
 	if (getStringField (gDewPointFStr,	msg, 'dewpoint_f'))
 	    gDewPointF = atof(gDewPointFStr)
@@ -251,6 +252,7 @@ DEFINE_FUNCTION sendLocalFields()
 //    sendField (WEATHER_CHAN_FEELS_LIKE_F,	gFeelsLikeFStr,			0)
 //    sendField (WEATHER_CHAN_FEELS_LIKE_C,	gFeelsLikeCStr,			0)
     sendField (WEATHER_CHAN_WIND_STR,		gWindStr,	     		0)
+    sendField (WEATHER_CHAN_WIND_GUST_STR,	gWindGustStr,	     		0)
     sendField (WEATHER_CHAN_OBS_LOCATION,	gObserveLocation,   		0)
     sendField (WEATHER_CHAN_OBS_ELEVATION,	gObserveElevationStr,  		0)
     sendField (WEATHER_CHAN_OBS_TIME_LONG_STR,	gObserveTimeLongStr,   		0)

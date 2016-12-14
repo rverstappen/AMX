@@ -305,39 +305,12 @@ BUTTON_EVENT[dvTpOutputGrid,0]
     }
 }
 
-DATA_EVENT[gGen.mAudioSwitcher]
+DATA_EVENT[gGen.mAudioStatus]
 {
-    ONLINE:
-    {
-	send_string gGen.mAudioSwitcher,"'SET BAUD 9600,N,8,1 485 DISABLE'"
-	send_string gGen.mAudioSwitcher,"'HSOFF'"
-	send_string gGen.mAudioSwitcher,"'XOFF'"
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGen.mAudioSwitcher),') is online'")
-    }
-    OFFLINE:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGen.mAudioSwitcher),') is offline'")
-    }
-    COMMAND:
-    {
-	debug (DBG_MODULE,2,"'Received command from Audio Switcher (',devtoa(gGen.mAudioSwitcher),'): ',data.text")
-    }
     STRING:
     {
-	debug (DBG_MODULE,2,"'Received string from Audio Switcher (',devtoa(gGen.mAudioSwitcher),'): ',data.text")
+	debug (DBG_MODULE,2,"'Received string from Audio Switcher (',devtoa(gGen.mAudioStatus,'): ',data.text")
 	handleSwitchResponse (bRecvBuf)
-    }
-    ONERROR:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGen.mAudioSwitcher),') has an error: ', data.text")
-    }
-    STANDBY:
-    {
-	debug (DBG_MODULE,1,"'Audio Switcher (',devtoa(gGen.mAudioSwitcher),') is standby'")
-    }
-    AWAKE:
-    {
-	debug (DBG_MODULE,1,"'AutoPatch DSP (',devtoa(gGen.mAudioSwitcher),') is awake'")
     }
 }
 
@@ -758,45 +731,6 @@ DEFINE_FUNCTION resetGainLevelToDefault (integer inputId)
     }
 }
 
-DEFINE_FUNCTION setAbsoluteGain (integer inputId, sinteger gain)
-{
-    debug (DBG_MODULE, 5, "'New gain value on input ',itoa(inputId),' == ',itoa(gain)")
-    sendString (gGeneral.mAudioSwitcher, "'CL0I',itoa(inputId),'VA',itoa(gain),'T'")
-}
-
-DEFINE_FUNCTION setAbsoluteVolume (integer outputId, sinteger vol)
-{
-    debug (DBG_MODULE, 5,"'New volume value on output ',itoa(outputId),' == ',itoa(vol)")
-    sendString (gGeneral.mAudioSwitcher, "'CL0O',itoa(outputId),'VA',itoa(vol),'T'")
-}
-
-DEFINE_FUNCTION setAbsoluteMute (integer outputId, integer muteOn)
-{
-    debug (DBG_MODULE, 5,"'Setting mute status on output ',itoa(outputId),' == ',itoa(muteOn==ACFG_MUTE_STATE_ON)")
-    if (muteOn = ACFG_MUTE_STATE_ON)
-        sendString (gGeneral.mAudioSwitcher, "'CL0O',itoa(outputId),'VMT'")
-    else
-        sendString (gGeneral.mAudioSwitcher, "'CL0O',itoa(outputId),'VUT'")
-}
-
-DEFINE_FUNCTION setAbsoluteOff (integer outputId)
-{
-    debug (DBG_MODULE, 5,"'Turn off output: ',itoa(outputId)")
-    sendString (gGeneral.mAudioSwitcher, "'DL0O',itoa(outputId),'T'")
-}
-
-DEFINE_FUNCTION doSwitch (integer inputId, integer outputId)
-{
-    debug (DBG_MODULE, 5,"'Switching input ',itoa(inputId),' to ',itoa(outputId)")
-    sendString (gGeneral.mAudioSwitcher, "'CL0I',itoa(inputId),'O',itoa(outputId),'T'")
-}
-
-DEFINE_FUNCTION sendString (dev dv, char msg[])
-{
-    send_string dv, msg
-    debug (DBG_MODULE, 8, "'Sent string to ',devtoa(dv),': ',msg")
-}
-
 (*
 DEFINE_FUNCTION updateTpGainState (integer tpId, sinteger lev)
 {
@@ -934,24 +868,6 @@ DEFINE_FUNCTION updateTpMasterPowerState (integer tpId, integer status)
     }
 }
 *)
-
-DEFINE_FUNCTION updateTpTitle (integer tpId)
-{
-    if (length_array(gPanels[tpId].mWelcome) > 0)
-    {
-	debug (DBG_MODULE, 3, "'Found personal welcome message: ', gPanels[tpId].mWelcome")
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'TEXT',AVCFG_ADDRESS_WELCOME,gPanels[tpId].mWelcome")
-    }
-    else if (length_array(gTpGeneral.mWelcome) > 0)
-    {
-	debug (DBG_MODULE, 3, "'Found general welcome message: ', gTpGeneral.mWelcome")
-	sendCommand (DBG_MODULE, dvTpOutputSelect[tpId], "'TEXT',AVCFG_ADDRESS_WELCOME,gTpGeneral.mWelcome")
-    }
-    else
-    {
-	debug (DBG_MODULE, 3, "'No welcome message for this device'")
-    }
-}
 
 DEFINE_FUNCTION updateTpMenus (integer tpId)
 {
@@ -1165,7 +1081,6 @@ DEFINE_FUNCTION checkDevicePower (integer outputId, integer onOrOff)
 DEFINE_FUNCTION reconnectTp (integer tpId)
 {
     gTpStatus[tpId] = 1
-    updateTpTitle (tpId)
     updateTpMenus (tpId)
     updateTpInputs (tpId)
     updateTpOutputs (tpId)
@@ -1179,15 +1094,6 @@ DEFINE_FUNCTION disconnectTp (integer tpId)
 {
     gTpStatus[tpId] = 0
     gIgnoreSliderLevelEvents[tpId] = 1
-}
-
-DEFINE_FUNCTION checkSwitchMatrix ()
-{
-    integer inputId
-    for (inputId = 1; inputId <= length_array(gAllInputs); inputId++)
-    {
-	sendString (gGeneral.mAudioSwitcher, "'SL0I',itoa(inputId),'T'")
-    }
 }
 
 DEFINE_FUNCTION checkSwitchVolumeLevels ()
@@ -1588,12 +1494,10 @@ wait 11
     set_length_array (gOutputPowerStatus, gMaxOutput)
     calcInputsForOutputs ()
     rebuild_event()
-    create_buffer gGeneral.mAudioSwitcher, bRecvBufAudio
-    create_buffer gGeneral.mVideoSwitcher, bRecvBufVideo
 }
 
 wait 377 // 37.7 seconds after startup
 {
-    setAudioSwitchGainLevels()	// Reset gain levels to configured defaults
+//    setAudioSwitchGainLevels()	// Reset gain levels to configured defaults
 }
 

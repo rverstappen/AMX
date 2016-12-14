@@ -104,25 +104,25 @@
        <!ELEMENT Notes (#PCDATA)>
 ]>
 
-<Workspace CurrentVersion="3.2"><Identifier>Eagle</Identifier>
-<CreateVersion>3.2</CreateVersion>
+<Workspace CurrentVersion="3.2"><Identifier>Wombat</Identifier>
+<CreateVersion>4.0</CreateVersion>
 <PJS_File></PJS_File>
 <PJS_ConvertDate></PJS_ConvertDate>
 <PJS_CreateDate></PJS_CreateDate>
 <Comments></Comments>
-<Project><Identifier>Eagle Drive</Identifier>
+<Project><Identifier>Wombat</Identifier>
 <Designer></Designer>
 <DealerID></DealerID>
 <SalesOrder></SalesOrder>
 <PurchaseOrder></PurchaseOrder>
 <Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Eagle Main</Identifier>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Wombat</Identifier>
 <SysID>0</SysID>
-<TransSerial>COM1,38400,8,None,1,None</TransSerial>
-<TransModem>COM1,38400,8,None,1,None</TransModem>
-<TransTCPIP>192.168.188.21:1319:1:AMX Master</TransTCPIP>
+<TransSerial>COM1,115200,8,None,1,None</TransSerial>
+<TransModem>COM2,57600,8,None,1,None</TransModem>
+<TransTCPIP>192.168.189.21:1319:1:Kauai Master</TransTCPIP>
 <VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
-<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMRestoreIPSettings></VNMRestoreIPSettings>
 <VNMSystemID>1</VNMSystemID>
 <VNMIPAddress>10.0.0.1</VNMIPAddress>
 <VNMMaskAddress>255.255.255.0</VNMMaskAddress>
@@ -130,34 +130,15 @@
 <UserName></UserName>
 <Password></Password>
 <Comments></Comments>
-<File CompileType="None" Type="IRN_DB"><Identifier>User IRN: Sony-RM-YD036-1</Identifier>
-<FilePathName>USER IRN Database::1|2|1|1|1</FilePathName>
-<Comments></Comments>
-<DeviceMap DevAddr="dvTvBarBehind"><DevName>dvTvBarBehind</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvTvBarMain"><DevName>dvTvBarMain</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvTvBarNook"><DevName>dvTvBarNook</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvTvBarSide"><DevName>dvTvBarSide</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvTvLiving"><DevName>dvTvLiving</DevName>
-</DeviceMap>
-<IRDB DBKey="1|2|1|1|1"><Property>Sony|TV|KDL55NX810|RM-YD036|1</Property>
-<DOSName></DOSName>
-<UserDBPathName>Z:\AMX\Projects\RonIR.irn</UserDBPathName>
-<Notes></Notes>
-</IRDB>
-</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Automation</Identifier>
 <FilePathName>Automation.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AutomationConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AutomationConfig</Identifier>
 <FilePathName>AutomationConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AvConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvConfig</Identifier>
 <FilePathName>AvConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -165,32 +146,64 @@
 <FilePathName>AvControl.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AvCtlInputControl</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlInputControl</Identifier>
 <FilePathName>AvCtlInputControl.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AvCtlInputSelect</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlInputSelect</Identifier>
 <FilePathName>AvCtlInputSelect.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AvCtlOutputSelect</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlOutputControl</Identifier>
+<FilePathName>AvCtlOutputControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlOutputSelect</Identifier>
 <FilePathName>AvCtlOutputSelect.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>AvTpPageNames</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlPower</Identifier>
+<FilePathName>AvCtlPower.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvCtlSwitchControl</Identifier>
+<FilePathName>AvCtlSwitchControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>AvMatrixAutoPatchDsp</Identifier>
+<FilePathName>AvMatrixAutoPatchDsp.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>AvMatrixJustAddPower</Identifier>
+<FilePathName>AvMatrixJustAddPower.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>AvTpPageNames</Identifier>
 <FilePathName>AvTpPageNames.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>ChannelDefs</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>Base64</Identifier>
+<FilePathName>Base64.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>ChannelDefs</Identifier>
 <FilePathName>ChannelDefs.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>ConfigServerUtils</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>ConfigServerUtils</Identifier>
 <FilePathName>ConfigServerUtils.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>Debug</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>ConfigUtils</Identifier>
+<FilePathName>ConfigUtils.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>Debug</Identifier>
 <FilePathName>Debug.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>DirecTvConfig</Identifier>
+<FilePathName>DirecTvConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>DirecTvHttp_Comm</Identifier>
@@ -201,15 +214,43 @@
 <FilePathName>Dmx.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Eagle Main</Identifier>
-<FilePathName>Eagle Main.axs</FilePathName>
+<File CompileType="Netlinx" Type="Include"><Identifier>DmxConfig</Identifier>
+<FilePathName>DmxConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>HttpCommon</Identifier>
+<FilePathName>HttpCommon.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>HttpConfig</Identifier>
+<FilePathName>HttpConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>HttpImpl</Identifier>
+<FilePathName>HttpImpl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>Hvac</Identifier>
+<FilePathName>Hvac.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>Hvac_UI</Identifier>
+<FilePathName>Hvac_UI.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Hvac_ViewStat</Identifier>
 <FilePathName>Hvac_ViewStat.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>IpControlledDeviceConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>HvacConfig</Identifier>
+<FilePathName>HvacConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>HvacTpChanDefs</Identifier>
+<FilePathName>HvacTpChanDefs.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>IpControlledDeviceConfig</Identifier>
 <FilePathName>IpControlledDeviceConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -217,13 +258,7 @@
 <FilePathName>IpControlledDevices_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="IR"><Identifier>MOTOROLA_DCH6416</Identifier>
-<FilePathName>IR\MOTOROLA_DCH6416.IRL</FilePathName>
-<Comments></Comments>
-<DeviceMap DevAddr="dvVideoPlayerCable"><DevName>dvVideoPlayerCable</DevName>
-</DeviceMap>
-</File>
-<File CompileType="None" Type="Include"><Identifier>ITachConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>ITachConfig</Identifier>
 <FilePathName>ITachConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -231,28 +266,60 @@
 <FilePathName>ITachHttp_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Include"><Identifier>ITunesConfig</Identifier>
+<FilePathName>ITunesConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>ITunesHttp_Comm</Identifier>
 <FilePathName>ITunesHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>ITunesHttp_UI</Identifier>
+<FilePathName>ITunesHttp_UI.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="TKO"><Identifier>JAP_AVSwitch_Cisco_v2_3</Identifier>
+<FilePathName>JAP_AVSwitch_Cisco_v2_3.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="TKO"><Identifier>JAP_Telnet_Commands_2_7</Identifier>
+<FilePathName>JAP_Telnet_Commands_2_7.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="TKO"><Identifier>JAP_Telnet_Serial_Commands_2_7</Identifier>
+<FilePathName>JAP_Telnet_Serial_Commands_2_7.tko</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Lighting_UI</Identifier>
 <FilePathName>Lighting_UI.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Include"><Identifier>LightingCommon</Identifier>
+<FilePathName>LightingCommon.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>LightingConfig</Identifier>
+<FilePathName>LightingConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Lutron_Comm</Identifier>
 <FilePathName>Lutron_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>LutronConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>LutronConfig</Identifier>
 <FilePathName>LutronConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>MarantzConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>MarantzConfig</Identifier>
 <FilePathName>MarantzConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>MarantzHttp_Comm</Identifier>
 <FilePathName>MarantzHttp_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>NetBooterConfig</Identifier>
+<FilePathName>NetBooterConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>NetBooterHttp_COMM</Identifier>
@@ -263,11 +330,19 @@
 <FilePathName>Plex_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Include"><Identifier>PlexConfig</Identifier>
+<FilePathName>PlexConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>PowerManagement_UI</Identifier>
 <FilePathName>PowerManagement_UI.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>PresetConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>PowerManagementConfig</Identifier>
+<FilePathName>PowerManagementConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>PresetConfig</Identifier>
 <FilePathName>PresetConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -275,7 +350,7 @@
 <FilePathName>PresetControl.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>RelayConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>RelayConfig</Identifier>
 <FilePathName>RelayConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -287,7 +362,11 @@
 <FilePathName>Roku_Comm.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>TouchPanel</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>RokuConfig</Identifier>
+<FilePathName>RokuConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>TouchPanel</Identifier>
 <FilePathName>TouchPanel.axi</FilePathName>
 <Comments></Comments>
 </File>
@@ -295,31 +374,37 @@
 <FilePathName>TouchPanel.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>TouchPanelConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>TouchPanelConfig</Identifier>
 <FilePathName>TouchPanelConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>TouchPanelPorts</Identifier>
+<FilePathName>TouchPanelPorts.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>Weather</Identifier>
+<FilePathName>Weather.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Wombat Main</Identifier>
+<FilePathName>Wombat Main.axs</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>Wunderground</Identifier>
 <FilePathName>Wunderground.axs</FilePathName>
 <Comments></Comments>
 </File>
-<File CompileType="None" Type="Include"><Identifier>ZoneConfig</Identifier>
+<File CompileType="Netlinx" Type="Include"><Identifier>WundergroundConfig</Identifier>
+<FilePathName>WundergroundConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Include"><Identifier>ZoneConfig</Identifier>
 <FilePathName>ZoneConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>ZoneControl</Identifier>
 <FilePathName>ZoneControl.axs</FilePathName>
 <Comments></Comments>
-</File>
-<File CompileType="None" Type="IR"><Identifier>Yamaha,RX-V667,RAV336,Receiver,1</Identifier>
-<FilePathName>..\Yamaha,RX-V667,RAV336,Receiver,1.irl</FilePathName>
-<Comments></Comments>
-<DeviceMap DevAddr="dvAvGuestSuite"><DevName>dvAvGuestSuite</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvAvLiving"><DevName>dvAvLiving</DevName>
-</DeviceMap>
-<DeviceMap DevAddr="dvAvMasterBed"><DevName>dvAvMasterBed</DevName>
-</DeviceMap>
 </File>
 </System>
 </Project>
