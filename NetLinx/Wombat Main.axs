@@ -133,6 +133,7 @@ char    avConfigFile[] = 'AudioVideo.cfg'
 char    zoneConfigFile[] = 'ZoneConfig.cfg'
 char    lutronConfigFile1[] = 'Lutron.cfg'
 char    lutronConfigFile2[] = 'LutronAuto.cfg'
+char    lutronQsConfigFile[] = 'LutronQS.cfg'
 char	plexConfigFile[]    = 'Plex.cfg'
 char	rokuConfigFile[]    = 'Roku.cfg'
 char	dtvConfigFile[]    = 'DirecTV.cfg'
@@ -156,6 +157,7 @@ char	marantzConfigFile[] = 'Marantz.cfg'
 char    wunderConfigFile[]  = 'Wunderground.cfg'
 char	japConfigFile[] = 'JustAddPower.cfg'
 char	autoPatchConfigFile[] = 'AutoPatchDsp.cfg'
+char    autelisConfigFile[] = 'AutelisPoolControl.cfg'
 
 // Unfortunately, we have to hard-code these parameters:
 DEFINE_DEVICE
@@ -183,6 +185,7 @@ DEFINE_MODULE 'DirecTvHttp_Comm' dtvHttp (dtvConfigFile)
 DEFINE_MODULE 'ITachHttp_Comm' dtvHttp (itachConfigFile)
 DEFINE_MODULE 'ZoneControl' zoneConn (zoneConfigFile, tpConfigFile,vdvZoneSelect,vdvAvOutputSelect)
 DEFINE_MODULE 'Lutron_Comm' lutronComm (lutronConfigFile1, lutronConfigFile2)
+DEFINE_MODULE 'LutronQs_Comm' lutronQsComm (lutronQsConfigFile)
 DEFINE_MODULE 'RelayControl'  relayConn  (relayConfigFile,  tpConfigFile, dvAllRelays)
 DEFINE_MODULE 'PresetControl' presetConn (presetConfigFile, tpConfigFile)
 //DEFINE_MODULE 'WeatherDotCom_Comm' weatherCom (vdvWeatherStatus,dvWeatherLocal,weatherZipCode)
@@ -197,6 +200,7 @@ DEFINE_MODULE 'Lighting_UI' lighting(lightingConfigFile, tpConfigFile)
 DEFINE_MODULE 'MarantzHttp_Comm' marantz(marantzConfigFile)
 DEFINE_MODULE 'AvMatrixAutoPatchDsp' autoPatch(autoPatchConfigFile)
 DEFINE_MODULE 'AvMatrixJustAddPower' jap(japConfigFile)
+DEFINE_MODULE 'Pool_Autelis' autelis(autelisConfigFile, tpConfigFile)
 
 
 DEFINE_START

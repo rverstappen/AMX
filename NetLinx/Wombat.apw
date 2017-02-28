@@ -310,6 +310,14 @@
 <FilePathName>LutronConfig.axi</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="Netlinx" Type="Module"><Identifier>LutronQs_Comm</Identifier>
+<FilePathName>LutronQs_Comm.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>LutronQsConfig</Identifier>
+<FilePathName>LutronQsConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
 <File CompileType="Netlinx" Type="Include"><Identifier>MarantzConfig</Identifier>
 <FilePathName>MarantzConfig.axi</FilePathName>
 <Comments></Comments>
@@ -332,6 +340,10 @@
 </File>
 <File CompileType="Netlinx" Type="Include"><Identifier>PlexConfig</Identifier>
 <FilePathName>PlexConfig.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>Pool_Autelis</Identifier>
+<FilePathName>Pool_Autelis.axs</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>PowerManagement_UI</Identifier>

@@ -573,10 +573,13 @@ DEFINE_FUNCTION commSendPulse (dev vstDev, integer vstChan)
 DEFINE_START
 {
     readConfigs (configFile, tpConfigFile)
-    wait (113) // wait 11.3 seconds after reboot to begin requesting statuses and programs
+    if (gGeneral.mEnabled)
     {
-	vstRequestStatusAll()
-	wait (113) { vstRequestProgramAll() }
+        wait (113) // wait 11.3 seconds after reboot to begin requesting statuses and programs
+        {
+	    vstRequestStatusAll()
+	    wait (113) { vstRequestProgramAll() }
+        }
     }
 }
 
@@ -585,11 +588,17 @@ DEFINE_PROGRAM
     // Cycle through each thermostat to sync the status every 15 minutes (approx)
     wait (9227)  // 15:22.7 minutes
     {
-	vstRequestStatusAll()
+        if (gGeneral.mEnabled)
+	{
+	    vstRequestStatusAll()
+	}
     }
     // Cycle through each thermostat to sync the program every 4 hours (approx)
     wait (144973)  // 4:01:37.3 hours
     {
-	vstRequestProgramAll()
+        if (gGeneral.mEnabled)
+	{
+	    vstRequestProgramAll()
+	}
     }
 }
